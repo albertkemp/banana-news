@@ -11,6 +11,6 @@ title: "Home" (this is a comment: Notice that there is no - Banana News, that wi
 ---
 Your stuff here:
 e.g. 
-<h1>THIS IS MY AMAZING PAGE</h1>
-<p>A little bit of page content<p>
+&lt;h1&gt;THIS IS MY AMAZING PAGE&lt;/h1&gt;
+&lt;p&gt;A little bit of page content&lt;/p&gt;
 </code>
