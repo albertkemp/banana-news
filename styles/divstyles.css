@@ -1,0 +1,85 @@
+/*Div styling - PLEASE do not change this*/
+/*
+
+  []
+  []]]
+  []]]]
+  []]]]]]
+   []]]]]]]
+     []]]]]]]]]
+       ]]]]]]]
+|
+|__    ___      ___    ___       ___    ___          ___     ____              ___
+|  \  /   |  | /   \  /   |   | /   \  /   |      | /   \   /____\  |  |   |  (___
+|__/  \__/ \ |/    |  \__/ \  |/    |  \__/ \     |/    |   \____   \__/\__/   ___)
+
+  _____________________________________________________________________________________________________________________________
+ |                                                                                                                             |
+ |   __                                                                            |                        __                 | 
+ |  |  \   __   _   _  |  __            |     _      _ __   __   __|         __    |/     _   _            /__ o   _  __  |    |
+ |  |__/  /__\ / \ | \ | /__\   |  |  | |__  / \   |/ /__\ /  | /  |   | |  (__    |\  | / \ / \ |  |  |   |   | |/  (__ _|__  |
+ |  |     \__  \_/ |_/ | \__    \_/ \_/ |  | \_/   |  \__  \_/ \\_/|   \_/\  __)   | \ |/  | \_/ \_/ \_/   |   | |    __) |_/  |
+ |                 |                                                                                                           |
+ |_____________________________________________________________________________________________________________________________|
+
+
+If you're the sort of person who looks at the source code of webpages, try our challenge:
+
+https://banana-news.github.io/banana/share_this_page.html
+
+
+
+*/
+.img-container {
+  overflow: hidden;
+  border-radius: 10%;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-color: #00000000;
+  padding: 20px;
+}
+
+.options-div, .newtab-div {
+  border-radius: 10px;
+  padding: 35px;
+  background-color: #FFE135;
+  border: 2.5px solid #808080;
+  color: #000000;
+  transition: 0.25s ease-in-out;
+  min-height: 500px;
+  width: calc(40% - 40px);
+  margin: 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.options-div, .newtab-div a {
+  text-decoration: none;
+  color: #000000;
+}
+
+.options-div:hover, .newtab-div:hover {
+  background-color: #d3d3d3;
+}
+
+@media (max-width: 768px) {
+  .options-div, .newtab-div{
+      border-radius: 15px;
+      padding: 52.5px;
+      background-color: #FFE135;
+      border: 3.75px solid #808080;
+      color: #000000;
+      width: 80%;
+      min-height: 600px;
+      margin: 10px auto;
+  }
+
+  .options {
+      padding: 30px;
+  }
+}
+
