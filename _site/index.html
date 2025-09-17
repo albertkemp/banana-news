@@ -66,14 +66,14 @@
         <!--Please don't remove the line of code below:-->
 
         <link rel="stylesheet" href="styles/divstyles.css">
-        <link rel="stylesheet" href="imagecombiner.css">
-        <link rel="stylesheet" href="modal.css">
-        <link rel="stylesheet" href="news.css">
-        <link rel="stylesheet" href="search.css">
-        <link rel="stylesheet" href="searchresults.css">
+        <link rel="stylesheet" href="styles/imagecombiner.css">
+        <link rel="stylesheet" href="styles/modal.css">
+        <link rel="stylesheet" href="styles/news.css">
+        <link rel="stylesheet" href="styles/search.css">
+        <link rel="stylesheet" href="styles/searchresults.css">
         <link rel="stylesheet" href="styles/style.css">
         <!---->
-        <link rel="shortcut icon" href="images/logosvg.svg"><link rel="icon" href="images/logosvg.svg">
+        <link rel="shortcut icon" href="../images/logosvg.svg"><link rel="icon" href="../images/logosvg.svg">
         <title>Home - Banana News</title>
     </head>
     <body>
@@ -84,10 +84,10 @@
           <a href="../index">Home</a>
           <a href="../news" >News</a><a href="games.html">Fun</a>
           <a href="../tech">Tech</a>
-          <a href="politics">Politics</a>
-          <a href="maths">Maths</a><a href="geography.html">Geography</a>
-          <a href="contributors">Contributors</a>
-          <a href="science">Science</a>
+          <a href="../politics">Politics</a>
+          <a href="../maths">Maths</a><a href="geography.html">Geography</a>
+          <a href="../contributors">Contributors</a>
+          <a href="../science">Science</a>
             
               <button onclick="showSearch()" id="searchButton" class="stripped"><i class="fa fa-search" aria-hidden="true"></i>
               </button>
@@ -108,17 +108,74 @@
           </div></div>
        
         <br><br><br>
-        <h1>Welcome to my Eleventy site!</h1>
-<p>This is the content for the home page, written in pure HTML.</p>
+        <div id="container">
+         <p style="padding:20px;background-color:green;color:white;"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhRn7CzOtEAnf1o33eSFhB2l7D_2AArR18cw&s" width="200" height="100">Banana News is proud to have reached 1500 commits! 1.5*🔟^3 🎉🥳!</p>
+          <!--Please don't delete the comment below (i know its a commented error message but I uncomment it when there is a problem with the site.)-->
+         
+          <!--<p style="color:#ff0000;background-color: #d3d3d3;padding: 25px;font-size: 20px;border-bottom: 5px solid #ff0000;"><b>Hello Banana News users,</b><br>We are sorry to inform you that there are some major problems with the site. We are working to fix the issues, and they should be done pretty soon. Thanks for your cooperation.</p>-->
+           <!--(also, if you uncomment it the site will display an error message.)-->
+      
+          <!-- <img src="https://data.textstudio.com/output/sample/animated/3/7/7/3/1300-33-13773.gif" style="margin:auto;display:block;" width="500">-->
+        
+          
+        
+        <div class="background">
+          <img src="images/homebackground.png" >
+          <h1>BANANA NEWS</h1>
+          <p style="text-align: left;font-size: 10px;">Image credit: <a href="https://www.newscientist.com/article/2192461-virus-lurking-inside-banana-genome-has-been-destroyed-with-crispr/">NewScientist</a></p>
+        </div>
+        <br><br>
+        <button onclick="window.location.href='中文1.html'">中文</button>
+        <button onclick="window.location.href='spanishhomepage.html'">Español</button>
+        
+        <h2>ABOUT</h2>
+        <p>Banana News is a website providing games, tech, news, translations and more to the internet!</p>
+        <div class="options">
+          <div class="options-div" title="news.html">
+              <img class="zoom-image" src="images/bananabunch.jpg" width="250" alt="A bunch of bananas on a blue background">
+              <h2>News</h2>
+            
+              <a href="learnmoreaboutnewspage.html"><button>Learn more</button></a> 
+          </div>
+          <div class="options-div" title="games.html">
+              <img class="zoom-image" src="images/snelon.png" width="250" alt="Donald Trump combined with an apple (An image from our game, Image Combiner).">
+              <h2>Fun</h2>
+              <p>We offer many fun games on this webpage.</p>
+          </div>
+          <div class="options-div" title="tech.html">
+              <img class="zoom-image" src="images/oneplus 12r.png" width="250" alt="The OnePlus 12r">
+              <h2>Tech</h2>
+          
+<a href="learnmoreabouttechpage.html"><button>Learn more</button></a> 
+          </div>
+          <div class="options-div" title="politics.html">
+              <img class="zoom-image" src="images/cnflag.png" width="250" alt="The flag of the P.R.C (A red flag with 5 yellow stars)">
+              <h2>Politics</h2>
+              
+              <a href="learnmoreaboutpoliticspage.html"><button>Learn more</button></a> 
+          </div>
+            <div class="options-div" title="maths.html">
+              <img class="zoom-image" width="250" src="https://www.open.edu.au/-/media/blog/2023/03-march/careers-in-maths.jpg?h=477&iar=0&w=715&rev=47f96a32d6b4449993d9b33e5d8e7f05&hash=3607886828F85C66407623C78AC15EB9" width="250" alt="Maths">
+                <h2>Maths</h2>
+                
+                <a href="learnmoreaboutmathspage.html"><button>Learn more</button></a> 
+            </div>
+            <div class="options-div" title="geography.html">
+              <img class="zoom-image" width="250" src="images/map.png" alt="World Map">
+                <h2>Geography</h2>
+                <p>Geography lovers have come to the right place! We offer a stylish geography webpage with fun quizzes.</p>
+            </div>
+            
+      </div>
         <footer>&copy; Banana News 2024.</footer>
-        <script src="main.js"></script>
-        <script src="modal.js"></script>
-        <script src="news.js"></script>
+        <script src="../scripts/main.js"></script>
+        <script src="../scripts/modal.js"></script>
+        <script src="../scripts/news.js"></script>
         <!--<script src="newsupdation.js"></script>-->
-        <script src="search.js"></script>
-        <script src="searchlogic.js"></script>
-        <script src="searchresults.js"></script>
-        <script src="topnav.js"></script>
+        <script src="../scripts/search.js"></script>
+        <script src="../scripts/searchlogic.js"></script>
+        <script src="../scripts/searchresults.js"></script>
+        <script src="../scripts/topnav.js"></script>
         
 <script>
            const searchinput = document.getElementById('searchbar');

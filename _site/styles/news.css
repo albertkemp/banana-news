@@ -1,0 +1,188 @@
+/*
+
+  []
+  []]]
+  []]]]
+  []]]]]]
+   []]]]]]]
+     []]]]]]]]]
+       ]]]]]]]
+|
+|__    ___      ___    ___       ___    ___          ___     ____              ___
+|  \  /   |  | /   \  /   |   | /   \  /   |      | /   \   /____\  |  |   |  (___
+|__/  \__/ \ |/    |  \__/ \  |/    |  \__/ \     |/    |   \____   \__/\__/   ___)
+
+  _____________________________________________________________________________________________________________________________
+ |                                                                                                                             |
+ |   __                                                                            |                        __                 | 
+ |  |  \   __   _   _  |  __            |     _      _ __   __   __|         __    |/     _   _            /__ o   _  __  |    |
+ |  |__/  /__\ / \ | \ | /__\   |  |  | |__  / \   |/ /__\ /  | /  |   | |  (__    |\  | / \ / \ |  |  |   |   | |/  (__ _|__  |
+ |  |     \__  \_/ |_/ | \__    \_/ \_/ |  | \_/   |  \__  \_/ \\_/|   \_/\  __)   | \ |/  | \_/ \_/ \_/   |   | |    __) |_/  |
+ |                 |                                                                                                           |
+ |_____________________________________________________________________________________________________________________________|
+
+
+If you're the sort of person who looks at the source code of webpages, try our challenge:
+
+https://banana-news.github.io/banana/share_this_page.html
+
+
+
+*/
+img{width:auto;}
+.featuredarticle{
+    width: 80%;
+}
+h2{width:100%;background-color: #ffffff;}
+.news-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px;
+}
+.hidden{display:none;}
+.newsdiv {
+    flex: 0 1 calc(33.33% - 20px);
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 15px;
+    color: #000000;
+    overflow: auto;
+    display: block;
+    text-decoration: none;
+    transition: 0.25s ease-in-out;
+    margin: 10px; 
+    box-sizing: border-box; 
+}
+@media only screen 
+  and (min-width: 1024px) 
+  and (-height: 1366px) 
+  and (-webkit-min-device-pixel-ratio: 1.5) {
+  .newsdiv {
+    flex: 0 1 calc(50% - 20px);
+  }
+}
+@media only screen and (max-width: 768px) {
+    .newsdiv {
+      flex: 0 1 calc(100% - 20px);
+    }
+  }
+  
+
+.newsdiv button{
+    background-color: #6868fd;
+    color: #ffffff;
+    width: 350px;
+    font-size: 17px;
+    padding: 10px;
+    display: block;
+    margin: auto;
+    float: left;
+    height: 50px;
+}
+.newsdiv button:hover{
+    background-color: #808080;
+    cursor: pointer;
+}
+
+.newsdiv img {
+    float: left;
+    height: 225px;
+    border-radius: 7px;
+    margin-right: 15px;
+    transition: 0.25s ease-in-out;
+    vertical-align: top; 
+
+}
+.newsdiv img:hover{opacity: 70%;cursor: pointer;}
+
+.newsdiv h2,
+.newsdiv p {
+    margin: 0; 
+}
+
+.newsdiv h2 {
+    font-family: 'Lato', sans-serif;
+    font-size: 27.5px;
+}
+
+.newsdiv p {
+    font-family:'Open Sans',sans-serif;
+    font-size: 17.5px;
+}
+p{font-family: 'Work Sans', sans-serif;}
+/*.newsdiv h2:hover,
+.newsdiv p:hover {
+    color: #ff0000;
+    text-decoration: underline;
+    opacity: 0.7;
+}*/
+ .whiteh2{
+    text-align: center;
+    background-color: white;
+    width: 100%;
+}
+
+body {
+    color: #000000;
+}
+
+.news-h1 {
+    font-size: 75px;
+    color: #000000;
+    background-color: #d3d3d3;
+    padding: 20px;
+    text-align: center; 
+}
+@media (max-width:768px) {
+    .newsdiv {
+        background-color: #ffffff;
+        border-radius: 22.5px;
+        padding: 22.5px;
+        color: #000000;
+        overflow: auto;
+        clear: both;
+        display: block;
+        text-decoration: none;
+        width: 80%;
+    }
+    .newsdiv button{
+        background-color: #6868fd;
+        color: #ffffff;
+        width: 525px;
+        font-size: 25.5px;
+        padding: 30px;
+        display: block;
+        margin: auto;
+        float: left;
+        height: 75px;
+    }
+    .newsdiv button:hover{
+        background-color: #808080;
+        cursor: pointer;
+    }
+    
+    .newsdiv img {
+        float: left;
+        height: 337.5px;
+        border-radius: 10.5px;
+        margin-right: 22.5px;
+        transition: 0.25s ease-in-out;
+        vertical-align: top; 
+    }
+    
+    .newsdiv img:hover{opacity: 70%;cursor: pointer;}
+   
+    
+    body {
+        color: #000000;
+    }
+    
+    .news-h1 {
+        font-size: 112.5px;
+        color: #000000;
+        background-color: #d3d3d3;
+        padding: 30px;
+        text-align: center; 
+    }
+}
+
