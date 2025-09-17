@@ -46,6 +46,6 @@ function search() {
     if (searchbar == "") {
         alert("请输入一个搜索词");
     } else {
-        window.location.href = "中文searchresults.html?q=" + encodeURIComponent(searchbar);
+        window.location.href = "/中文searchresults?q=" + encodeURIComponent(searchbar);
     }
 }

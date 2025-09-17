@@ -63,6 +63,8 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Protest+Riot&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
         <!--Please don't remove the line of code below:-->
 
         <link rel="stylesheet" href="/styles/divstyles.css">
@@ -79,10 +81,11 @@
         <link rel="stylesheet" href="/styles/Me.css">
         <link rel="stylesheet" href="/styles/bananaclicker.css">
         <link rel="stylesheet" href="/styles/searchresults.css">
+        <link rel="stylesheet" href="/styles/1stgrade.css">
         <!---->
 
 
-        <link rel="shortcut icon" href="../images/logosvg.svg"><link rel="icon" href="../images/logosvg.svg">
+        <link rel="shortcut icon" href="/images/logosvg.svg"><link rel="icon" href="/images/logosvg.svg">
         <title>Geography - Banana News</title>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
@@ -226,8 +229,81 @@
             <p>195 UN-recognized countries | Made with <i class="fas fa-heart" style="color:#ff6b6b;"></i></p>
         </footer>
     </div>
+    <script>
+        const capitals = [
+  { country: "China", capital: "Beijing" },
+  { country: "India", capital: "New Delhi" },
+  { country: "United States", capital: "Washington, D.C." },
+  { country: "Australia", capital: "Canberra" },
+  { country: "France", capital: "Paris" },
+  { country: "Brazil", capital: "Brasilia" },
+  { country: "Canada", capital: "Ottawa" },
+  { country: "Russia", capital: "Moscow" },
+  { country: "Japan", capital: "Tokyo" },
+  { country: "South Korea", capital: "Seoul" },
+  { country: "United Kingdom", capital: "London" },
+  { country: "Italy", capital: "Rome" },
+  { country: "Mexico", capital: "Mexico City" },
+  { country: "Argentina", capital: "Buenos Aires" },
+  { country: "South Africa", capital: "Pretoria" },
+  { country: "Egypt", capital: "Cairo" },
+  { country: "Turkey", capital: "Ankara" },
+  { country: "Saudi Arabia", capital: "Riyadh" },
+  { country: "Indonesia", capital: "Jakarta" },
+  { country: "Nigeria", capital: "Abuja" },
+  { country: "Spain", capital: "Madrid" },
+  { country: "Sweden", capital: "Stockholm" },
+  { country: "Norway", capital: "Oslo" },
+  { country: "Netherlands", capital: "Amsterdam" },
+  { country: "Switzerland", capital: "Bern" },
+  { country: "Greece", capital: "Athens" },
+  { country: "Chile", capital: "Santiago" },
+  { country: "Colombia", capital: "Bogota" },
+  { country: "Malaysia", capital: "Kuala Lumpur" },
+];
 
-        <footer>&copy; Banana News 2024.</footer>
+let currentQuestionIndex = 0;
+let score = 0;
+
+function displayQuestion() {
+  const questionElement = document.getElementById("question");
+  questionElement.innerText = `What is the capital of ${capitals[currentQuestionIndex].country}?`;
+}
+
+function checkAnswer() {
+  capitals.splice(currentQuestionIndex, 1);
+  const answerElement = document.getElementById("answer");
+  const resultElement = document.getElementById("result");
+  if (answerElement.value.trim().toLowerCase() === capitals[currentQuestionIndex].capital.toLowerCase()) {
+      resultElement.innerText = "Correct!";
+      resultElement.style.color = "green";
+      score++;
+      
+      //capitals.splice(index, currentQuestionIndex);
+  } else {
+      resultElement.innerText = `Wrong! The correct answer is ${capitals[currentQuestionIndex].capital}.`;
+      resultElement.style.color = "red";
+  }
+}
+
+function nextQuestion() {
+  if(capitals.length>0){
+  currentQuestionIndex = (currentQuestionIndex + 1) % capitals.length;
+  displayQuestion();
+  document.getElementById("answer").value = "";
+  document.getElementById("result").innerText = "";
+  }else{
+
+    ///To max: If you want to change what happens when you completed the quiz, put anything you want inside this else statement
+    alert("You've completed the quiz! Your score is "+score+"/29");
+    ///
+  }
+}
+
+displayQuestion();
+    </script>
+
+        <footer>&copy; Banana News 2025.</footer>
         <script src="/scripts/main.js"></script>
         <script src="/scripts/modal.js"></script>
         <script src="/scripts/news.js"></script>
@@ -247,8 +323,9 @@
         <script src="/scripts/potatoclicker.js"></script>
         <script src="/scripts/rabbitstew.js"></script>
         <script src="/scripts/share.js"></script>
-        <script src="/scripts/中文3.js"></script>
-        <script src="/scripts/中文search.js"></script>
+        <!--<script src="/scripts/中文3.js"></script>-->
+        <!--<script src="/scripts/中文search.js"></script>-->
+        <script src="/scripts/1stgrade.js"></script>
         
 <script>
            const searchinput = document.getElementById('searchbar');

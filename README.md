@@ -14,3 +14,7 @@ e.g.
 &lt;h1&gt;THIS IS MY AMAZING PAGE&lt;/h1&gt;
 &lt;p&gt;A little bit of page content&lt;/p&gt;
 </code>
+
+# Some important stuff:
+All paths, unless they are absolute paths (like a link to another website) should have a / at the start: e.g. /images/banana.png
+All links to other pages should not be page.html, but they should be /page, because the program has automatically generated pages that don't have the .html which look simpler and more clean.

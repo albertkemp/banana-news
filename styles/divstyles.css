@@ -51,7 +51,7 @@ https://banana-news.github.io/banana/share_this_page.html
   color: #000000;
   transition: 0.25s ease-in-out;
   min-height: 500px;
-  width: calc(40% - 40px);
+  width: calc(50% - 40px);
   margin: 20px;
   box-sizing: border-box;
   cursor: pointer;
