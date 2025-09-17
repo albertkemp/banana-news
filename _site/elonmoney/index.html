@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HKCZYS11HC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HKCZYS11HC');
+</script>
+
+        <!--
+
+         [:]
+          [:]
+          [:::]
+         [:::::::]
+        [::::::::::]
+        [:::::::::::]
+        [:::::::::::::]
+         [::::::::::::::]
+          [:::::::::::::::]
+           [::::::::::::::::]
+            [:::::::::::::::::]
+              [::::::::::::::::::]
+                [:::::::::::::::::::]
+                  [::::::::::::::::::::]
+                    [::::::::::::::::::::]
+                      [:::::::::::::::::::::]
+                         [:::::::::::::::::::::]
+                            [:::::::::::::::::::::::]
+                                [:::::::::::::::::::]
+        ____                        [::::::::::::]                                                 ______                         _____    
+        |   \       /\       |\   |        /\       |\   |        /\                   |\   |    |           \      /\      /   /
+        |___/      /  \      | \  |       /  \      | \  |       /  \                  | \  |    |______      \    /  \    /    \_____ 
+        |   \     /____\     |  \ |      /____\     |  \ |      /____\                 |  \ |    |             \  /    \  /           \
+        |___/    /      \    |   \|     /      \    |   \|     /      \                |   \|    |______        \/      \/       _____/
+
+  _____________________________________________________________________________________________________________________________
+ |                                                                                                                             |
+ |   __                                                                            |                        __                 | 
+ |  |  \   __   _   _  |  __            |     _      _ __   __   __|         __    |/     _   _            /__ o   _  __  |    |
+ |  |__/  /__\ / \ | \ | /__\   |  |  | |__  / \   |/ /__\ /  | /  |   | |  (__    |\  | / \ / \ |  |  |   |   | |/  (__ _|__  |
+ |  |     \__  \_/ |_/ | \__    \_/ \_/ |  | \_/   |  \__  \_/ \\_/|   \_/\  __)   | \ |/  | \_/ \_/ \_/   |   | |    __) |_/  |
+ |                 |                                                                                                           |
+ |_____________________________________________________________________________________________________________________________|
+
+
+        Hmm. You're the sort of person who looks at the source code of webpages. Want to contribute? Check out our repository at github.com/banana-news/banana and make a pull request
+
+
+
+
+
+-->
+<!--Important for all pages below \/-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Protest+Riot&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <!--Please don't remove the line of code below:-->
+
+        <link rel="stylesheet" href="/styles/divstyles.css">
+        <link rel="stylesheet" href="/styles/imagecombiner.css">
+        <link rel="stylesheet" href="/styles/modal.css">
+        <link rel="stylesheet" href="/styles/news.css">
+        <link rel="stylesheet" href="/styles/search.css">
+        <link rel="stylesheet" href="/styles/searchresults.css">
+        <link rel="stylesheet" href="/styles/style.css">
+        <link rel="stylesheet" href="/styles/calculator.css">
+        <link rel="stylesheet" href="/styles/contributors.css">
+        <link rel="stylesheet" href="/styles/geography.css">
+        <link rel="stylesheet" href="/styles/js.css">
+        <link rel="stylesheet" href="/styles/Me.css">
+        <link rel="stylesheet" href="/styles/bananaclicker.css">
+        <link rel="stylesheet" href="/styles/searchresults.css">
+        <!---->
+
+
+        <link rel="shortcut icon" href="../images/logosvg.svg"><link rel="icon" href="../images/logosvg.svg">
+        <title>Spend Elon Musk&#39;s Money - Banana News</title>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+<!--draw logos from memory-->
+<style>canvas{background-color:#ffff;}</style>
+<!--elon money:-->
+<style> .buy{
+      background-color: rgb(112, 112, 245);
+      transition: 0.25s ease-in-out;
+    }
+    .sell{
+      background-color: #fd4a4a;
+      transition: 0.25s ease-in-out;
+    }
+    .buy:hover, .sell:hover{
+      cursor: pointer;
+      background-color: #808080;
+    }
+    #moneyDisplayDiv{
+      padding:10px;
+      text-align: center;
+      background-image:linear-gradient(#32cd32, #30ba8f);
+      width: 100%;
+      height: auto;
+      position: fixed;
+      top: 50px;
+      left:0;
+    }</style>
+    </head>
+    <body>
+      <div id="top-container">
+
+         <div class="topnav" id="myTopnav">
+          
+          <a href="/index">Home</a>
+          <a href="/news" >News</a>
+          <a href="/games">Fun</a>
+          <a href="/tech">Tech</a>
+          <a href="/politics">Politics</a>
+          <a href="/maths">Maths</a><a href="/geography">Geography</a>
+          <a href="/contributors">Contributors</a>
+          <a href="/science">Science</a>
+            
+              <button onclick="showSearch()" id="searchButton" class="stripped"><i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            
+            
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars stripped"></i>
+            </a>
+          </div>
+          <div id="div-to-show">
+            <input placeholder="search banana-news.github.io" id="searchbar">
+            <p class="label">Quick links</p>
+            <ul>
+            <a class="not-und" href="index.html"><li class="quick">&rightarrow;&nbsp;Home</li></a><a  class="not-und" href="news.html"><li class="quick">&rightarrow;&nbsp;News</li></a>
+            <a class="not-und" href="games.html"><li class="quick">&rightarrow;&nbsp;Fun</li></a>
+            <a  class="not-und" href="tech.html"><li class="quick">&rightarrow;&nbsp;Tech</li></a>
+            </ul>
+          </div></div>
+       
+        <br><br><br>
+        <nav>
+  <a href="/login" id="loginLink">Log In</a>
+  <a href="#" id="logoutLink" style="display: none;">Log Out</a>
+</nav>
+          <div id="moneyDisplayDiv">
+    <h3 id="moneyDisplay" style="text-decoration: none;font-size: 35px;">$213,000,000,000</h3>
+  </div>
+  <br><br><br>
+  <br><br><br>
+  <br><br><br>
+  <div id="container">
+      <img src="images/musk.jpg" height="100px" width="100px" style="border-radius: 50%;" alt="An image of Elon Musk" style="display: block;margin: auto;">
+  <h2>
+    Spend Elon Musk's Money
+  </h2>
+  
+  
+  <table>
+    <tr>
+    <td>
+      <img src="images/bigmac.png" height="85px"><br>
+        Big Mac<br>
+        <button onclick="buyItem(bigMac)" class="buy">BUY</button><button onclick="sellItem(bigMac)" class="sell">SELL</button>
+    </td>  
+    <td>
+      <img src="images/pizza.png" height="85px"><br>
+        Pizza<br>
+        <button onclick="buyItem(pizza)" class="buy">BUY</button><button onclick="sellItem(pizza)" class="sell">SELL</button>
+    </td>
+    <td>
+      <img src="images/book.png" height="85px"><br>
+        Book<br>
+        <button onclick="buyItem(book)" class="buy">BUY</button><button onclick="sellItem(book)" class="sell">SELL</button>
+    </td>
+    <td>
+      <img src="images/parrot.jpg" height="85px"><br>
+        Parrot<br>
+        <button onclick="buyItem(parrot)" class="buy">BUY</button><button onclick="sellItem(parrot)" class="sell">SELL</button>
+    </td>
+</tr>
+    <tr>
+        <td>
+          <img src="images/1200px-Etoile_Michelin-3.svg.png" height="85px"><br>
+            3 Michelin starred meal<br>
+            <button onclick="buyItem(michelinRestaurant)" class="buy">BUY</button><button onclick="sellItem(michelinRestaurant)" class="sell">SELL</button>
+        </td>
+        <td>
+          <img src="images/volksgolf.jpg" height="85px"><br>
+            Volkswagen Golf<br>
+            <button onclick="buyItem(volksGolf)" class="buy">BUY</button><button onclick="sellItem(volksGolf)" class="sell">SELL</button>
+        </td>
+        <td>
+          <img src="images/tesla.jpg" height="85px"><br>
+            Tesla model S<br>
+            <button onclick="buyItem(tesla)" class="buy">BUY</button><button onclick="sellItem(tesla)" class="sell">SELL</button>
+        </td>
+        <td>
+          <img src="images/porsche.png" height="85px"><br>
+            Porsche<br>
+            <button onclick="buyItem(porsche)" class="buy">BUY</button><button onclick="sellItem(porsche)" class="sell">SELL</button>
+        </td>
+        </tr>
+        <tr>
+        <td>
+          <img src="images/house.jpg" height="85px"><br>
+            House<br>
+            <button onclick="buyItem(house)" class="buy">BUY</button><button onclick="sellItem(house)" class="sell">SELL</button>
+        </td>
+        <td>
+          <img src="images/mansion.jpeg" height="85px"><br>
+            Mansion<br>
+            <button onclick="buyItem(mansion)" class="buy">BUY</button><button onclick="sellItem(mansion)" class="sell">SELL</button>
+        </td>
+        <td>
+          <img src="images/f1.png" height="85px"><br>
+            F1 racer<br>
+            <button onclick="buyItem(formulaOne)" class="buy">BUY</button><button onclick="sellItem(formulaOne)" class="sell">SELL</button>
+        </td>
+        <td>
+          <img src="images/sheraton.jpg" height="85px"><br>
+            Sheraton Grand Mirage<br>
+            <button onclick="buyItem(sheratonGrand)" class="buy">BUY</button><button onclick="sellItem(sheratonGrand)" class="sell">SELL</button>
+        </td>
+    </tr>
+    <tr>
+        
+        <td>
+          <img src="images/whitehouse.png" height="85px"><br>
+            White House<br>
+            <button onclick="buyItem(whiteHouse)" class="buy">BUY</button><button onclick="sellItem(whiteHouse)" class="sell">SELL</button>
+        </td>
+        <td>
+          <img src="images/a380.jpg" height="85px"><br>
+            Airbus A380<br>
+            <button onclick="buyItem(airbus)" class="buy">BUY</button><button onclick="sellItem(airbus)" class="sell">SELL</button>
+        </td>
+        <td>
+          <img src="images/burjkhalifa.jpg" height="85px"><br>
+            Burj Khalifa<br>
+            <button onclick="buyItem(burjKhalifa)" class="buy">BUY</button><button onclick="sellItem(burjKhalifa)" class="sell">SELL</button>
+        </td>
+        <td>
+          <img src="images/unitedairlines.png" height="85px"><br>
+            United Airlines<br>
+            <button onclick="buyItem(unitedAirlines)" class="buy">BUY</button><button onclick="sellItem(unitedAirlines)" class="sell">SELL</button>
+        </td>
+    </tr>
+  </table>
+<div id="receiptDiv">
+</div>
+
+
+
+        <footer>&copy; Banana News 2024.</footer>
+        <script src="/scripts/main.js"></script>
+        <script src="/scripts/modal.js"></script>
+        <script src="/scripts/news.js"></script>
+        <!--<script src="newsupdation.js"></script>-->
+        <script src="/scripts/search.js"></script>
+        <script src="/scripts/searchlogic.js"></script>
+        <script src="/scripts/searchresults.js"></script>
+        <script src="/scripts/topnav.js"></script>
+        <script src="/scripts/bananajump.js"></script>
+        <script src="/scripts/drawmemory.js"></script>
+        <script src="/scripts/elonmoney.js"></script>
+        <script src="/scripts/geography.js"></script>
+        <script src="/scripts/games.js"></script>
+        <script src="/scripts/imagecombiner.js"></script>
+        <script src="/scripts/maths.js"></script>
+        <script src="/scripts/numberline.js"></script>
+        <script src="/scripts/potatoclicker.js"></script>
+        <script src="/scripts/rabbitstew.js"></script>
+        <script src="/scripts/share.js"></script>
+        <script src="/scripts/中文3.js"></script>
+        <script src="/scripts/中文search.js"></script>
+        
+<script>
+           const searchinput = document.getElementById('searchbar');
+           const divToShow = document.getElementById('div-to-show');
+           const container = document.getElementById('container');
+           const topnav = document.getElementById('myTopnav');
+ 
+           function showSearch(){
+             container.style.filter = 'blur(10px)';
+             topnav.style.backgroundColor = '#444444';
+             divToShow.style.display = 'block';
+             divToShow.style.animation = 'slideDown 0.5s ease forwards';
+             setTimeout(function(){
+               searchinput.focus();
+             }, 500);
+           }
+ 
+           const topContainer = document.getElementById('top-container');
+           topContainer.addEventListener('mouseleave', divUp);
+ 
+           function divUp() {
+             console.log('mouse has left both elements.');
+             topnav.style.backgroundColor = '#555555';
+             divToShow.style.animation = 'slideUp 0.5s ease forwards';
+             container.style.filter = 'none';
+           }
+         </script>
+         
+<script type="module">
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const loginLink = document.getElementById('loginLink');
+  const logoutLink = document.getElementById('logoutLink');
+  const protectedContent = document.getElementById('protectedContent'); // If you have content you want to hide
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is logged in!
+      console.log('User is logged in:', user.email);
+      if (loginLink) loginLink.style.display = 'none';
+      if (logoutLink) logoutLink.style.display = 'block';
+      if (protectedContent) protectedContent.style.display = 'block';
+    } else {
+      // User is logged out
+      console.log('User is logged out.');
+      if (loginLink) loginLink.style.display = 'block';
+      if (logoutLink) logoutLink.style.display = 'none';
+      if (protectedContent) protectedContent.style.display = 'none';
+    }
+  });
+
+  if (logoutLink) {
+    logoutLink.addEventListener('click', () => {
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful. The onAuthStateChanged listener will handle the UI update.
+          console.log('User signed out successfully.');
+        })
+        .catch((error) => {
+          console.error('Sign out error:', error);
+        });
+    });
+  }
+</script>
+<script src="/scripts/physics.js"></script>
+
+        </body>
+</html>

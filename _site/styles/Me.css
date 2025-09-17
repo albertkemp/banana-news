@@ -1,0 +1,50 @@
+/*CSS game - PLEASE do not change this*/
+/*
+
+  []
+  []]]
+  []]]]
+  []]]]]]
+   []]]]]]]
+     []]]]]]]]]
+       ]]]]]]]
+|
+|__    ___      ___    ___       ___    ___          ___     ____              ___
+|  \  /   |  | /   \  /   |   | /   \  /   |      | /   \   /____\  |  |   |  (___
+|__/  \__/ \ |/    |  \__/ \  |/    |  \__/ \     |/    |   \____   \__/\__/   ___)
+
+  _____________________________________________________________________________________________________________________________
+ |                                                                                                                             |
+ |   __                                                                            |                        __                 | 
+ |  |  \   __   _   _  |  __            |     _      _ __   __   __|         __    |/     _   _            /__ o   _  __  |    |
+ |  |__/  /__\ / \ | \ | /__\   |  |  | |__  / \   |/ /__\ /  | /  |   | |  (__    |\  | / \ / \ |  |  |   |   | |/  (__ _|__  |
+ |  |     \__  \_/ |_/ | \__    \_/ \_/ |  | \_/   |  \__  \_/ \\_/|   \_/\  __)   | \ |/  | \_/ \_/ \_/   |   | |    __) |_/  |
+ |                 |                                                                                                           |
+ |_____________________________________________________________________________________________________________________________|
+
+
+If you're the sort of person who looks at the source code of webpages, try our challenge:
+
+https://banana-news.github.io/banana/share_this_page.html
+
+
+
+*/
+/* Core styles from original page */
+#canvas{
+            background-color: #ffffff;
+            height: 700px;
+            width: 1000px;
+        }
+        #player {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #0000ff;
+        }
+        .bullet {
+            position: absolute;
+            width: 5px;
+            height: 7px;
+            background-color: #000000;
+        }

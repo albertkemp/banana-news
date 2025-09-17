@@ -65,29 +65,66 @@
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Protest+Riot&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <!--Please don't remove the line of code below:-->
 
-        <link rel="stylesheet" href="styles/divstyles.css">
-        <link rel="stylesheet" href="styles/imagecombiner.css">
-        <link rel="stylesheet" href="styles/modal.css">
-        <link rel="stylesheet" href="styles/news.css">
-        <link rel="stylesheet" href="styles/search.css">
-        <link rel="stylesheet" href="styles/searchresults.css">
-        <link rel="stylesheet" href="styles/style.css">
+        <link rel="stylesheet" href="/styles/divstyles.css">
+        <link rel="stylesheet" href="/styles/imagecombiner.css">
+        <link rel="stylesheet" href="/styles/modal.css">
+        <link rel="stylesheet" href="/styles/news.css">
+        <link rel="stylesheet" href="/styles/search.css">
+        <link rel="stylesheet" href="/styles/searchresults.css">
+        <link rel="stylesheet" href="/styles/style.css">
+        <link rel="stylesheet" href="/styles/calculator.css">
+        <link rel="stylesheet" href="/styles/contributors.css">
+        <link rel="stylesheet" href="/styles/geography.css">
+        <link rel="stylesheet" href="/styles/js.css">
+        <link rel="stylesheet" href="/styles/Me.css">
+        <link rel="stylesheet" href="/styles/bananaclicker.css">
+        <link rel="stylesheet" href="/styles/searchresults.css">
         <!---->
+
+
         <link rel="shortcut icon" href="../images/logosvg.svg"><link rel="icon" href="../images/logosvg.svg">
         <title>Tech - Banana News</title>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+<!--draw logos from memory-->
+<style>canvas{background-color:#ffff;}</style>
+<!--elon money:-->
+<style> .buy{
+      background-color: rgb(112, 112, 245);
+      transition: 0.25s ease-in-out;
+    }
+    .sell{
+      background-color: #fd4a4a;
+      transition: 0.25s ease-in-out;
+    }
+    .buy:hover, .sell:hover{
+      cursor: pointer;
+      background-color: #808080;
+    }
+    #moneyDisplayDiv{
+      padding:10px;
+      text-align: center;
+      background-image:linear-gradient(#32cd32, #30ba8f);
+      width: 100%;
+      height: auto;
+      position: fixed;
+      top: 50px;
+      left:0;
+    }</style>
     </head>
     <body>
       <div id="top-container">
 
          <div class="topnav" id="myTopnav">
           
-          <a href="../index">Home</a>
-          <a href="../news" >News</a><a href="games.html">Fun</a>
-          <a href="../tech">Tech</a>
-          <a href="../politics">Politics</a>
-          <a href="../maths">Maths</a><a href="geography.html">Geography</a>
-          <a href="../contributors">Contributors</a>
-          <a href="../science">Science</a>
+          <a href="/index">Home</a>
+          <a href="/news" >News</a>
+          <a href="/games">Fun</a>
+          <a href="/tech">Tech</a>
+          <a href="/politics">Politics</a>
+          <a href="/maths">Maths</a><a href="/geography">Geography</a>
+          <a href="/contributors">Contributors</a>
+          <a href="/science">Science</a>
             
               <button onclick="showSearch()" id="searchButton" class="stripped"><i class="fa fa-search" aria-hidden="true"></i>
               </button>
@@ -108,16 +145,34 @@
           </div></div>
        
         <br><br><br>
-        
+        <nav>
+  <a href="/login" id="loginLink">Log In</a>
+  <a href="#" id="logoutLink" style="display: none;">Log Out</a>
+</nav>
+        # hi
+blah.
         <footer>&copy; Banana News 2024.</footer>
-        <script src="../scripts/main.js"></script>
-        <script src="../scripts/modal.js"></script>
-        <script src="../scripts/news.js"></script>
+        <script src="/scripts/main.js"></script>
+        <script src="/scripts/modal.js"></script>
+        <script src="/scripts/news.js"></script>
         <!--<script src="newsupdation.js"></script>-->
-        <script src="../scripts/search.js"></script>
-        <script src="../scripts/searchlogic.js"></script>
-        <script src="../scripts/searchresults.js"></script>
-        <script src="../scripts/topnav.js"></script>
+        <script src="/scripts/search.js"></script>
+        <script src="/scripts/searchlogic.js"></script>
+        <script src="/scripts/searchresults.js"></script>
+        <script src="/scripts/topnav.js"></script>
+        <script src="/scripts/bananajump.js"></script>
+        <script src="/scripts/drawmemory.js"></script>
+        <script src="/scripts/elonmoney.js"></script>
+        <script src="/scripts/geography.js"></script>
+        <script src="/scripts/games.js"></script>
+        <script src="/scripts/imagecombiner.js"></script>
+        <script src="/scripts/maths.js"></script>
+        <script src="/scripts/numberline.js"></script>
+        <script src="/scripts/potatoclicker.js"></script>
+        <script src="/scripts/rabbitstew.js"></script>
+        <script src="/scripts/share.js"></script>
+        <script src="/scripts/中文3.js"></script>
+        <script src="/scripts/中文search.js"></script>
         
 <script>
            const searchinput = document.getElementById('searchbar');
@@ -145,5 +200,48 @@
              container.style.filter = 'none';
            }
          </script>
+         
+<script type="module">
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const loginLink = document.getElementById('loginLink');
+  const logoutLink = document.getElementById('logoutLink');
+  const protectedContent = document.getElementById('protectedContent'); // If you have content you want to hide
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is logged in!
+      console.log('User is logged in:', user.email);
+      if (loginLink) loginLink.style.display = 'none';
+      if (logoutLink) logoutLink.style.display = 'block';
+      if (protectedContent) protectedContent.style.display = 'block';
+    } else {
+      // User is logged out
+      console.log('User is logged out.');
+      if (loginLink) loginLink.style.display = 'block';
+      if (logoutLink) logoutLink.style.display = 'none';
+      if (protectedContent) protectedContent.style.display = 'none';
+    }
+  });
+
+  if (logoutLink) {
+    logoutLink.addEventListener('click', () => {
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful. The onAuthStateChanged listener will handle the UI update.
+          console.log('User signed out successfully.');
+        })
+        .catch((error) => {
+          console.error('Sign out error:', error);
+        });
+    });
+  }
+</script>
+<script src="/scripts/physics.js"></script>
+
         </body>
 </html>

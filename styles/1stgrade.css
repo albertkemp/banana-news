@@ -1,0 +1,290 @@
+/*1st grade maths CSS - PLEASE do not change this*/
+/*
+
+  []
+  []]]
+  []]]]
+  []]]]]]
+   []]]]]]]
+     []]]]]]]]]
+       ]]]]]]]
+|
+|__    ___      ___    ___       ___    ___          ___     ____              ___
+|  \  /   |  | /   \  /   |   | /   \  /   |      | /   \   /____\  |  |   |  (___
+|__/  \__/ \ |/    |  \__/ \  |/    |  \__/ \     |/    |   \____   \__/\__/   ___)
+
+  _____________________________________________________________________________________________________________________________
+ |                                                                                                                             |
+ |   __                                                                            |                        __                 | 
+ |  |  \   __   _   _  |  __            |     _      _ __   __   __|         __    |/     _   _            /__ o   _  __  |    |
+ |  |__/  /__\ / \ | \ | /__\   |  |  | |__  / \   |/ /__\ /  | /  |   | |  (__    |\  | / \ / \ |  |  |   |   | |/  (__ _|__  |
+ |  |     \__  \_/ |_/ | \__    \_/ \_/ |  | \_/   |  \__  \_/ \\_/|   \_/\  __)   | \ |/  | \_/ \_/ \_/   |   | |    __) |_/  |
+ |                 |                                                                                                           |
+ |_____________________________________________________________________________________________________________________________|
+
+
+If you're the sort of person who looks at the source code of webpages, try our challenge:
+
+https://banana-news.github.io/banana/share_this_page.html
+
+
+
+*/
+/* Core styles from original page */
+        #clickmessage{border-radius:10px;background-color:white;padding:20px;position:fixed;top:0;right:0;z-index:2000;}
+        #closeButton{background-color: blue;transition:0.25s ease-in-out;position:relative;right:0;bottom:0;}
+        #closeButton:hover{background-color: grey;}
+        .answer{display:none;}
+        .checkbutton{background-color: blue;}
+        .skipbutton{background-color: #00000000;border:none;text-decoration: underline;color: grey;padding: 0;}
+        .progressbar{border-radius:50%;width:100%;height:40px; background-color: grey;overflow: hidden;}
+        .q1progress, .q2progress, .q3progress{border-right: 2px solid black;background-color: grey;width: 33%;float:left;position: relative;}
+        .test-notification{position: fixed;bottom: 20px;right: 20px;padding: 15px;font-size: 50px;color: white;font-family: 'Open Sans', sans-serif;display: none;}
+        @keyframes show-notification{
+            0%{display:none;visibility: hidden;}
+            1%{display:block;visibility: visible;}
+            99%{display:block;visibility: visible;}
+            100%{display:none;visibility: hidden;}
+        }
+        
+        /* New styles for 1st grade content */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+        .topnav {
+            background-color: #4a86e8;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .topnav a:hover {
+            background-color: #3d70c0;
+        }
+        .topnav .icon {
+            display: none;
+        }
+        #container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #e67e22;
+            text-align: center;
+            font-family: 'Comfortaa', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+            font-family: 'Roboto', sans-serif;
+        }
+        h3 {
+            color: #2c3e50;
+            font-family: 'Lato', sans-serif;
+        }
+        .newsdiv {
+            margin-bottom: 40px;
+            padding: 25px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border-left: 5px solid #3498db;
+        }
+        .math-concept {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .practice-box {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .practice-question {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 3px solid #3498db;
+        }
+        .reveal-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .reveal-button:hover {
+            background-color: #2980b9;
+        }
+        .interactive-area {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .counter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .counter-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 0 15px;
+        }
+        .counter-value {
+            font-size: 24px;
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+        }
+        .fraction-viz {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .fraction-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #f1c40f;
+            position: relative;
+            overflow: hidden;
+            margin: 0 10px;
+        }
+        .fraction-part {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 50%, 100% 50%, 100% 0%, 0% 0%, 0% 100%, 100% 100%);
+            background-color: #e67e22;
+            transform-origin: center;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-family: 'Roboto', sans-serif;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        /* Number line styling */
+        #number-line {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            border-top: 2px solid #3498db;
+            margin: 20px 0;
+            background: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .tick {
+            position: absolute;
+            height: 20px;
+            border-left: 2px solid #3498db;
+            bottom: 0;
+        }
+        .label {
+            position: absolute;
+            bottom: -20px;
+            transform: translateX(-50%);
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            #container {
+                padding: 15px;
+                margin: 10px;
+            }
+            .newsdiv {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* New interactive elements */
+        .number-block {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            margin: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .skip-counting {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .ball-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .ball {
+            width: 30px;
+            height: 30px;
+            background-color: #e67e22;
+            border-radius: 50%;
+            margin: 5px;
+            display: inline-block;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-icon {
+            font-size: 32px;
+            margin-right: 15px;
+            color: #3498db;
+        }

@@ -1,0 +1,49 @@
+/*1st grade maths CSS - PLEASE do not change this*/
+/*
+
+  []
+  []]]
+  []]]]
+  []]]]]]
+   []]]]]]]
+     []]]]]]]]]
+       ]]]]]]]
+|
+|__    ___      ___    ___       ___    ___          ___     ____              ___
+|  \  /   |  | /   \  /   |   | /   \  /   |      | /   \   /____\  |  |   |  (___
+|__/  \__/ \ |/    |  \__/ \  |/    |  \__/ \     |/    |   \____   \__/\__/   ___)
+
+  _____________________________________________________________________________________________________________________________
+ |                                                                                                                             |
+ |   __                                                                            |                        __                 | 
+ |  |  \   __   _   _  |  __            |     _      _ __   __   __|         __    |/     _   _            /__ o   _  __  |    |
+ |  |__/  /__\ / \ | \ | /__\   |  |  | |__  / \   |/ /__\ /  | /  |   | |  (__    |\  | / \ / \ |  |  |   |   | |/  (__ _|__  |
+ |  |     \__  \_/ |_/ | \__    \_/ \_/ |  | \_/   |  \__  \_/ \\_/|   \_/\  __)   | \ |/  | \_/ \_/ \_/   |   | |    __) |_/  |
+ |                 |                                                                                                           |
+ |_____________________________________________________________________________________________________________________________|
+
+
+If you're the sort of person who looks at the source code of webpages, try our challenge:
+
+https://banana-news.github.io/banana/share_this_page.html
+
+
+
+*/
+/* Core styles from original page */
+#results{font-family: 'Open Sans', sans-serif;}
+         
+        img:hover{cursor:pointer;}
+        .locked {             opacity: 75%;             background-color: grey;font-family: 'Open Sans', sans-serif;  padding:25px; border-radius:20px; flex: 0 1 calc(33.33% - 20px);border:2px solid black;} .unlocked {border:2px solid black; padding:25px; border-radius:20px; flex: 0 1 calc(33.33% - 20px);background-color: #ffe135; color: black; font-family: 'Open Sans', sans-serif; transition: 0.25s ease-in-out;}
+        #upgrades .unlocked:hover{cursor:pointer;background-color: grey;}
+        
+        .locked,.unlocked{margin:10px;}
+        
+        #upgrades, #awards{display: flex;
+    flex-wrap: wrap;
+    margin: 10px;background: #00000000; width: 100%; }#potato:active{width:280px;height:280px;}#potato{position:absolute;}
+    .title
+  {width: 100%;text-align:center;background-color: #ffffff;} 
+    #containerthingy{
+
+        position:absolute;top:400px;}

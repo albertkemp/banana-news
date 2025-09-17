@@ -1,0 +1,85 @@
+/*CSS calculator - PLEASE do not change this*/
+/*
+
+  []
+  []]]
+  []]]]
+  []]]]]]
+   []]]]]]]
+     []]]]]]]]]
+       ]]]]]]]
+|
+|__    ___      ___    ___       ___    ___          ___     ____              ___
+|  \  /   |  | /   \  /   |   | /   \  /   |      | /   \   /____\  |  |   |  (___
+|__/  \__/ \ |/    |  \__/ \  |/    |  \__/ \     |/    |   \____   \__/\__/   ___)
+
+  _____________________________________________________________________________________________________________________________
+ |                                                                                                                             |
+ |   __                                                                            |                        __                 | 
+ |  |  \   __   _   _  |  __            |     _      _ __   __   __|         __    |/     _   _            /__ o   _  __  |    |
+ |  |__/  /__\ / \ | \ | /__\   |  |  | |__  / \   |/ /__\ /  | /  |   | |  (__    |\  | / \ / \ |  |  |   |   | |/  (__ _|__  |
+ |  |     \__  \_/ |_/ | \__    \_/ \_/ |  | \_/   |  \__  \_/ \\_/|   \_/\  __)   | \ |/  | \_/ \_/ \_/   |   | |    __) |_/  |
+ |                 |                                                                                                           |
+ |_____________________________________________________________________________________________________________________________|
+
+
+If you're the sort of person who looks at the source code of webpages, try our challenge:
+
+https://banana-news.github.io/banana/share_this_page.html
+
+
+
+*/
+/* Core styles from original page */
+.plus{
+        float:left;height:134px;
+      }
+        .calch1 {
+            text-align: center;
+            padding: 23px;
+            background-color: #87ceeb;
+            color: #ffffff;
+            font-size: 60px;
+        }
+        #clear {
+            width: 270px;
+            border: 3px solid #808080;
+            border-radius: 3px;
+            padding: 20px;
+            background-color: #ff0000;
+        }
+        .formstyle {
+            width: 300px;
+            height: 450px;
+            margin: auto;
+            border: 3px solid #000000;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: #d3d3d3;
+        }
+        input {
+            width: 20px;
+            background-color: #008000;
+            color: #ffffff;
+            border: 3px solid #808080;
+            border-radius: 5px;
+            padding-top:10px;
+            padding-bottom:10px;
+            padding-left: 26px;
+            padding-right: 26px;
+            margin: 5px;
+            font-size: 20px;
+            transition: 0.25s ease-in-out;
+        }
+        input[type=text]{font-size:28px;}
+        input[type=button]:hover {
+            background-color:#808080;
+            cursor:pointer;
+        }
+        #calc {
+            width: 250px;
+            border: 5px solid #000000;
+            border-radius: 3px;
+            padding: 20px;
+            margin: auto;
+        }

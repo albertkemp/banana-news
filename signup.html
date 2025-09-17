@@ -1,0 +1,71 @@
+---
+layout: "base.njk"
+title: "Sign Up"
+---
+<h1>Sign Up for an Account</h1>
+
+<form id="signupForm">
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" required>
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" required>
+  </div>
+  <button type="submit">Create Account</button>
+</form>
+
+<div id="message"></div>
+
+<p>Already have an account? <a href="/login/">Log In</a></p>
+<script type="module">
+  // Import the required Firebase functions
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+
+  // Your Firebase configuration (you've already added this to your layout file)
+  const firebaseConfig = {
+
+  apiKey: "AIzaSyDPTxdGNRcokbHS9fNVxq2VgO_TJcuDP08",
+  authDomain: "banana-news-62293.firebaseapp.com",
+  projectId: "banana-news-62293",
+  storageBucket: "banana-news-62293.firebasestorage.app",
+  messagingSenderId: "439905617568",
+  appId: "1:439905617568:web:632fb5bfe4984658bf6bc5",
+  measurementId: "G-K80PE3QMXW"
+
+};
+
+  // Initialize Firebase and get the Auth service
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const signupForm = document.getElementById('signupForm');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const messageDiv = document.getElementById('message');
+
+  signupForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Stop the form from reloading the page
+
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // User created successfully!
+        messageDiv.innerText = "Account created successfully! Redirecting to login...";
+        console.log("New user:", userCredential.user.uid);
+        setTimeout(() => {
+          window.location.href = "/login/";
+        }, 2000); // Redirect after 2 seconds
+      })
+      .catch((error) => {
+        // Handle errors during creation
+        const errorMessage = error.message;
+        messageDiv.innerText = `Error: ${errorMessage}`;
+        console.error("Signup failed:", errorMessage);
+      });
+  });
+</script>

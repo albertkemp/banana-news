@@ -65,16 +65,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Protest+Riot&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <!--Please don't remove the line of code below:-->
 
-        <link rel="stylesheet" href="styles/divstyles.css">
-        <link rel="stylesheet" href="styles/imagecombiner.css">
-        <link rel="stylesheet" href="styles/modal.css">
-        <link rel="stylesheet" href="styles/news.css">
-        <link rel="stylesheet" href="styles/search.css">
-        <link rel="stylesheet" href="styles/searchresults.css">
-        <link rel="stylesheet" href="styles/style.css">
+        <link rel="stylesheet" href="/styles/divstyles.css">
+        <link rel="stylesheet" href="/styles/imagecombiner.css">
+        <link rel="stylesheet" href="/styles/modal.css">
+        <link rel="stylesheet" href="/styles/news.css">
+        <link rel="stylesheet" href="/styles/search.css">
+        <link rel="stylesheet" href="/styles/searchresults.css">
+        <link rel="stylesheet" href="/styles/style.css">
         <!---->
         <link rel="shortcut icon" href="../images/logosvg.svg"><link rel="icon" href="../images/logosvg.svg">
         <title>About Us - Banana News</title>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
     </head>
     <body>
       <div id="top-container">
@@ -108,17 +110,21 @@
           </div></div>
        
         <br><br><br>
+        <nav>
+  <a href="/login" id="loginLink">Log In</a>
+  <a href="#" id="logoutLink" style="display: none;">Log Out</a>
+</nav>
         <h2>About Us</h2>
 <p>This page is about our company. It also uses the Nunjucks layout.</p>
         <footer>&copy; Banana News 2024.</footer>
-        <script src="../scripts/main.js"></script>
-        <script src="../scripts/modal.js"></script>
-        <script src="../scripts/news.js"></script>
+        <script src="/scripts/main.js"></script>
+        <script src="/scripts/modal.js"></script>
+        <script src="/scripts/news.js"></script>
         <!--<script src="newsupdation.js"></script>-->
-        <script src="../scripts/search.js"></script>
-        <script src="../scripts/searchlogic.js"></script>
-        <script src="../scripts/searchresults.js"></script>
-        <script src="../scripts/topnav.js"></script>
+        <script src="/scripts/search.js"></script>
+        <script src="/scripts/searchlogic.js"></script>
+        <script src="/scripts/searchresults.js"></script>
+        <script src="/scripts/topnav.js"></script>
         
 <script>
            const searchinput = document.getElementById('searchbar');
@@ -146,5 +152,47 @@
              container.style.filter = 'none';
            }
          </script>
+         
+<script type="module">
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const loginLink = document.getElementById('loginLink');
+  const logoutLink = document.getElementById('logoutLink');
+  const protectedContent = document.getElementById('protectedContent'); // If you have content you want to hide
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is logged in!
+      console.log('User is logged in:', user.email);
+      if (loginLink) loginLink.style.display = 'none';
+      if (logoutLink) logoutLink.style.display = 'block';
+      if (protectedContent) protectedContent.style.display = 'block';
+    } else {
+      // User is logged out
+      console.log('User is logged out.');
+      if (loginLink) loginLink.style.display = 'block';
+      if (logoutLink) logoutLink.style.display = 'none';
+      if (protectedContent) protectedContent.style.display = 'none';
+    }
+  });
+
+  if (logoutLink) {
+    logoutLink.addEventListener('click', () => {
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful. The onAuthStateChanged listener will handle the UI update.
+          console.log('User signed out successfully.');
+        })
+        .catch((error) => {
+          console.error('Sign out error:', error);
+        });
+    });
+  }
+</script>
+
         </body>
 </html>

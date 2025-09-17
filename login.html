@@ -1,0 +1,64 @@
+---
+layout: "base.njk"
+title: "Login"
+---
+
+<h1>Log In</h1>
+
+<form id="loginForm">
+  <label for="email">Email:</label>
+  <input type="email" id="email" required>
+  <label for="password">Password:</label>
+  <input type="password" id="password" required>
+  <button type="submit">Log In</button>
+</form>
+
+<p>Don't have an account? <a href="/signup">Sign Up</a></p>
+<script type="module">
+  // Import the necessary Firebase functions
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+
+  // Your Firebase configuration (you can get this from your project's settings)
+  const firebaseConfig = {
+
+  apiKey: "AIzaSyDPTxdGNRcokbHS9fNVxq2VgO_TJcuDP08",
+  authDomain: "banana-news-62293.firebaseapp.com",
+  projectId: "banana-news-62293",
+  storageBucket: "banana-news-62293.firebasestorage.app",
+  messagingSenderId: "439905617568",
+  appId: "1:439905617568:web:632fb5bfe4984658bf6bc5",
+  measurementId: "G-K80PE3QMXW"
+
+};
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Get the login form element
+  const loginForm = document.getElementById('loginForm');
+
+  // Add an event listener for form submission
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Prevent the page from reloading
+
+    const email = loginForm['email'].value;
+    const password = loginForm['password'].value;
+
+    // Use the Firebase function to sign in
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Log in successful
+        console.log('User logged in:', userCredential.user.uid);
+        // Redirect the user to a different page after successful login
+        window.location.href = "/dashboard.html"; 
+      })
+      .catch((error) => {
+        // Handle errors
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error('Login failed:', errorMessage);
+        // You could display the error message to the user here
+      });
+  });
+</script>

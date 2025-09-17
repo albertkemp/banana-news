@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HKCZYS11HC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HKCZYS11HC');
+</script>
+
+        <!--
+
+         [:]
+          [:]
+          [:::]
+         [:::::::]
+        [::::::::::]
+        [:::::::::::]
+        [:::::::::::::]
+         [::::::::::::::]
+          [:::::::::::::::]
+           [::::::::::::::::]
+            [:::::::::::::::::]
+              [::::::::::::::::::]
+                [:::::::::::::::::::]
+                  [::::::::::::::::::::]
+                    [::::::::::::::::::::]
+                      [:::::::::::::::::::::]
+                         [:::::::::::::::::::::]
+                            [:::::::::::::::::::::::]
+                                [:::::::::::::::::::]
+        ____                        [::::::::::::]                                                 ______                         _____    
+        |   \       /\       |\   |        /\       |\   |        /\                   |\   |    |           \      /\      /   /
+        |___/      /  \      | \  |       /  \      | \  |       /  \                  | \  |    |______      \    /  \    /    \_____ 
+        |   \     /____\     |  \ |      /____\     |  \ |      /____\                 |  \ |    |             \  /    \  /           \
+        |___/    /      \    |   \|     /      \    |   \|     /      \                |   \|    |______        \/      \/       _____/
+
+  _____________________________________________________________________________________________________________________________
+ |                                                                                                                             |
+ |   __                                                                            |                        __                 | 
+ |  |  \   __   _   _  |  __            |     _      _ __   __   __|         __    |/     _   _            /__ o   _  __  |    |
+ |  |__/  /__\ / \ | \ | /__\   |  |  | |__  / \   |/ /__\ /  | /  |   | |  (__    |\  | / \ / \ |  |  |   |   | |/  (__ _|__  |
+ |  |     \__  \_/ |_/ | \__    \_/ \_/ |  | \_/   |  \__  \_/ \\_/|   \_/\  __)   | \ |/  | \_/ \_/ \_/   |   | |    __) |_/  |
+ |                 |                                                                                                           |
+ |_____________________________________________________________________________________________________________________________|
+
+
+        Hmm. You're the sort of person who looks at the source code of webpages. Want to contribute? Check out our repository at github.com/banana-news/banana and make a pull request
+
+
+
+
+
+-->
+<!--Important for all pages below \/-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Protest+Riot&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <!--Please don't remove the line of code below:-->
+
+        <link rel="stylesheet" href="/styles/divstyles.css">
+        <link rel="stylesheet" href="/styles/imagecombiner.css">
+        <link rel="stylesheet" href="/styles/modal.css">
+        <link rel="stylesheet" href="/styles/news.css">
+        <link rel="stylesheet" href="/styles/search.css">
+        <link rel="stylesheet" href="/styles/searchresults.css">
+        <link rel="stylesheet" href="/styles/style.css">
+        <link rel="stylesheet" href="/styles/calculator.css">
+        <link rel="stylesheet" href="/styles/contributors.css">
+        <link rel="stylesheet" href="/styles/geography.css">
+        <link rel="stylesheet" href="/styles/js.css">
+        <link rel="stylesheet" href="/styles/Me.css">
+        <link rel="stylesheet" href="/styles/bananaclicker.css">
+        <link rel="stylesheet" href="/styles/searchresults.css">
+        <!---->
+
+
+        <link rel="shortcut icon" href="../images/logosvg.svg"><link rel="icon" href="../images/logosvg.svg">
+        <title>Banana Clicker - Banana News</title>
+        <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+<!--draw logos from memory-->
+<style>canvas{background-color:#ffff;}</style>
+<!--elon money:-->
+<style> .buy{
+      background-color: rgb(112, 112, 245);
+      transition: 0.25s ease-in-out;
+    }
+    .sell{
+      background-color: #fd4a4a;
+      transition: 0.25s ease-in-out;
+    }
+    .buy:hover, .sell:hover{
+      cursor: pointer;
+      background-color: #808080;
+    }
+    #moneyDisplayDiv{
+      padding:10px;
+      text-align: center;
+      background-image:linear-gradient(#32cd32, #30ba8f);
+      width: 100%;
+      height: auto;
+      position: fixed;
+      top: 50px;
+      left:0;
+    }</style>
+    </head>
+    <body>
+      <div id="top-container">
+
+         <div class="topnav" id="myTopnav">
+          
+          <a href="/index">Home</a>
+          <a href="/news" >News</a>
+          <a href="/games">Fun</a>
+          <a href="/tech">Tech</a>
+          <a href="/politics">Politics</a>
+          <a href="/maths">Maths</a><a href="/geography">Geography</a>
+          <a href="/contributors">Contributors</a>
+          <a href="/science">Science</a>
+            
+              <button onclick="showSearch()" id="searchButton" class="stripped"><i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            
+            
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars stripped"></i>
+            </a>
+          </div>
+          <div id="div-to-show">
+            <input placeholder="search banana-news.github.io" id="searchbar">
+            <p class="label">Quick links</p>
+            <ul>
+            <a class="not-und" href="index.html"><li class="quick">&rightarrow;&nbsp;Home</li></a><a  class="not-und" href="news.html"><li class="quick">&rightarrow;&nbsp;News</li></a>
+            <a class="not-und" href="games.html"><li class="quick">&rightarrow;&nbsp;Fun</li></a>
+            <a  class="not-und" href="tech.html"><li class="quick">&rightarrow;&nbsp;Tech</li></a>
+            </ul>
+          </div></div>
+       
+        <br><br><br>
+        <nav>
+  <a href="/login" id="loginLink">Log In</a>
+  <a href="#" id="logoutLink" style="display: none;">Log Out</a>
+</nav>
+                <br><br><br>
+        <div id="container">
+          <!--<p style="padding:20px;background-color:green;color:white;"><b>NOTIFICATION:</b> Banana News has been updated. If you're seeing this notification it should be done.</p>-->
+          <!--Please don't delete the comment below (i know its a commented error message but I uncomment it when there is a problem with the site.)-->
+           <!--<p style="color:#ff0000;background-color: #d3d3d3;padding: 25px;font-size: 20px;border-bottom: 5px solid #ff0000;"><b>Hello Banana News users,</b><br>We are sorry to inform you that there are some problems with the site. We are working to fix the issues, and they should be done pretty soon. Thanks for your cooperation.</p>-->
+           <!--(also, if you uncomment it the site will display an error message.)-->
+           <!---->
+
+            <!--stuff here ⬇️-->
+            <h2>BANANA CLICKER</h2>
+            <img id="potato" src="images/bananabunch.jpg" width="260" alt="A banana" title="Click it!">
+            <div id="containerthingy">
+            <div id="results"></div>
+            <h2 class="title">Upgrades:</h2>
+            <div id="upgrades">
+              <div class="locked" id="+1"><span id="locked5">🔒</span>+1 banana per click (150)</div>
+              <div class="locked" id="persec"><span id="locked6">🔒</span>+1 banana per second (200)</div>
+              <div class="locked" id="rebirth"><span id="locked7">🔒</span>Rebirth (1000)</div>
+            <h2 class="title">Awards:</h2>
+            <div id="awards">
+                <div class='locked' id="cookie"><span id="locked1">🔒</span>Banana bread (100)</div>
+                <div class='locked' id="crocpet"><span id="locked2">🔒</span>Golden banana (250)</div>
+                <div class='locked' id="tenthousand"><span id="locked3">🔒</span>Banana mansion (500)</div>
+                <div class='locked' id="million"><span id="locked4">🔒</span>Banana themed private A380 (1000)</div>
+                <div class="locked" id="bananas"><span id="locked7">🔒</span>1000000 bananas! (1500)</div>
+            </div>
+        </div>
+
+        <footer>&copy; Banana News 2024.</footer>
+        <script src="/scripts/main.js"></script>
+        <script src="/scripts/modal.js"></script>
+        <script src="/scripts/news.js"></script>
+        <!--<script src="newsupdation.js"></script>-->
+        <script src="/scripts/search.js"></script>
+        <script src="/scripts/searchlogic.js"></script>
+        <script src="/scripts/searchresults.js"></script>
+        <script src="/scripts/topnav.js"></script>
+        <script src="/scripts/bananajump.js"></script>
+        <script src="/scripts/drawmemory.js"></script>
+        <script src="/scripts/elonmoney.js"></script>
+        <script src="/scripts/geography.js"></script>
+        <script src="/scripts/games.js"></script>
+        <script src="/scripts/imagecombiner.js"></script>
+        <script src="/scripts/maths.js"></script>
+        <script src="/scripts/numberline.js"></script>
+        <script src="/scripts/potatoclicker.js"></script>
+        <script src="/scripts/rabbitstew.js"></script>
+        <script src="/scripts/share.js"></script>
+        <script src="/scripts/中文3.js"></script>
+        <script src="/scripts/中文search.js"></script>
+        
+<script>
+           const searchinput = document.getElementById('searchbar');
+           const divToShow = document.getElementById('div-to-show');
+           const container = document.getElementById('container');
+           const topnav = document.getElementById('myTopnav');
+ 
+           function showSearch(){
+             container.style.filter = 'blur(10px)';
+             topnav.style.backgroundColor = '#444444';
+             divToShow.style.display = 'block';
+             divToShow.style.animation = 'slideDown 0.5s ease forwards';
+             setTimeout(function(){
+               searchinput.focus();
+             }, 500);
+           }
+ 
+           const topContainer = document.getElementById('top-container');
+           topContainer.addEventListener('mouseleave', divUp);
+ 
+           function divUp() {
+             console.log('mouse has left both elements.');
+             topnav.style.backgroundColor = '#555555';
+             divToShow.style.animation = 'slideUp 0.5s ease forwards';
+             container.style.filter = 'none';
+           }
+         </script>
+         
+<script type="module">
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const loginLink = document.getElementById('loginLink');
+  const logoutLink = document.getElementById('logoutLink');
+  const protectedContent = document.getElementById('protectedContent'); // If you have content you want to hide
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is logged in!
+      console.log('User is logged in:', user.email);
+      if (loginLink) loginLink.style.display = 'none';
+      if (logoutLink) logoutLink.style.display = 'block';
+      if (protectedContent) protectedContent.style.display = 'block';
+    } else {
+      // User is logged out
+      console.log('User is logged out.');
+      if (loginLink) loginLink.style.display = 'block';
+      if (logoutLink) logoutLink.style.display = 'none';
+      if (protectedContent) protectedContent.style.display = 'none';
+    }
+  });
+
+  if (logoutLink) {
+    logoutLink.addEventListener('click', () => {
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful. The onAuthStateChanged listener will handle the UI update.
+          console.log('User signed out successfully.');
+        })
+        .catch((error) => {
+          console.error('Sign out error:', error);
+        });
+    });
+  }
+</script>
+<script src="/scripts/physics.js"></script>
+
+        </body>
+</html>
