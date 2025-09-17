@@ -27,7 +27,7 @@
 
 If you're the sort of person who looks at the source code of webpages, try our challenge:
 
-https://banana-news.github.io/banana/share_this_page.html
+https://banana-news.github.io/banana/share_this_page
 */
 var q1o1 = document.getElementById("q1o1");
 var q2o3 = document.getElementById("q2o3");

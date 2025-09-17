@@ -58,15 +58,8 @@ title: "Search Results"
         </div>
         </div>
         </div>
-        <footer>&copy; Banana News 2024</footer>
-    
-     <!--请不要删除这行代码：-->
-     <script src="scripts/main.js"></script>
-     <!---->
-     <!--请不要删除以下代码行-->
-     <script src="scripts/topnav.js"></script>
-     <!---->
-     <script src="scripts/search.js"></script>
+        <script src="/scripts/searchlogic.js"></script>
+        <script src="/scripts/search.js"></script>
      <script>
        const searchinput = document.getElementById('searchbar');
        const divToShow = document.getElementById('div-to-show');
@@ -93,13 +86,8 @@ title: "Search Results"
          container.style.filter = 'none';
        }
      </script>
-
-   </div>
-   <script src="scripts/search.js"></script>
-   <script src="scripts/news.js"></script>
-   <script src="scripts/modal.js"></script>
-   <script src="scripts/searchlogic.js"></script>
-    <script> function animateMarks() {
+     <script>
+        function animateMarks() {
             var mark1 = document.getElementById('mark1');
             var mark2 = document.getElementById('mark2');
             var mark3 = document.getElementById('mark3');
@@ -131,5 +119,5 @@ title: "Search Results"
             setTimeout(animateMarks, 2000);  // Repeat the animation every 2 seconds
         }
 
-        animateMarks();</script></body>
-</html>
+        animateMarks();
+     </script>

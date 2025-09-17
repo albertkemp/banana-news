@@ -141,9 +141,9 @@
             <input placeholder="search banana-news.github.io" id="searchbar">
             <p class="label">Quick links</p>
             <ul>
-            <a class="not-und" href="index.html"><li class="quick">&rightarrow;&nbsp;Home</li></a><a  class="not-und" href="news.html"><li class="quick">&rightarrow;&nbsp;News</li></a>
-            <a class="not-und" href="games.html"><li class="quick">&rightarrow;&nbsp;Fun</li></a>
-            <a  class="not-und" href="tech.html"><li class="quick">&rightarrow;&nbsp;Tech</li></a>
+            <a class="not-und" href="index"><li class="quick">&rightarrow;&nbsp;Home</li></a><a  class="not-und" href="news"><li class="quick">&rightarrow;&nbsp;News</li></a>
+            <a class="not-und" href="games"><li class="quick">&rightarrow;&nbsp;Fun</li></a>
+            <a  class="not-und" href="tech"><li class="quick">&rightarrow;&nbsp;Tech</li></a>
             </ul>
           </div></div>
        
@@ -201,7 +201,7 @@
         // Log in successful
         console.log('User logged in:', userCredential.user.uid);
         // Redirect the user to a different page after successful login
-        window.location.href = "/dashboard.html"; 
+        window.location.href = "/dashboard"; 
       })
       .catch((error) => {
         // Handle errors

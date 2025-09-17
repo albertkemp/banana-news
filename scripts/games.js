@@ -27,7 +27,7 @@
 
 If you're the sort of person who looks at the source code of webpages, try our challenge:
 
-https://banana-news.github.io/banana/share_this_page.html
+https://banana-news.github.io/banana/share_this_page
 */
 
 const imagecombinerdiv = document.getElementById('imagecombiner');
@@ -38,23 +38,23 @@ const elondiv = document.getElementById('elonmoney');
   const cowcalcdiv = document.getElementById('cowcalc');
   const squareshootdiv = document.getElementById('squareshooter');
   imagecombinerdiv.addEventListener("click", function(){
-      window.location.href='imagecombiner.html';
+      window.location.href='imagecombiner';
   });
   elondiv.addEventListener("click", function(){
-      window.location.href= 'elonmoney.html';
+      window.location.href= 'elonmoney';
   });
   quadselectordiv.addEventListener("click", function(){
       window.location.href='https://albertkemp.github.io/quadselector/';
   });
   sharesitediv.addEventListener("click", function(){
-      window.location.href="share_this_page.html";
+      window.location.href="share_this_page";
   });
   drawmemorydiv.addEventListener("click", function(){
-    window.location.href='drawmemory.html';
+    window.location.href='drawmemory';
   });
   cowcalcdiv.addEventListener("click", function () {
-    window.location.href = 'cow.html';
+    window.location.href = 'cow';
   });
   squareshootdiv.addEventListener("click", function() {
-    window.location.href='Me.html';
+    window.location.href='Me';
   });
