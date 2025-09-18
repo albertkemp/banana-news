@@ -18,3 +18,5 @@ e.g.
 # Some important stuff:
 All paths, unless they are absolute paths (like a link to another website) should have a / at the start: e.g. /images/banana.png
 All links to other pages should not be page, but they should be /page, because the program has automatically generated pages that don't have the  which look simpler and more clean.
+
+JS can be put in a &lt;script&gt;&lt;/script&gt; tag at the end of the body tag, but CSS cannot because there is no head.
