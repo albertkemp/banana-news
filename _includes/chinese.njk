@@ -59,7 +59,7 @@
         
         <!---->
         <link rel="shortcut icon" href="/images/logosvg.svg"><link rel="icon" href="/images/logosvg.svg">
-        <title>主页 - 香蕉新闻</title>
+        <title>{{ title }} - 香蕉新闻</title>
     </head>
     <body>
         <div id="top-container"><div class="topnav" id="myTopnav">
@@ -84,7 +84,7 @@
             <input placeholder="搜索" id="searchbar">
           </div></div>
         <br><br><br>
-       
+       {{ content | safe }}
         <br><br><br>
         <footer>&copy; 香蕉新闻 2025。</footer>
         <!--请不要删除这行代码：-->
