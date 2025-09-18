@@ -30,14 +30,11 @@ https://banana-news.github.io/banana/share_this_page
 
 
 */
-* {
+.geography{
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', 'Roboto', sans-serif;
-        }
-
-        body {
             /*background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);*/
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
