@@ -89,7 +89,7 @@ https://banana-news.github.io/banana/share_this_page
             createNumberLine();
             // Add any other initialization code here
         };
-        
+        /*
         // Search functionality
         const searchinput = document.getElementById('searchbar');
         const divToShow = document.getElementById('div-to-show');
@@ -114,4 +114,4 @@ https://banana-news.github.io/banana/share_this_page
             topnav.style.backgroundColor = '#555555';
             divToShow.style.animation = 'slideUp 0.5s ease forwards';
             container.style.filter = 'none';
-        }
+        }*/

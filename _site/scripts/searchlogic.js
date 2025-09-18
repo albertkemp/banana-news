@@ -41,8 +41,8 @@ header.textContent = searchQuery;
 
 var searchResultsDiv = document.getElementById("searchResults");
 
-var otherPages = ['banana2', 'Bananam', 'cow', 'drawmemory', 'elonmoney', 'games', 'hi', 'imagecombiner', 'index', 'Me', 'news', 'politics', 'share_this_page', 'potatoclicker', 'bananajump', 'rabbitstew', 'tech', 'spanishhomepage', '中文1', '中文3', '中文4', '中文5', '中文6', 'bannews', 'maths', '1stgrade', '2ndgrade', 'geography', 'cpuforgamingpctierlist'];
-var pageNames = ['Tower defence sim', 'Why I like bananas', 'Calculator', 'Draw logos from memory', "Spend Elon Musk's money", 'Fun', 'Hi', 'Image Combiner', 'Home', 'Square shooter', 'News', 'Politics', 'Share this site', 'Potato clicker', 'Banana jump', 'Rabbit stew', 'Tech', 'Inicio', '主页', '新闻', '政治', '手机，平板电脑，和电脑', '计算器', 'Gardening news', 'Maths', 'Grade 1 maths', 'Grade 2 maths', 'Geography', 'CPU for Gaming rankings'];
+var otherPages = ['/banana2', '/Bananam', '/cow', '/drawmemory', '/elonmoney', '/games', '/hi', '/imagecombiner', '/index', '/Me', '/news', '/politics', '/share_this_page', '/potatoclicker', '/bananajump', '/rabbitstew', '/tech', '/spanishhomepage', '/中文1', '/中文3', '/中文4', '/中文5', '/中文6', '/bannews', '/maths', '/1stgrade', '/2ndgrade', '/geography', 'cpuforgamingpctierlist', '/3-4maths', '/5-6maths', '/7-8maths', '/science', '/physics'];
+var pageNames = ['Tower defence sim', 'Why I like bananas', 'Calculator', 'Draw logos from memory', "Spend Elon Musk's money", 'Fun', 'Hi', 'Image Combiner', 'Home', 'Square shooter', 'News', 'Politics', 'Share this site', 'Potato clicker', 'Banana jump', 'Rabbit stew', 'Tech', 'Inicio', '主页', '新闻', '政治', '手机，平板电脑，和电脑', '计算器', 'Gardening news', 'Maths', 'Grade 1 maths', 'Grade 2 maths', 'Geography', 'CPU for Gaming rankings', /*'Grade 3-4 maths', 'Grade 5-6 maths', 'Grade 7-8 maths', */'Science', 'Physics'];
 
 var resultHeadings = [];
 var resultDescriptions = [];

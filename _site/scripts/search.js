@@ -42,10 +42,10 @@ searchbar.addEventListener("keypress", function(event){
     }
 });
 function search() {
-    var searchbar = document.getElementById("searchbar").value;
-    if (searchbar == "") {
+    var searchValue = document.getElementById("searchbar").value;
+    if (searchValue == "") {
         alert("Please enter a search term");
     } else {
-        window.location.href = "/searchresults?q=" + encodeURIComponent(searchbar);
+        window.location.href = "/searchresults/?q=" + encodeURIComponent(searchValue);
     }
 }

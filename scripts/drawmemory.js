@@ -38,11 +38,11 @@ const appleImg = document.getElementById('apple');
 const facebookImg = document.getElementById('facebook');
 
 //urls
-const googleUrl = 'images/google.png';
-const microsoftUrl = 'images/microsoft.png';
-const cokeUrl = 'images/coke.png';
-const appleUrl = 'images/apple.svg';
-const facebookUrl = 'images/facebooknew.png';
+const googleUrl = '/images/google.png';
+const microsoftUrl = '/images/microsoft.png';
+const cokeUrl = '/images/coke.png';
+const appleUrl = '/images/apple.svg';
+const facebookUrl = '/images/facebooknew.png';
 
 function revealImage(image, url, button) {
 	image.src = url;
