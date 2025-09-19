@@ -59,7 +59,7 @@
         
         <!---->
         <link rel="shortcut icon" href="/images/logosvg.svg"><link rel="icon" href="/images/logosvg.svg">
-        <title>主页 - 香蕉新闻</title>
+        <title>搜索结果 - 香蕉新闻</title>
     </head>
     <body>
         <div id="top-container"><div class="topnav" id="myTopnav">
@@ -84,7 +84,122 @@
             <input placeholder="搜索" id="searchbar">
           </div></div>
         <br><br><br>
-       
+                   <br><br><br>
+            <div id="container">
+             <h2>搜索: "<span id="header"></span>" 的结果</h2>
+        <br>
+        <br>
+        <br>
+        <div id="searchResults">
+          <div id="loadingMessage">
+            <div id="animationbox">
+                <div id='newbanana'>
+                        <div id='newfirst'></div>
+                        <div id='newsecond'></div>
+                        <div id='newthird'></div>
+                        <div id='newfourth'></div>
+                        <div id='newmouth'></div>
+                        <div id='neweye1'></div>
+                        <div id='neweye2'></div>
+                        <div id='leg1'>
+                            <div class='foot'></div>
+                            <div class='leg'></div>
+                        </div>
+                        <div id='leg2'>
+                            <div class='foot'></div>
+                            <div class='leg'></div>
+                        </div>
+                    </div>
+                    <div id="ground">
+                        
+                    </div>
+                    <div id="rock"></div>
+            </div>
+          <p>
+            我们在努力检查这个网站。给我们一些秒钟。。。
+          </p>
+        </div>
+        <div id="noResults">
+            <h2>我们没有找到那个搜索的结果</h2>
+          <p>请检查您写对了吗。</p>
+          <div id='animation'>
+            <div id='banana'>
+                <div id='first'></div>
+                <div id='second'></div>
+                <div id='third'></div>
+                <div id='fourth'></div>
+                <div id='mouth'></div>
+                <div id='eye1'></div>
+                <div id='eye2'></div>
+                
+            </div>
+            <div id='mark1'><h2>?</h2></div>
+            <div id='mark2'><h2>?</h2></div>
+            <div id='mark3'><h2>?</h2></div>
+            <div id='mark4'><h2>?</h2></div>
+            <div id='mark5'><h2>?</h2></div>
+        </div>
+        </div></div>
+        <script>
+          const searchinput = document.getElementById('searchbar');
+          const divToShow = document.getElementById('div-to-show');
+          const container = document.getElementById('container');
+          const topnav = document.getElementById('myTopnav');
+   
+          function showSearch(){
+            container.style.filter = 'blur(10px)';
+            topnav.style.backgroundColor = '#444444';
+            divToShow.style.display = 'block';
+            divToShow.style.animation = 'slideDown 0.5s ease forwards';
+            setTimeout(function(){
+              searchinput.focus();
+            }, 500);
+          }
+   
+          const topContainer = document.getElementById('top-container');
+          topContainer.addEventListener('mouseleave', divUp);
+   
+          function divUp() {
+            console.log('mouse has left both elements.');
+            topnav.style.backgroundColor = '#555555';
+            divToShow.style.animation = 'slideUp 0.5s ease forwards';
+            container.style.filter = 'none';
+          }
+        </script>
+     <script> function animateMarks() {
+            var mark1 = document.getElementById('mark1');
+            var mark2 = document.getElementById('mark2');
+            var mark3 = document.getElementById('mark3');
+            var mark4 = document.getElementById('mark4');
+            var mark5 = document.getElementById('mark5');
+
+            mark1.style.display = "none";
+            mark2.style.display = "none";
+            mark3.style.display = "none";
+            mark4.style.display = "none";
+            mark5.style.display = "none";
+            
+            setTimeout(function() {
+                mark1.style.display = "block";
+            }, 250);
+            setTimeout(function() {
+                mark2.style.display = "block";
+            }, 500);
+            setTimeout(function() {
+                mark3.style.display = "block";
+            }, 750);
+            setTimeout(function() {
+                mark4.style.display = "block";
+            }, 1000);
+            setTimeout(function() {
+                mark5.style.display = "block";
+            }, 1250);
+
+            setTimeout(animateMarks, 2000);  // Repeat the animation every 2 seconds
+        }
+
+        animateMarks();</script></body>
+</html>
         <br><br><br>
         <footer>&copy; 香蕉新闻 2025。</footer>
         <!--请不要删除这行代码：-->

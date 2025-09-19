@@ -86,7 +86,7 @@
 
 
         <link rel="shortcut icon" href="/images/logosvg.svg"><link rel="icon" href="/images/logosvg.svg">
-        <title>Maths - Banana News</title>
+        <title>Year 5-6 Mathematics - Banana News</title>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
 <!--draw logos from memory-->
@@ -152,43 +152,139 @@
   <a href="/login" id="loginLink">Log In</a>
   <a href="#" id="logoutLink" style="display: none;">Log Out</a>
 </nav>
-                 <br><br><br>
-          <div id="container">
-          <div class="background">
-            
-            <img src="https://www.open.edu.au/-/media/blog/2023/03-march/careers-in-maths.jpg?h=477&iar=0&w=715&rev=47f96a32d6b4449993d9b33e5d8e7f05&hash=3607886828F85C66407623C78AC15EB9">
-            <h1>MATHS</h1>
-          </div>
-          <button onclick="window.location.href='/中文maths'">中文</button>
-            <h2>Hello! Welcome to maths. This is a lovely page where you can learn maths!</h2>
-            <div class="options">
-                <div class="options-div" title="/1stgrade">
-                    <img class="zoom-image" src="/images/lvl1 gromo-torture.png" alt="The bad beginning (#1)" height="275">
-                    <h2>1st grade maths</h2>
-                    <p>Learn about all sorts of mathematics, from addition to subtraction to number lines!</p> </div>
-                    <div class="options-div" title="/2ndgrade">
-                    <img class="zoom-image" src="/images/Level 2.png" alt="#2" height="300">
-                    <h2>2nd grade maths</h2>
-                    <p>Consolidate and extend on your knowledge from 1st grade maths.</p> </div>
-                    <div class="options-div" title="/3-4">
-                    
-                    <h2>3rd-4th grade maths</h2>
-                    <p>Consolidate and extend on your knowledge from 2nd grade maths.</p> </div>
-                <div class="options-div" title="/5-6">
-                    
-                    <h2>5th-6th grade maths</h2>
-                    <p>Consolidate and extend on your knowledge from 4th grade maths.</p> </div>
-                    <div class="options-div" title="/7-8">
-                    
-                    <h2>7th-8th grade maths</h2>
-                    <p>Consolidate and extend on your knowledge from 6th grade maths.</p> </div>
-<div class="options-div" title="/calculator">
-  <img src="/images/whatever.png" title="a calculator">
-  <h2>Calculator</h2>
-  <p>A basic four-function calculator.</p>
- </div>
+         
+    <div id="container">
+        <h1>Years 5-6 Mathematics</h1>
 
-</div>
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">🔢</div>
+                <h2>Working with Large Numbers</h2>
+            </div>
+            <p>In Years 5-6, we work with numbers up to millions. We identify and describe factors and multiples, and use estimation and rounding to check the reasonableness of answers.</p>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>What is 4,567,890 rounded to the nearest hundred thousand?</p>
+                    <p class="answer">4,600,000</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>List all the factors of 24.</p>
+                    <p class="answer">1, 2, 3, 4, 6, 8, 12, 24</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">➗</div>
+                <h2>Fractions, Decimals, and Percentages</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Connecting Different Representations</h3>
+                <p>We learn to make connections between fractions, decimals, and percentages. We solve problems involving addition and subtraction of fractions with related denominators.</p>
+            </div>
+            
+            <div class="decimal-visual">
+                <div class="decimal-block">0.25</div>
+                <div class="decimal-block">1/4</div>
+                <div class="percentage-circle">25%</div>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>What is 3/4 + 2/8? (Express in simplest form)</p>
+                    <p class="answer">3/4 + 2/8 = 6/8 + 2/8 = 8/8 = 1</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Convert 0.6 to a fraction and percentage.</p>
+                    <p class="answer">0.6 = 3/5 = 60%</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📐</div>
+                <h2>Geometry and Measurement</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Area, Volume, and Geometric Reasoning</h3>
+                <p>We learn to calculate the area of rectangles and the volume of rectangular prisms. We also investigate combinations of transformations and describe them using coordinates.</p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>What is the area of a rectangle with length 12 cm and width 7 cm?</p>
+                    <p class="answer">Area = length × width = 12 × 7 = 84 cm²</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>If a rectangular prism has dimensions 5 cm × 4 cm × 3 cm, what is its volume?</p>
+                    <p class="answer">Volume = length × width × height = 5 × 4 × 3 = 60 cm³</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📈</div>
+                <h2>Patterns and Algebra</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Introduction to Algebraic Thinking</h3>
+                <p>We continue and create sequences involving whole numbers, fractions, and decimals. We describe the rule used to create the sequence and find unknown quantities in number sentences.</p>
+            </div>
+            
+            <div class="algebra-expression">
+                <p>If 3 × ▢ + 5 = 20, what is the value of ▢?</p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>What is the next number in this pattern: 2, 5, 8, 11, ___?</p>
+                    <p class="answer">14 (adding 3 each time)</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>If 4 × n = 36, what is the value of n?</p>
+                    <p class="answer">n = 9</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Data and Chance</h2>
+            </div>
+            <p>We interpret and compare a range of data displays including stem-and-leaf plots and dot plots. We describe probabilities using fractions, decimals, and percentages.</p>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>If a spinner has 4 equal sections (red, blue, green, yellow), what is the probability of landing on blue?</p>
+                    <p class="answer">1/4 or 0.25 or 25%</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>In a class of 28 students, 16 are girls. What fraction of the class are boys?</p>
+                    <p class="answer">12/28 = 3/7</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        <script src="/scripts/1stgrade.js">
         <footer>&copy; Banana News 2025.</footer>
         <script src="/scripts/main.js"></script>
         <script src="/scripts/modal.js"></script>

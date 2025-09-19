@@ -59,7 +59,7 @@
         
         <!---->
         <link rel="shortcut icon" href="/images/logosvg.svg"><link rel="icon" href="/images/logosvg.svg">
-        <title>主页 - 香蕉新闻</title>
+        <title>计算器 - 香蕉新闻</title>
     </head>
     <body>
         <div id="top-container"><div class="topnav" id="myTopnav">
@@ -84,7 +84,51 @@
             <input placeholder="搜索" id="searchbar">
           </div></div>
         <br><br><br>
-       
+             <br><br><br><br><br><br><br><br>
+      <button onclick="window.location.href='cow'">English</button>
+     <br>
+  
+      <div id="container">
+            <h1 class="calch1">计算器<!--Program in JavaScript--> </h1>
+    <div class="formstyle">
+        <form name="form1">
+            
+            <input id="calc" type="text" name="answer">
+
+            <input type="button" value="AC" onclick="form1.answer.value=''">
+            <input type="button" value="&blacktriangleright;" onclick="backspace()">
+            <input type="button" value="00" onclick="form1.answer.value+='00'">
+            <input type="button" value="&divide;" onclick="form1.answer.value += '/'">
+            <br><br>
+
+            <input type="button" value="7" onclick="form1.answer.value += '7'">
+            <input type="button" value="8" onclick="form1.answer.value += '8'">
+            <input type="button" value="9" onclick="form1.answer.value += '9'">
+           
+            <input type="button" value="&times;" onclick="form1.answer.value += '*'">
+            <br><br>
+            <input type="button" value="4" onclick="form1.answer.value += '4'">
+            <input type="button" value="5" onclick="form1.answer.value += '5'">
+            <input type="button" value="6" onclick="form1.answer.value += '6'">
+            
+            <input type="button" value="-" onclick="form1.answer.value += '-'">
+            <br><br>
+            <div style="float:left;">
+              <input type="button" value="1" onclick="form1.answer.value += '1'">
+            <input type="button" value="2" onclick="form1.answer.value += '2'">
+            <input type="button" value="3" onclick="form1.answer.value += '3'">
+            <br><br>
+              <input type="button" value="0" onclick="form1.answer.value += '0'">
+            
+              <input type="button" value="." onclick="form1.answer.value += '.'">
+             <input type="button" value="=" onclick="calculate()">
+            </div>
+            
+           <input type="button" value="+" onclick="form1.answer.value += '+'" class="plus">
+        </form>
+    </div>
+
+
         <br><br><br>
         <footer>&copy; 香蕉新闻 2025。</footer>
         <!--请不要删除这行代码：-->

@@ -89,6 +89,30 @@ https://banana-news.github.io/banana/share_this_page
             createNumberLine();
             // Add any other initialization code here
         };
+         // Function to simplify algebraic expression
+        function simplifyExpression() {
+            const resultElement = document.getElementById('simplifiedResult');
+            resultElement.textContent = "2x + 3x - x = 4x";
+            resultElement.style.display = "block";
+        }
+        
+        // Function to simulate die roll
+        function rollDie() {
+            const result = Math.floor(Math.random() * 6) + 1;
+            const resultElement = document.getElementById('dieResult');
+            resultElement.textContent = `You rolled a ${result}!`;
+            resultElement.style.display = "block";
+        }
+        
+        // Function to toggle navigation on mobile
+        function toggleNav() {
+            const nav = document.getElementById("myTopnav");
+            if (nav.className === "topnav") {
+                nav.className += " responsive";
+            } else {
+                nav.className = "topnav";
+            }
+        }
         /*
         // Search functionality
         const searchinput = document.getElementById('searchbar');

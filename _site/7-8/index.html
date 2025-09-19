@@ -86,7 +86,7 @@
 
 
         <link rel="shortcut icon" href="/images/logosvg.svg"><link rel="icon" href="/images/logosvg.svg">
-        <title>Maths - Banana News</title>
+        <title>Year 7-8 Mathematics - Banana News</title>
         <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
 <!--draw logos from memory-->
@@ -152,43 +152,181 @@
   <a href="/login" id="loginLink">Log In</a>
   <a href="#" id="logoutLink" style="display: none;">Log Out</a>
 </nav>
-                 <br><br><br>
-          <div id="container">
-          <div class="background">
-            
-            <img src="https://www.open.edu.au/-/media/blog/2023/03-march/careers-in-maths.jpg?h=477&iar=0&w=715&rev=47f96a32d6b4449993d9b33e5d8e7f05&hash=3607886828F85C66407623C78AC15EB9">
-            <h1>MATHS</h1>
-          </div>
-          <button onclick="window.location.href='/中文maths'">中文</button>
-            <h2>Hello! Welcome to maths. This is a lovely page where you can learn maths!</h2>
-            <div class="options">
-                <div class="options-div" title="/1stgrade">
-                    <img class="zoom-image" src="/images/lvl1 gromo-torture.png" alt="The bad beginning (#1)" height="275">
-                    <h2>1st grade maths</h2>
-                    <p>Learn about all sorts of mathematics, from addition to subtraction to number lines!</p> </div>
-                    <div class="options-div" title="/2ndgrade">
-                    <img class="zoom-image" src="/images/Level 2.png" alt="#2" height="300">
-                    <h2>2nd grade maths</h2>
-                    <p>Consolidate and extend on your knowledge from 1st grade maths.</p> </div>
-                    <div class="options-div" title="/3-4">
-                    
-                    <h2>3rd-4th grade maths</h2>
-                    <p>Consolidate and extend on your knowledge from 2nd grade maths.</p> </div>
-                <div class="options-div" title="/5-6">
-                    
-                    <h2>5th-6th grade maths</h2>
-                    <p>Consolidate and extend on your knowledge from 4th grade maths.</p> </div>
-                    <div class="options-div" title="/7-8">
-                    
-                    <h2>7th-8th grade maths</h2>
-                    <p>Consolidate and extend on your knowledge from 6th grade maths.</p> </div>
-<div class="options-div" title="/calculator">
-  <img src="/images/whatever.png" title="a calculator">
-  <h2>Calculator</h2>
-  <p>A basic four-function calculator.</p>
- </div>
+            <div id="container">
+        <h1>Years 7-8 Mathematics</h1>
 
-</div>
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">🔢</div>
+                <h2>Number and Financial Mathematics</h2>
+            </div>
+            <p>In Years 7-8, we work with integers, fractions, decimals, and percentages. We solve problems involving percentages and money, including calculating percentage discounts and profits.</p>
+            
+            <div class="math-concept">
+                <h3>Working with Integers</h3>
+                <p>Integers include all positive and negative whole numbers, including zero. We learn to perform operations with integers and understand their real-world applications.</p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>Calculate 15% of $240.</p>
+                    <p class="answer">0.15 × 240 = $36</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>A shirt originally costs $60 and is on sale for 25% off. What is the sale price?</p>
+                    <p class="answer">Discount = 0.25 × 60 = $15, Sale price = $60 - $15 = $45</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Calculate: -15 + 23 - (-7)</p>
+                    <p class="answer">-15 + 23 = 8, 8 - (-7) = 8 + 7 = 15</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">𝑥</div>
+                <h2>Algebraic Techniques</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Working with Variables</h3>
+                <p>We extend and apply the distributive law to the expansion of algebraic expressions. We factorise algebraic expressions by identifying numerical factors.</p>
+            </div>
+            
+            <div class="algebra-equation">
+                <p>Expand: 3(2x + 5)</p>
+            </div>
+            
+            <div class="interactive-area">
+                <h3>Practice Simplifying Expressions</h3>
+                <div class="algebra-equation">
+                    <p id="expression">2x + 3x - x</p>
+                </div>
+                <button class="reveal-button" onclick="simplifyExpression()">Simplify</button>
+                <p id="simplifiedResult" class="answer"></p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>Expand 4(3x - 2)</p>
+                    <p class="answer">12x - 8</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Factorise 15x + 10</p>
+                    <p class="answer">5(3x + 2)</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Solve for x: 3x + 7 = 22</p>
+                    <p class="answer">3x = 15, x = 5</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📈</div>
+                <h2>Linear Relationships</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Graphing and Equations</h3>
+                <p>We plot linear relationships on the Cartesian plane with and without the use of digital technologies. We solve linear equations using algebraic techniques.</p>
+            </div>
+            
+            <div class="coordinate-grid">
+                <div class="coordinate-point" style="left: 25%; bottom: 25%;"></div>
+                <div class="coordinate-point" style="left: 50%; bottom: 50%;"></div>
+                <div class="coordinate-point" style="left: 75%; bottom: 75%;"></div>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>Plot the points (1, 2), (2, 4), and (3, 6) on a Cartesian plane. What do you notice?</p>
+                    <p class="answer">These points form a straight line with the equation y = 2x</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Find the gradient of the line that passes through points (1, 3) and (4, 9)</p>
+                    <p class="answer">Gradient = (9-3)/(4-1) = 6/3 = 2</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📐</div>
+                <h2>Measurement and Geometry</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Geometric Reasoning</h3>
+                <p>We identify corresponding, alternate, and co-interior angles when two straight lines are crossed by a transversal. We investigate conditions for two lines to be parallel.</p>
+            </div>
+            
+            <div class="geometry-net">
+                <div class="net-shape">Square</div>
+                <div class="net-shape">Triangle</div>
+                <div class="net-shape">Circle</div>
+                <div class="net-shape">Rectangle</div>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>Calculate the area of a circle with radius 5cm.</p>
+                    <p class="answer">Area = πr² = 3.14 × 25 = 78.5 cm²</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Find the volume of a rectangular prism with dimensions 5cm × 6cm × 10cm.</p>
+                    <p class="answer">Volume = 5 × 6 × 10 = 300 cm³</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>In a pair of parallel lines cut by a transversal, if one angle is 75°, what is its corresponding angle?</p>
+                    <p class="answer">Corresponding angles are equal, so it would also be 75°</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Statistics and Probability</h2>
+            </div>
+            <p>We identify and investigate data issues through numerical summaries and visual displays. We describe probabilities using fractions, decimals, and percentages, and conduct chance experiments.</p>
+            
+            <div class="interactive-area">
+                <h3>Probability Experiment</h3>
+                <p>Click the button to simulate rolling a die:</p>
+                <button class="reveal-button" onclick="rollDie()">Roll Die</button>
+                <p id="dieResult" class="answer"></p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>In a class of 28 students, 16 are girls. What fraction of the class are boys?</p>
+                    <p class="answer">12/28 = 3/7</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>If the probability of rain tomorrow is 0.3, what is the probability it won't rain?</p>
+                    <p class="answer">1 - 0.3 = 0.7 or 70%</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        <script src="/scripts/1stgrade.js"></script>
         <footer>&copy; Banana News 2025.</footer>
         <script src="/scripts/main.js"></script>
         <script src="/scripts/modal.js"></script>
