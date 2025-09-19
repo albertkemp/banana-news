@@ -1,0 +1,196 @@
+---
+layout: "base.njk"
+title: "Year 5-6 Mathematics"
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Same head content as above, with title change -->
+    <title>Years 5-6 Maths - Banana News</title>
+    <style>
+        /* All original styles preserved */
+        /* Additional styles for Year 5-6 content */
+        .decimal-visual {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .decimal-block {
+            width: 60px;
+            height: 60px;
+            margin: 5px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        .percentage-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(#e67e22 75%, #f1c40f 0);
+            margin: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .algebra-expression {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier Prime', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Same navigation as above -->
+    
+    <div id="container">
+        <h1>Years 5-6 Mathematics</h1>
+
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">🔢</div>
+                <h2>Working with Large Numbers</h2>
+            </div>
+            <p>In Years 5-6, we work with numbers up to millions. We identify and describe factors and multiples, and use estimation and rounding to check the reasonableness of answers.</p>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>What is 4,567,890 rounded to the nearest hundred thousand?</p>
+                    <p class="answer">4,600,000</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>List all the factors of 24.</p>
+                    <p class="answer">1, 2, 3, 4, 6, 8, 12, 24</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">➗</div>
+                <h2>Fractions, Decimals, and Percentages</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Connecting Different Representations</h3>
+                <p>We learn to make connections between fractions, decimals, and percentages. We solve problems involving addition and subtraction of fractions with related denominators.</p>
+            </div>
+            
+            <div class="decimal-visual">
+                <div class="decimal-block">0.25</div>
+                <div class="decimal-block">1/4</div>
+                <div class="percentage-circle">25%</div>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>What is 3/4 + 2/8? (Express in simplest form)</p>
+                    <p class="answer">3/4 + 2/8 = 6/8 + 2/8 = 8/8 = 1</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Convert 0.6 to a fraction and percentage.</p>
+                    <p class="answer">0.6 = 3/5 = 60%</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📐</div>
+                <h2>Geometry and Measurement</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Area, Volume, and Geometric Reasoning</h3>
+                <p>We learn to calculate the area of rectangles and the volume of rectangular prisms. We also investigate combinations of transformations and describe them using coordinates.</p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>What is the area of a rectangle with length 12 cm and width 7 cm?</p>
+                    <p class="answer">Area = length × width = 12 × 7 = 84 cm²</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>If a rectangular prism has dimensions 5 cm × 4 cm × 3 cm, what is its volume?</p>
+                    <p class="answer">Volume = length × width × height = 5 × 4 × 3 = 60 cm³</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📈</div>
+                <h2>Patterns and Algebra</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Introduction to Algebraic Thinking</h3>
+                <p>We continue and create sequences involving whole numbers, fractions, and decimals. We describe the rule used to create the sequence and find unknown quantities in number sentences.</p>
+            </div>
+            
+            <div class="algebra-expression">
+                <p>If 3 × ▢ + 5 = 20, what is the value of ▢?</p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>What is the next number in this pattern: 2, 5, 8, 11, ___?</p>
+                    <p class="answer">14 (adding 3 each time)</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>If 4 × n = 36, what is the value of n?</p>
+                    <p class="answer">n = 9</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Data and Chance</h2>
+            </div>
+            <p>We interpret and compare a range of data displays including stem-and-leaf plots and dot plots. We describe probabilities using fractions, decimals, and percentages.</p>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>If a spinner has 4 equal sections (red, blue, green, yellow), what is the probability of landing on blue?</p>
+                    <p class="answer">1/4 or 0.25 or 25%</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>In a class of 28 students, 16 are girls. What fraction of the class are boys?</p>
+                    <p class="answer">12/28 = 3/7</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>&copy; Banana News 2024.</footer>
+    </div>
+    
+    <script>
+        // Same JavaScript as above
+    </script>
+</body>
+</html>

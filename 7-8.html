@@ -1,0 +1,484 @@
+---
+layout: "base.njk"
+title: "Year 7-8 Mathematics"
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Years 7-8 Maths - Banana News</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        /* Core styles from original page */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .topnav {
+            background-color: #4a86e8;
+            overflow: hidden;
+            font-family: 'Roboto', sans-serif;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .topnav a:hover {
+            background-color: #3d70c0;
+        }
+        .topnav .icon {
+            display: none;
+        }
+        #container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #e67e22;
+            text-align: center;
+            font-family: 'Comfortaa', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #f1c40f;
+            padding-bottom: 10px;
+            font-family: 'Roboto', sans-serif;
+        }
+        h3 {
+            color: #2c3e50;
+            font-family: 'Roboto', sans-serif;
+        }
+        .newsdiv {
+            margin-bottom: 40px;
+            padding: 25px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border-left: 5px solid #3498db;
+        }
+        .math-concept {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .practice-box {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .practice-question {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 3px solid #3498db;
+        }
+        .reveal-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .reveal-button:hover {
+            background-color: #2980b9;
+        }
+        .interactive-area {
+            background-color: #f0f7ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .counter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .counter-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 0 15px;
+        }
+        .counter-value {
+            font-size: 24px;
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-family: 'Roboto', sans-serif;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .number-block {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            margin: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .section-icon {
+            font-size: 32px;
+            margin-right: 15px;
+            color: #3498db;
+        }
+        
+        /* New styles for Year 7-8 content */
+        .algebra-equation {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        .coordinate-grid {
+            width: 250px;
+            height: 250px;
+            margin: 20px auto;
+            position: relative;
+            border-left: 2px solid #333;
+            border-bottom: 2px solid #333;
+            background-image: linear-gradient(#eee 1px, transparent 1px),
+                              linear-gradient(90deg, #eee 1px, transparent 1px);
+            background-size: 25px 25px;
+        }
+        
+        .coordinate-point {
+            width: 10px;
+            height: 10px;
+            background-color: #e67e22;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, 50%);
+        }
+        
+        .geometry-net {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .net-shape {
+            width: 60px;
+            height: 60px;
+            margin: 8px;
+            background-color: #3498db;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 3px solid #2ecc71;
+        }
+        
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            #container {
+                padding: 15px;
+                margin: 10px;
+            }
+            .newsdiv {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="topnav" id="myTopnav">
+        <a href="index.html">Home</a>
+        <a href="news.html">News</a>
+        <a href="games.html">Fun</a>
+        <a href="tech.html">Tech</a>
+        <a href="politics.html">Politics</a>
+        <a href="maths.html">Maths</a>
+        <a href="geography.html">Geography</a>
+        <a href="contributors.html">Contributors</a>
+        <a href="science.html">Science</a>
+        <a href="javascript:void(0);" class="icon" onclick="toggleNav()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    
+    <div id="container">
+        <h1>Years 7-8 Mathematics</h1>
+
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">🔢</div>
+                <h2>Number and Financial Mathematics</h2>
+            </div>
+            <p>In Years 7-8, we work with integers, fractions, decimals, and percentages. We solve problems involving percentages and money, including calculating percentage discounts and profits.</p>
+            
+            <div class="math-concept">
+                <h3>Working with Integers</h3>
+                <p>Integers include all positive and negative whole numbers, including zero. We learn to perform operations with integers and understand their real-world applications.</p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>Calculate 15% of $240.</p>
+                    <p class="answer">0.15 × 240 = $36</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>A shirt originally costs $60 and is on sale for 25% off. What is the sale price?</p>
+                    <p class="answer">Discount = 0.25 × 60 = $15, Sale price = $60 - $15 = $45</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Calculate: -15 + 23 - (-7)</p>
+                    <p class="answer">-15 + 23 = 8, 8 - (-7) = 8 + 7 = 15</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">𝑥</div>
+                <h2>Algebraic Techniques</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Working with Variables</h3>
+                <p>We extend and apply the distributive law to the expansion of algebraic expressions. We factorise algebraic expressions by identifying numerical factors.</p>
+            </div>
+            
+            <div class="algebra-equation">
+                <p>Expand: 3(2x + 5)</p>
+            </div>
+            
+            <div class="interactive-area">
+                <h3>Practice Simplifying Expressions</h3>
+                <div class="algebra-equation">
+                    <p id="expression">2x + 3x - x</p>
+                </div>
+                <button class="reveal-button" onclick="simplifyExpression()">Simplify</button>
+                <p id="simplifiedResult" class="answer"></p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>Expand 4(3x - 2)</p>
+                    <p class="answer">12x - 8</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Factorise 15x + 10</p>
+                    <p class="answer">5(3x + 2)</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Solve for x: 3x + 7 = 22</p>
+                    <p class="answer">3x = 15, x = 5</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📈</div>
+                <h2>Linear Relationships</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Graphing and Equations</h3>
+                <p>We plot linear relationships on the Cartesian plane with and without the use of digital technologies. We solve linear equations using algebraic techniques.</p>
+            </div>
+            
+            <div class="coordinate-grid">
+                <div class="coordinate-point" style="left: 25%; bottom: 25%;"></div>
+                <div class="coordinate-point" style="left: 50%; bottom: 50%;"></div>
+                <div class="coordinate-point" style="left: 75%; bottom: 75%;"></div>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>Plot the points (1, 2), (2, 4), and (3, 6) on a Cartesian plane. What do you notice?</p>
+                    <p class="answer">These points form a straight line with the equation y = 2x</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Find the gradient of the line that passes through points (1, 3) and (4, 9)</p>
+                    <p class="answer">Gradient = (9-3)/(4-1) = 6/3 = 2</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📐</div>
+                <h2>Measurement and Geometry</h2>
+            </div>
+            <div class="math-concept">
+                <h3>Geometric Reasoning</h3>
+                <p>We identify corresponding, alternate, and co-interior angles when two straight lines are crossed by a transversal. We investigate conditions for two lines to be parallel.</p>
+            </div>
+            
+            <div class="geometry-net">
+                <div class="net-shape">Square</div>
+                <div class="net-shape">Triangle</div>
+                <div class="net-shape">Circle</div>
+                <div class="net-shape">Rectangle</div>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>Calculate the area of a circle with radius 5cm.</p>
+                    <p class="answer">Area = πr² = 3.14 × 25 = 78.5 cm²</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>Find the volume of a rectangular prism with dimensions 5cm × 6cm × 10cm.</p>
+                    <p class="answer">Volume = 5 × 6 × 10 = 300 cm³</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>In a pair of parallel lines cut by a transversal, if one angle is 75°, what is its corresponding angle?</p>
+                    <p class="answer">Corresponding angles are equal, so it would also be 75°</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="newsdiv">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>Statistics and Probability</h2>
+            </div>
+            <p>We identify and investigate data issues through numerical summaries and visual displays. We describe probabilities using fractions, decimals, and percentages, and conduct chance experiments.</p>
+            
+            <div class="interactive-area">
+                <h3>Probability Experiment</h3>
+                <p>Click the button to simulate rolling a die:</p>
+                <button class="reveal-button" onclick="rollDie()">Roll Die</button>
+                <p id="dieResult" class="answer"></p>
+            </div>
+            
+            <div class="practice-box">
+                <h3>Practice Questions</h3>
+                <div class="practice-question">
+                    <p>In a class of 28 students, 16 are girls. What fraction of the class are boys?</p>
+                    <p class="answer">12/28 = 3/7</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+                <div class="practice-question">
+                    <p>If the probability of rain tomorrow is 0.3, what is the probability it won't rain?</p>
+                    <p class="answer">1 - 0.3 = 0.7 or 70%</p>
+                    <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>&copy; Banana News 2024.</footer>
+    </div>
+    
+    <script>
+        // Function to reveal/hide answers
+        function revealAnswer(button) {
+            var answer = button.previousElementSibling;
+            if (answer.style.display === "none" || answer.style.display === "") {
+                answer.style.display = "block";
+                button.textContent = "Hide Answer";
+            } else {
+                answer.style.display = "none";
+                button.textContent = "Reveal Answer";
+            }
+        }
+        
+        // Function to simplify algebraic expression
+        function simplifyExpression() {
+            const resultElement = document.getElementById('simplifiedResult');
+            resultElement.textContent = "2x + 3x - x = 4x";
+            resultElement.style.display = "block";
+        }
+        
+        // Function to simulate die roll
+        function rollDie() {
+            const result = Math.floor(Math.random() * 6) + 1;
+            const resultElement = document.getElementById('dieResult');
+            resultElement.textContent = `You rolled a ${result}!`;
+            resultElement.style.display = "block";
+        }
+        
+        // Function to toggle navigation on mobile
+        function toggleNav() {
+            const nav = document.getElementById("myTopnav");
+            if (nav.className === "topnav") {
+                nav.className += " responsive";
+            } else {
+                nav.className = "topnav";
+            }
+        }
+    </script>
+</body>
+</html>
