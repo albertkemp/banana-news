@@ -64,6 +64,7 @@ https://banana-news.github.io/banana/share_this_page
 
 .options-div:hover, .newtab-div:hover {
   background-color: #d3d3d3;
+  transform:scale(1.2)
 }
 
 @media (max-width: 768px) {
