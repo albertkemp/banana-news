@@ -174,6 +174,141 @@ title: "Year 7-8 Mathematics"
                     <p class="answer">1 - 0.3 = 0.7 or 70%</p>
                     <button class="reveal-button" onclick="revealAnswer(this)">Reveal Answer</button>
                 </div>
+
             </div>
+               <h1>Introduction to Quadratic Equations</h1>
+
+    <div class="newsdiv">
+        <div class="section-header">
+            <div class="section-icon">📊</div>
+            <h2>What are Quadratic Equations?</h2>
+        </div>
+        <p>Quadratic equations are polynomial equations of the form:</p>
+        <div class="quadratic-formula">
+            ax² + bx + c = 0
+        </div>
+        <p>Where a, b, and c are constants, and a ≠ 0. The graph of a quadratic equation is always a parabola.</p>
+        
+        <div class="math-concept">
+            <h3>Key Components</h3>
+            <ul>
+                <li><strong>a</strong> - Determines the parabola's direction and width</li>
+                <li><strong>b</strong> - Affects the position of the vertex</li>
+                <li><strong>c</strong> - The y-intercept of the parabola</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="newsdiv">
+        <div class="section-header">
+            <div class="section-icon">📈</div>
+            <h2>Graphing Quadratic Equations</h2>
+        </div>
+        <p>The graph of any quadratic equation is a parabola, which is a U-shaped curve. Let's explore how different values affect the shape:</p>
+        
+        <div class="interactive-area">
+            <h3>Interactive Parabola Explorer</h3>
+            <div class="coefficient-controls">
+                <div class="coefficient-control">
+                    <label for="a-value">a coefficient:</label>
+                    <input type="number" id="a-value" value="1" step="0.5">
+                </div>
+                <div class="coefficient-control">
+                    <label for="b-value">b coefficient:</label>
+                    <input type="number" id="b-value" value="0" step="0.5">
+                </div>
+                <div class="coefficient-control">
+                    <label for="c-value">c coefficient:</label>
+                    <input type="number" id="c-value" value="0" step="0.5">
+                </div>
+            </div>
+            
+            <div class="graph-container">
+                <canvas id="parabola-graph"></canvas>
+            </div>
+            
+            <div class="parabola-properties">
+                <div class="property-box">
+                    <div>Direction</div>
+                    <div class="property-value" id="direction-value">Upward</div>
+                </div>
+                <div class="property-box">
+                    <div>Vertex</div>
+                    <div class="property-value" id="vertex-value">(0, 0)</div>
+                </div>
+                <div class="property-box">
+                    <div>Y-Intercept</div>
+                    <div class="property-value" id="yintercept-value">(0, 0)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="newsdiv">
+        <div class="section-header">
+            <div class="section-icon">🧮</div>
+            <h2>The Quadratic Formula</h2>
+        </div>
+        <p>The quadratic formula is used to find the roots (solutions) of any quadratic equation:</p>
+        
+        <div class="quadratic-formula">
+            x = [-b ± √(b² - 4ac)] / 2a
+        </div>
+        
+        <div class="math-concept">
+            <h3>Discriminant</h3>
+            <p>The expression under the square root (b² - 4ac) is called the discriminant. It tells us about the nature of the roots:</p>
+            <ul>
+                <li><strong>Positive discriminant</strong> - Two real roots</li>
+                <li><strong>Zero discriminant</strong> - One real root (repeated)</li>
+                <li><strong>Negative discriminant</strong> - Two complex roots</li>
+            </ul>
+        </div>
+        
+        <div class="practice-box">
+            <h3>Practice Using the Formula</h3>
+            <div class="practice-question">
+                <p>Solve: x² + 5x + 6 = 0</p>
+                <p class="answer">x = [-5 ± √(25 - 24)] / 2 = [-5 ± 1]/2 → x = -2 or x = -3</p>
+                <button class="reveal-button">Reveal Answer</button>
+            </div>
+            <div class="practice-question">
+                <p>Solve: 2x² - 4x - 6 = 0</p>
+                <p class="answer">x = [4 ± √(16 + 48)] / 4 = [4 ± √64]/4 = [4 ± 8]/4 → x = 3 or x = -1</p>
+                <button class="reveal-button">Reveal Answer</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="newsdiv">
+        <div class="section-header">
+            <div class="section-icon">🔍</div>
+            <h2>Factoring Quadratic Equations</h2>
+        </div>
+        <p>Many quadratic equations can be solved by factoring. The general approach is to find two numbers that multiply to ac and add to b.</p>
+        
+        <div class="math-concept">
+            <h3>Factoring Patterns</h3>
+            <ul>
+                <li><strong>Perfect Square</strong>: a² + 2ab + b² = (a + b)²</li>
+                <li><strong>Difference of Squares</strong>: a² - b² = (a + b)(a - b)</li>
+                <li><strong>Simple Trinomial</strong>: x² + bx + c = (x + m)(x + n) where m×n=c and m+n=b</li>
+            </ul>
+        </div>
+        
+        <div class="practice-box">
+            <h3>Practice Factoring</h3>
+            <div class="practice-question">
+                <p>Factor: x² + 7x + 12</p>
+                <p class="answer">(x + 3)(x + 4)</p>
+                <button class="reveal-button">Reveal Answer</button>
+            </div>
+            <div class="practice-question">
+                <p>Factor: x² - 9</p>
+                <p class="answer">(x + 3)(x - 3)</p>
+                <button class="reveal-button">Reveal Answer</button>
+            </div>
+        </div>
+    </div>
         </div>
         <script src="/scripts/1stgrade.js"></script>
