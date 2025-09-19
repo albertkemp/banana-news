@@ -46,7 +46,7 @@ https://banana-news.github.io/banana/share_this_page
 .options-div, .newtab-div {
   border-radius: 10px;
   padding: 35px;
-  background-color: #FFE135;
+
   border: 2.5px solid #808080;
   color: #000000;
   transition: 0.25s ease-in-out;
@@ -63,7 +63,8 @@ https://banana-news.github.io/banana/share_this_page
 }
 
 .options-div:hover, .newtab-div:hover {
-  background-color: #d3d3d3;
+  
+  transform:scale(1.1)
 }
 
 @media (max-width: 768px) {
