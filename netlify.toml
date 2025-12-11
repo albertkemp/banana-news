@@ -5,7 +5,3 @@ directory = "scripts/functions"
   [headers.values]
     Cache-Control = "public, max-age=60, must-revalidate"
     
-[build]
-  base = "local_frame/flat_minecraft"
-  command = "npm run build"
-  publish = "dist"
