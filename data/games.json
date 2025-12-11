@@ -6,6 +6,13 @@
     "title": "",
     "url": ""
   },
+  "OlympicGarden": {
+    "header": "Olympic Garden",
+    "text": "Beat the minigame to win the whole game",
+    "img": "/images/olympicgarden.png",
+    "title": "/olympicgarden",
+    "url": "/olympicgarden"
+  },
   "CoinAdventure": {
     "header": "Coin Adventure",
     "text": "Collect all the coins and dodge fire to win!",
