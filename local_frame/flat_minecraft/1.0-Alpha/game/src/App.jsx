@@ -1,13 +1,22 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useRef } from 'react'
+import { useContext } from 'react'
 import { useImperativeHandle } from 'react'
+import { useId } from 'react'
 import { forwardRef } from 'react'
+import { createContext } from 'react';
 import './App.css'
+import { start20TPSLoop, tick } from './minecraftEngine.js'
+import { __default__ } from './default.js'
 import arm from '/steve_arm.png'
 import head from '/steve_head.png'
 import body from '/steve.png'
 import leg from '/steve_leg.png'
+import dirt from '/dirt.jpg'
+
+const pos = createContext({x: 0, y: 0})
+const world = createContext([0, [], [], [], 0])
 
 const Player = forwardRef((props, ref)=>{
   const [head_angle, setHead_angle] = useState(0);
@@ -33,8 +42,9 @@ const Player = forwardRef((props, ref)=>{
 
   return (
     <>
-      <img src={head} style={{
+      <img src={head} className="no-drag" style={{
           position: "absolute",
+          zIndex: 3, 
           left: head_pos.x,
           top: head_pos.y,
           width: "64px",
@@ -42,8 +52,9 @@ const Player = forwardRef((props, ref)=>{
           transform: `rotate(${head_angle}deg)`
         }}/>
       <br/>
-      <img src={arm} style={{
+      <img src={arm} className="no-drag" style={{
           position: "absolute",
+          zIndex: 4, 
           left: arm_pos.x,
           top: arm_pos.y,
           width: "100px",
@@ -51,8 +62,9 @@ const Player = forwardRef((props, ref)=>{
           transform: `rotate(${arm_angle}deg)`
         }}/>
       <br/>
-      <img src={body} style={{
+      <img src={body} className="no-drag" style={{
           position: "absolute",
+          zIndex: 1, 
           left: body_pos.x,
           top: body_pos.y,
           width: "32px",
@@ -60,8 +72,9 @@ const Player = forwardRef((props, ref)=>{
           transform: `rotate(${body_angle}deg)`
         }}/>
       <br/>
-      <img src={leg} style={{
+      <img src={leg} className="no-drag" style={{
           position: "absolute",
+          zIndex: 2, 
           left: leg_pos.x,
           top: leg_pos.y,
           width: "32px",
@@ -72,21 +85,30 @@ const Player = forwardRef((props, ref)=>{
   )
 })
 
-function Block(type, x, y){
+function Block(props){
+  const P_pos = useContext(pos)
+  const R_pos = {x: P_pos.x+props.x, y: P_pos.y+props.y}
   return(
     <>
-      <h1>Block</h1>
+      <img src={dirt} className="no-drag" style={{
+        position: "absolute", 
+        left: R_pos.x*100+window.innerWidth/2,
+        top: R_pos.y*100+window.innerHeight/2,
+        width: "100px", 
+        height: "100px"
+      }}/>
     </>
   )
 }
 
 function Blocks(){
-  const [blockRenderList, setBlockRenderList] = useState([{type: "oak_planks", key: 0, x: 0, y: 0}])
+  //[{type: "oak_planks", key: 0, x: 1, y: 0}, {type: "oak_planks", key: 1, x: 0, y: 0}, {type: "oak_planks", key: 2, x: -1, y: 0}, {type: "oak_planks", key: 3, x: 1, y: -1}, {type: "oak_planks", key: 4, x: 0, y: -1}, {type: "oak_planks", key: 5, x: -1, y: -1}]
+  const [blockRenderList, setBlockRenderList] = useState(useContext(world)[3])
   return (
     <>
       {blockRenderList.map((block) => {
         return (
-          <Block key={block.key} type={block.type} x={block.x} y={block.y}/>
+          <Block key={Math.random()} type={block.type} x={block.x} y={block.y}/>
         )
       })}
     </>
@@ -115,15 +137,21 @@ function Entities(){
 }
 
 function Game(){
+  const [engineList, setEngineList] = useState(__default__)
   const gateRef = useRef();
   useEffect(() => {
-    gateRef.current.update(500, 500)
+    gateRef.current.update(window.innerWidth/2, window.innerHeight/2)
   }, []);
+  start20TPSLoop(tick, setEngineList, engineList)
   return (
     <>
-      <Player ref={gateRef}/>
-      <Entities/>
-      <Blocks/>
+      <pos.Provider value={{x: 0, y: 1}}>
+        <world.Provider value={engineList}>
+          <Player ref={gateRef}/>
+          <Entities/>
+          <Blocks/>
+        </world.Provider>
+      </pos.Provider>
     </>
   )
 }

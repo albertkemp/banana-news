@@ -24,17 +24,18 @@ function tick(input){
 
     tick++
 
-    for(p of player){
+    for(let p of player){
         if(p?.action?.place?.slot != undefined && p?.action?.place?.pos?.x != undefined && p?.action?.place?.pos?.y != undefined){
-            for(i of block){
+            _ = true
+            for(let i of block){
                 if(i.x == p.action.place.pos.x && i.y == p.action.place.pos.y){
-                    _ = block.indexOf(i)
-                    if(_==-1){
-                        block.push(p.inventory.hotbar[p.action.place.slot])
-                    } else {
-                        block[_] = p.inventory.hotbar[p.action.place.slot]
-                    }
+                    _ = false
                 }
+            }
+            if(_){
+                block.push({type: p.inventory.hotbar[p.action.place.slot].type, x: p.action.place.pos.x, y: p.action.place.pos.y})
+                _ = player.indexOf(p)
+                player[_].action.place = undefined
             }
         }
     }
@@ -42,6 +43,8 @@ function tick(input){
     output.push(player, entity, block, tick)
     return output;
 }
+
+export { start20TPSLoop, tick }
 
 //input = [seed, player, entity, block]
 //input = [123456789, [{username: "h7777", inventory: {hotbar: [{type: "oak_log", ammount: 1}]}}], [{x: 0, y: 0, type: "arrow"}, {x: 0, y: 0, type: "player"}], [{x: 0, y: -1, type: "oak_plank"}], 0]
