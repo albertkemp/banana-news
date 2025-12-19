@@ -1,8 +1,11 @@
+const uuid =  crypto.randomUUID();
+
 const __default__ = [
   123456789,
   [
     {
       username: "h7777",
+      uuid: uuid, 
       inventory: {
         hotbar: [
           {
@@ -50,19 +53,30 @@ const __default__ = [
                 x: 1, 
                 y: -1
             }
+        }, 
+        break: {
+            slot: 0, 
+            pos: {
+                x: 1, 
+                y: -1
+            }
         }
-      }
+      }, 
     }
   ],
   [
     {
       x: 0,
       y: 0,
+      v: [100, 0],
+      uuid: crypto.randomUUID(), 
       type: "arrow"
     },
     {
       x: 0,
       y: 0,
+      v: [0, 0],
+      uuid: uuid, 
       type: "player"
     }
   ],

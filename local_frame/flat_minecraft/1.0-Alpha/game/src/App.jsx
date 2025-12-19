@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useRef } from 'react'
 import { useContext } from 'react'
 import { useImperativeHandle } from 'react'
-import { useId } from 'react'
 import { forwardRef } from 'react'
 import { createContext } from 'react';
 import './App.css'
@@ -14,6 +13,8 @@ import head from '/steve_head.png'
 import body from '/steve.png'
 import leg from '/steve_leg.png'
 import dirt from '/dirt.jpg'
+import oak_plank from '/oak_plank.jpg'
+import oak_log from '/oak_log.jpg'
 
 const pos = createContext({x: 0, y: 0})
 const world = createContext([0, [], [], [], 0])
@@ -51,7 +52,6 @@ const Player = forwardRef((props, ref)=>{
           height: "64px",
           transform: `rotate(${head_angle}deg)`
         }}/>
-      <br/>
       <img src={arm} className="no-drag" style={{
           position: "absolute",
           zIndex: 4, 
@@ -61,7 +61,6 @@ const Player = forwardRef((props, ref)=>{
           height: "32px",
           transform: `rotate(${arm_angle}deg)`
         }}/>
-      <br/>
       <img src={body} className="no-drag" style={{
           position: "absolute",
           zIndex: 1, 
@@ -71,7 +70,6 @@ const Player = forwardRef((props, ref)=>{
           height: "100px",
           transform: `rotate(${body_angle}deg)`
         }}/>
-      <br/>
       <img src={leg} className="no-drag" style={{
           position: "absolute",
           zIndex: 2, 
@@ -88,9 +86,23 @@ const Player = forwardRef((props, ref)=>{
 function Block(props){
   const P_pos = useContext(pos)
   const R_pos = {x: P_pos.x+props.x, y: P_pos.y+props.y}
+  let src;
+  switch (props.type) {
+    case "dirt":
+      src = dirt;
+      break;
+    case "oak_plank":
+      src = oak_plank;
+      break;
+    case "oak_log":
+      src = oak_log;
+      break;
+    default:
+      break;
+  }
   return(
     <>
-      <img src={dirt} className="no-drag" style={{
+      <img src={src} className="no-drag" style={{
         position: "absolute", 
         left: R_pos.x*100+window.innerWidth/2,
         top: R_pos.y*100+window.innerHeight/2,
