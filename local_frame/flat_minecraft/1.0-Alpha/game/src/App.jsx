@@ -156,13 +156,52 @@ function Game(){
   }, [window.innerWidth, window.innerHeight]);
   useEffect(()=>{
     const username = "h7777"
-    const a = () => {
-      for(let i of engineList[1]){
-        if(i.username == username){
-          _ = engineList[1].indexOf(i)
+    const keys = new Set();
+    const blockedCombos = new Set([
+      "Ctrl+KeyD",
+      "Ctrl+KeyS",
+      "Ctrl+KeyP",
+      "Ctrl+KeyR",
+      "Ctrl+KeyW",
+      "Ctrl+KeyT",
+      "Space",
+      "Tab",
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+    ]);
+    const update = () => {
+      for(let j of keys){
+        for(let i of engineList[1]){
+          if(i.username == username){
+            let _ = engineList[1].indexOf(i)
+            engineList[1][_].action.Hmotion = {}
+            engineList[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("ControlLeft") || keys.has("ControlRight") ? "sprint" : "walk"
+            engineList[1][_].action.Hmotion.dir = j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : engineList[1][_].action.Hmotion.dir;
+          }
         }
       }
     }
+    window.addEventListener("keydown", (e) => {
+      keys.add(e.code);
+      const combo =
+        (e.ctrlKey ? "Ctrl+" : "") +
+        (e.shiftKey ? "Shift+" : "") +
+        (e.altKey ? "Alt+" : "") +
+        e.code;
+
+      if (blockedCombos.has(combo)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      update()
+    });
+
+    window.addEventListener("keyup", (e) => {
+      keys.delete(e.code);
+      update()
+    });
   }, [])
   let playerPos = {x: 0, y: 0}
   for(let i of engineList[1]){

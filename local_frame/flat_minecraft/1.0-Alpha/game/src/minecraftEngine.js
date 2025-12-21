@@ -147,15 +147,20 @@ function tick(input){
         for(let i of entity){
             if(i.uuid==p.uuid){
                 _=entity.indexOf(i)
-                let V_coefficient = p.action.Hmotion.type == "sprint" ? 1.3 : p.action.Hmotion.type == "walk" ? 1 : p.action.Hmotion.type == "sneak" ? 0.3 : 0
+                let V_coefficient = p.action.Hmotion?.type == "sprint" ? 1.3 : p.action.Hmotion?.type == "walk" ? 1 : p.action.Hmotion?.type == "sneak" ? 0.3 : 0
                 let S_coefficient;
+                let dir = p.action.Hmotion?.dir ?? 0;
+                if(dir != -1 && dir != 0 && dir != 1){
+                    dir = 0;
+                }
                 for(let j of block){
                     if(Math.floor(entity[_].x)==j.x && Math.floor(entity[_].y-0.501)==j.y){
                         S_coefficient = property.blocks?.[j?.type].s
                     }
                 }
                 S_coefficient = S_coefficient??1
-                entity[_].x += entity[_].v[0]*entity[_].s*0.91+0.1*V_coefficient*(0.6/S_coefficient)**3
+                entity[_].x += entity[_].v[0]
+                entity[_].v[0] = dir*(entity[_].v[0]*entity[_].s*0.91+0.1*V_coefficient*(0.6/S_coefficient)**3)
                 entity[_].s = S_coefficient
             }
         }
