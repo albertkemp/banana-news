@@ -1,0 +1,19 @@
+---
+layout: "base.njk"
+title: "Not found"
+---
+<div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const newButton = document.createElement("button");
+            newButton.innerHTML = "Back to BN";
+            newButton.type = "button";
+            newButton.addEventListener("click", function() {
+                window.location.href = "/"
+            });
+            document.body.appendChild(newButton);
+        });
+    </script>
+    <h1>The page you were looking for was not found</h1>
+    <p>Back to BN? </p>
+</div>
