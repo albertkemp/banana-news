@@ -31,17 +31,20 @@ function tick(input){
             dirt: {
                 hardness: 0.5, 
                 tool: [[3, 1]], //0 = sword, 1 = axe, 2 = pickaxe, 3 = shovel, 4 = hoe/ 2nd part = cost/durrability loss
-                min_tool: ["none", "Dwood", "Dstone", "Ddiamond", "Dgold", "Dshears", "Dsword"]
+                min_tool: ["none", "Dwood", "Dstone", "Ddiamond", "Dgold", "Dshears", "Dsword"], 
+                s: 0.6
             }, 
             oak_log: {
                 hardness: 2, 
                 tool: [[1, 1]], 
-                min_tool: ["none", "Dwood", "Dstone", "Ddiamond", "Dgold", "Dshears", "Dsword"]
+                min_tool: ["none", "Dwood", "Dstone", "Ddiamond", "Dgold", "Dshears", "Dsword"], 
+                s: 0.6
             }, 
             oak_plank: {
                 hardness: 2, 
                 tool: [[1, 1]], 
-                min_tool: ["none", "Dwood", "Dstone", "Ddiamond", "Dgold", "Dshears", "Dsword"]
+                min_tool: ["none", "Dwood", "Dstone", "Ddiamond", "Dgold", "Dshears", "Dsword"], 
+                s: 0.6
             }
         }, 
         item: {
@@ -95,7 +98,7 @@ function tick(input){
             Basword: {
                 speed: 30
             }
-        }
+        }, 
     }
 
     tick++
@@ -141,6 +144,19 @@ function tick(input){
                     //block[_]
                 }
             }
+        }
+    }
+
+    for(let p of player){
+        if(p?.action?.Hmotion?.type != undefined && p?.action?.Hmotion?.dir != undefined){
+            for(let i of entity){
+                if(i.uuid==p.uuid){
+                    _=entity.indexOf(i)
+                    entity[_].x += 0.05
+                }
+            }
+            _=player.indexOf(p)
+            delete player[_].action.Hmotion
         }
     }
 

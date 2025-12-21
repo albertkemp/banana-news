@@ -60,6 +60,10 @@ const __default__ = [
                 x: 1, 
                 y: -1
             }
+        }, 
+        Hmotion: {
+            type: 1, 
+            dir: 1
         }
       }, 
     }

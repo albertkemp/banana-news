@@ -85,7 +85,7 @@ const Player = forwardRef((props, ref)=>{
 
 function Block(props){
   const P_pos = useContext(pos)
-  const R_pos = {x: P_pos.x+props.x, y: P_pos.y+props.y}
+  const R_pos = {x: props.x-P_pos.x, y: props.y-P_pos.y}
   let src;
   switch (props.type) {
     case "dirt":
@@ -105,7 +105,7 @@ function Block(props){
       <img src={src} className="no-drag" style={{
         position: "absolute", 
         left: R_pos.x*100+window.innerWidth/2,
-        top: R_pos.y*100+window.innerHeight/2,
+        top: R_pos.y*100+100+window.innerHeight/2,
         width: "100px", 
         height: "100px"
       }}/>
@@ -153,11 +153,31 @@ function Game(){
   const gateRef = useRef();
   useEffect(() => {
     gateRef.current.update(window.innerWidth/2, window.innerHeight/2)
-  }, []);
+  }, [window.innerWidth, window.innerHeight]);
+  useEffect(()=>{
+    const username = "h7777"
+    const a = () => {
+      for(let i of engineList[1]){
+        if(i.username == username){
+          _ = engineList[1].indexOf(i)
+        }
+      }
+    }
+  }, [])
+  let playerPos = {x: 0, y: 0}
+  for(let i of engineList[1]){
+    if(i.username == "h7777"){
+      for(let j of engineList[2]){
+        if(j.uuid==i.uuid){
+          playerPos = {x: j.x, y: j.y}
+        }
+      }
+    }
+  }
   start20TPSLoop(tick, setEngineList, engineList)
   return (
     <>
-      <pos.Provider value={{x: 0, y: 1}}>
+      <pos.Provider value={playerPos}>
         <world.Provider value={engineList}>
           <Player ref={gateRef}/>
           <Entities/>
