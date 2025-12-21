@@ -62,7 +62,7 @@ const __default__ = [
             }
         }, 
         Hmotion: {
-            type: 1, 
+            type: "walk", 
             dir: 1
         }
       }, 
@@ -74,6 +74,7 @@ const __default__ = [
       y: 0,
       v: [100, 0],
       uuid: crypto.randomUUID(), 
+      s: 0, 
       type: "arrow"
     },
     {
@@ -81,6 +82,7 @@ const __default__ = [
       y: 0,
       v: [0, 0],
       uuid: uuid, 
+      s: 0, 
       type: "player"
     }
   ],

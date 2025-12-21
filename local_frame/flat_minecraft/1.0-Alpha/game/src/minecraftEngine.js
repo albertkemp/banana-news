@@ -22,10 +22,6 @@ function tick(input){
     let output = [seed]
     let _
 
-    function defined_check(arr) {
-        return arr.filter(element => element !== undefined);
-    }
-
     const property = {
         blocks:{
             dirt: {
@@ -148,20 +144,26 @@ function tick(input){
     }
 
     for(let p of player){
-        if(p?.action?.Hmotion?.type != undefined && p?.action?.Hmotion?.dir != undefined){
-            for(let i of entity){
-                if(i.uuid==p.uuid){
-                    _=entity.indexOf(i)
-                    entity[_].x += 0.05
+        for(let i of entity){
+            if(i.uuid==p.uuid){
+                _=entity.indexOf(i)
+                let V_coefficient = p.action.Hmotion.type == "sprint" ? 1.3 : p.action.Hmotion.type == "walk" ? 1 : p.action.Hmotion.type == "sneak" ? 0.3 : 0
+                let S_coefficient;
+                for(let j of block){
+                    if(Math.floor(entity[_].x)==j.x && Math.floor(entity[_].y-0.501)==j.y){
+                        S_coefficient = property.blocks?.[j?.type].s
+                    }
                 }
+                S_coefficient = S_coefficient??1
+                entity[_].x += entity[_].v[0]*entity[_].s*0.91+0.1*V_coefficient*(0.6/S_coefficient)**3
+                entity[_].s = S_coefficient
             }
-            _=player.indexOf(p)
-            delete player[_].action.Hmotion
         }
+        _=player.indexOf(p)
+        delete player[_].action.Hmotion
     }
 
     output.push(player, entity, block, tick)
-    defined_check(output)
     return output;
 }
 
