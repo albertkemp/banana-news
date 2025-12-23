@@ -525,3 +525,18 @@ footer {
 }
 @media(max-width:768px){p{font-size:18px;}#coingame{width:100%;height:300px;}}
 
+#conts{
+  background-color: rgb(255, 255, 255);
+  border-radius: 3%;
+  padding: 50px;
+  margin: 50px;
+  width: 60%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#conts pre{font-size:10px;color:#ffdd20}
+#conts h2 {color: #ffea71;}
+#conts-container{
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
