@@ -533,8 +533,9 @@ footer {
   /*  display: flex;
   justify-content: center;
   align-items: center;*/
+  text-align:center;
 }
-#conts pre{font-size:10px;text-align: center;}
+#conts pre{font-size:10px;}
 #conts-container{
   display: flex;
   justify-content: center;
