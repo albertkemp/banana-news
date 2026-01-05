@@ -143,6 +143,29 @@ function tick(input){
         }
     }
 
+    for(const p of player){
+        for(const i of entity){
+            if(i.uuid==p.uuid){
+                _=entity.indexOf(i)
+                entity[_].y += entity[_].v[1]
+                if(Math.abs(entity[_].v[1]) < 0.003){
+                    entity[_].v[1] = 0
+                }
+                if(p.action.Vmotion==true){
+                    for(const j of block){
+                        if(Math.floor(entity[_].x)==j.x && Math.floor(entity[_].y-0.01)==j.y){
+                            entity[_].v[1] += 0.42;
+                            break;
+                        }
+                    }
+                    delete p.action.Vmotion
+                }
+                //entity[_].v[1] -= 0.08
+                entity[_].v[1] *= 0.98
+            }
+        }
+    }
+
     for(let p of player){
         for(let i of entity){
             if(i.uuid==p.uuid){
@@ -155,12 +178,17 @@ function tick(input){
                 }
                 for(let j of block){
                     if(Math.floor(entity[_].x)==j.x && Math.floor(entity[_].y-0.501)==j.y){
-                        S_coefficient = property.blocks?.[j?.type].s
+                        S_coefficient = property.blocks?.[j?.type].s;
+                        break;
                     }
                 }
                 S_coefficient = S_coefficient??1
+                if(Math.abs(entity[_].v[0]) < 0.003){
+                    entity[_].v[0] = 0
+                }
+                console.log(entity[_].v[0])
                 entity[_].x += entity[_].v[0]
-                entity[_].v[0] = dir*(entity[_].v[0]*entity[_].s*0.91+0.1*V_coefficient*(0.6/S_coefficient)**3)
+                entity[_].v[0] = entity[_].v[0]*entity[_].s*0.91+dir*0.1*V_coefficient*(0.6/S_coefficient)**3
                 entity[_].s = S_coefficient
             }
         }

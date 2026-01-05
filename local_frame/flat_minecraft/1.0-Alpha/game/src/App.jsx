@@ -85,7 +85,7 @@ const Player = forwardRef((props, ref)=>{
 
 function Block(props){
   const P_pos = useContext(pos)
-  const R_pos = {x: props.x-P_pos.x, y: props.y-P_pos.y}
+  const R_pos = {x: props.x-P_pos.x, y: props.y+P_pos.y}
   let src;
   switch (props.type) {
     case "dirt":
@@ -179,6 +179,7 @@ function Game(){
             engineList[1][_].action.Hmotion = {}
             engineList[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("ControlLeft") || keys.has("ControlRight") ? "sprint" : "walk"
             engineList[1][_].action.Hmotion.dir = j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : engineList[1][_].action.Hmotion.dir;
+            engineList[1][_].action.Vmotion = j=="KeyW" || engineList[1][_].action.Vmotion
           }
         }
       }

@@ -63,7 +63,7 @@ const __default__ = [
         }, 
         Hmotion: {
             type: "walk", 
-            dir: 1
+            dir: undefined
         }
       }, 
     }
