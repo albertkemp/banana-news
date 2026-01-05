@@ -10,9 +10,20 @@ title: "Not found"
             newButton.addEventListener("click", function() {
                 window.location.href = "/"
             });
-            document.body.appendChild(newButton);
+            document.getElementById("conts").appendChild(newButton);
         });
     </script>
-    <h1>The page you were looking for was not found</h1>
-    <p>Back to BN? </p>
+    <div id="conts-container">
+    <div id="conts">
+        <img src="/images/404.png" height="200px">
+    <pre>
+ _  _    ___  _  _                 _      __                       _ 
+| || |  / _ \| || |    _ __   ___ | |_   / _| ___  _   _ _ __   __| |
+| || |_| | | | || |_  | '_ \ / _ \| __| | |_ / _ \| | | | '_ \ / _` |
+|__   _| |_| |__   _| | | | | (_) | |_  |  _| (_) | |_| | | | | (_| |
+   |_|  \___/   |_|   |_| |_|\___/ \__| |_|  \___/ \__,_|_| |_|\__,_|
+</pre>
+    <h2>Back to BN? </h2>
+    </div>
+    </div>
 </div>
