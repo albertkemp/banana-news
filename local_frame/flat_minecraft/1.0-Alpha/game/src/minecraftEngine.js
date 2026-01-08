@@ -28,19 +28,34 @@ function tick(input){
                 hardness: 0.5, 
                 tool: [[3, 1]], //0 = sword, 1 = axe, 2 = pickaxe, 3 = shovel, 4 = hoe/ 2nd part = cost/durrability loss
                 min_tool: ["none", "Dwood", "Dstone", "Ddiamond", "Dgold", "Dshears", "Dsword"], 
-                s: 0.6
+                s: 0.6, 
+                collisionBox: {
+                    width: 1, 
+                    height: 1, 
+                    offset: [0, 0]
+                }
             }, 
             oak_log: {
                 hardness: 2, 
                 tool: [[1, 1]], 
                 min_tool: ["none", "Dwood", "Dstone", "Ddiamond", "Dgold", "Dshears", "Dsword"], 
-                s: 0.6
+                s: 0.6, 
+                collisionBox: {
+                    width: 1, 
+                    height: 1, 
+                    offset: [0, 0]
+                }
             }, 
             oak_plank: {
                 hardness: 2, 
                 tool: [[1, 1]], 
                 min_tool: ["none", "Dwood", "Dstone", "Ddiamond", "Dgold", "Dshears", "Dsword"], 
-                s: 0.6
+                s: 0.6, 
+                collisionBox: {
+                    width: 1, 
+                    height: 1, 
+                    offset: [0, 0]
+                }
             }
         }, 
         item: {
@@ -95,6 +110,91 @@ function tick(input){
                 speed: 30
             }
         }, 
+        entity: {
+            player: {
+                hitbox: {
+                    width: 0.6, 
+                    height: 1.8, 
+                    offset: [0, 0]
+                }
+            }
+        }
+    }
+
+    const AABB = (x, y, Vx, Vy, blocks, type, property) => {
+        var [Nx, Ny] = [x, y]
+        var [Tx, Ty] = [x+Vx, y+Vy]
+        if(Vy > 0){
+            OL: 
+            while(Ny<Ty){
+                Ny += 1/16
+                for(const b of blocks){
+                    if(
+                        Nx-property.entity?.[type]?.hitbox?.width/2+property.entity?.[type]?.hitbox?.offset[0] < b.x+property.blocks?.[b.type]?.collisionBox.width/2+property.blocks?.[b.type]?.collisionBox.offset[0] && 
+                        Nx+property.entity?.[type]?.hitbox?.width/2+property.entity?.[type]?.hitbox?.offset[0] > b.x-property.blocks?.[b.type]?.collisionBox.width/2+property.blocks?.[b.type]?.collisionBox.offset[0] && 
+                        Ny+property.entity?.[type]?.hitbox?.offset[1] < b.y+property.blocks?.[b.type]?.collisionBox.height+property.blocks?.[b.type]?.collisionBox.offset[1] && 
+                        Ny+property.entity?.[type]?.hitbox?.height+property.entity?.[type]?.hitbox?.offset[1] > b.y+property.blocks?.[b.type]?.collisionBox.offset[1]
+                    ){
+                        Vy = 0
+                        Ny -= 1/16
+                        break OL;
+                    }
+                }
+            }
+        } else if(Vy < 0) {
+            OL: 
+            while(Ny>Ty){
+                Ny -= 1/16
+                for(const b of blocks){
+                    if(
+                        Nx-property.entity?.[type]?.hitbox?.width/2+property.entity?.[type]?.hitbox?.offset[0] < b.x+property.blocks?.[b.type]?.collisionBox.width/2+property.blocks?.[b.type]?.collisionBox.offset[0] && 
+                        Nx+property.entity?.[type]?.hitbox?.width/2+property.entity?.[type]?.hitbox?.offset[0] > b.x-property.blocks?.[b.type]?.collisionBox.width/2+property.blocks?.[b.type]?.collisionBox.offset[0] && 
+                        Ny+property.entity?.[type]?.hitbox?.offset[1] < b.y+property.blocks?.[b.type]?.collisionBox.height+property.blocks?.[b.type]?.collisionBox.offset[1] && 
+                        Ny+property.entity?.[type]?.hitbox?.height+property.entity?.[type]?.hitbox?.offset[1] > b.y+property.blocks?.[b.type]?.collisionBox.offset[1]
+                    ){
+                        Vy = 0
+                        Ny += 1/16
+                        break OL;
+                    }
+                }
+            }
+        }
+        if(Vx > 0){
+            OL: 
+            while(Nx<Tx){
+                Nx += 1/16
+                for(const b of blocks){
+                    if(
+                        Nx-property.entity?.[type]?.hitbox?.width/2+property.entity?.[type]?.hitbox?.offset[0] < b.x+property.blocks?.[b.type]?.collisionBox.width/2+property.blocks?.[b.type]?.collisionBox.offset[0] && 
+                        Nx+property.entity?.[type]?.hitbox?.width/2+property.entity?.[type]?.hitbox?.offset[0] > b.x-property.blocks?.[b.type]?.collisionBox.width/2+property.blocks?.[b.type]?.collisionBox.offset[0] && 
+                        Ny+property.entity?.[type]?.hitbox?.offset[1] < b.y+property.blocks?.[b.type]?.collisionBox.height+property.blocks?.[b.type]?.collisionBox.offset[1] && 
+                        Ny+property.entity?.[type]?.hitbox?.height+property.entity?.[type]?.hitbox?.offset[1] > b.y+property.blocks?.[b.type]?.collisionBox.offset[1]
+                    ){
+                        Vx = 0
+                        Nx -= 1/16
+                        break OL;
+                    }
+                }
+            }
+        } else if(Vx < 0) {
+            OL: 
+            while(Nx>Tx){
+                Nx -= 1/16
+                for(const b of blocks){
+                    if(
+                        Nx-property.entity?.[type]?.hitbox?.width/2+property.entity?.[type]?.hitbox?.offset[0] < b.x+property.blocks?.[b.type]?.collisionBox.width/2+property.blocks?.[b.type]?.collisionBox.offset[0] && 
+                        Nx+property.entity?.[type]?.hitbox?.width/2+property.entity?.[type]?.hitbox?.offset[0] > b.x-property.blocks?.[b.type]?.collisionBox.width/2+property.blocks?.[b.type]?.collisionBox.offset[0] && 
+                        Ny+property.entity?.[type]?.hitbox?.offset[1] < b.y+property.blocks?.[b.type]?.collisionBox.height+property.blocks?.[b.type]?.collisionBox.offset[1] && 
+                        Ny+property.entity?.[type]?.hitbox?.height+property.entity?.[type]?.hitbox?.offset[1] > b.y+property.blocks?.[b.type]?.collisionBox.offset[1]
+                    ){
+                        Vx = 0
+                        Nx += 1/16
+                        break OL;
+                    }
+                }
+            }
+        }
+        return [Nx, Ny, Vx, Vy]
     }
 
     tick++
@@ -108,7 +208,7 @@ function tick(input){
                 }
             }
             if(_){
-                block.push({type: p.inventory.hotbar[p.action.place.slot].type, x: p.action.place.pos.x, y: p.action.place.pos.y})
+                //block.push({type: p.inventory.hotbar[p.action.place.slot].type, x: p.action.place.pos.x, y: p.action.place.pos.y})
                 _ = player.indexOf(p)
                 delete player[_].action.place
             }
@@ -143,11 +243,14 @@ function tick(input){
         }
     }
 
+    for(let i = 0;i<entity.length;i++){
+        [entity[i].x, entity[i].y, entity[i].v[0], entity[i].v[1]] = AABB(entity[i].x, entity[i].y, entity[i].v[0], entity[i].v[1], block, entity[i].type, property)
+    }
+
     for(const p of player){
         for(const i of entity){
             if(i.uuid==p.uuid){
                 _=entity.indexOf(i)
-                entity[_].y += entity[_].v[1]
                 if(Math.abs(entity[_].v[1]) < 0.003){
                     entity[_].v[1] = 0
                 }
@@ -160,7 +263,7 @@ function tick(input){
                     }
                     delete p.action.Vmotion
                 }
-                //entity[_].v[1] -= 0.08
+                entity[_].v[1] -= 0.08
                 entity[_].v[1] *= 0.98
             }
         }
@@ -186,8 +289,6 @@ function tick(input){
                 if(Math.abs(entity[_].v[0]) < 0.003){
                     entity[_].v[0] = 0
                 }
-                console.log(entity[_].v[0])
-                entity[_].x += entity[_].v[0]
                 entity[_].v[0] = entity[_].v[0]*entity[_].s*0.91+dir*0.1*V_coefficient*(0.6/S_coefficient)**3
                 entity[_].s = S_coefficient
             }
