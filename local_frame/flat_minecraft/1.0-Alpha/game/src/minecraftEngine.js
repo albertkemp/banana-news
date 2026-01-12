@@ -208,7 +208,7 @@ function tick(input){
                 }
             }
             if(_){
-                //block.push({type: p.inventory.hotbar[p.action.place.slot].type, x: p.action.place.pos.x, y: p.action.place.pos.y})
+                block.push({type: p.inventory.hotbar[p.action.place.slot].type, x: p.action.place.pos.x, y: p.action.place.pos.y})
                 _ = player.indexOf(p)
                 delete player[_].action.place
             }
@@ -218,8 +218,14 @@ function tick(input){
                 if(i.x == p.action.break.pos.x && i.y == p.action.break.pos.y){
                     _ = block.indexOf(i)
                     let mining_speed = property?.tools?.[property?.item?.[p.inventory.hotbar[p.action.break.slot].type]?.tool].speed??1
+                    EL:
                     for(let j of entity){
                         if(p.uuid==j.uuid&&j.v[1]!=0){
+                            for(let b of block){
+                                if(Math.floor(j.x)==b.x && Math.floor(j.y-1/16)==b.y){
+                                    break EL;
+                                }
+                            }
                             mining_speed /= 5
                         }
                     }
