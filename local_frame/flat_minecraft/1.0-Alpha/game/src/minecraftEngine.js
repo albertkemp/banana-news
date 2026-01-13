@@ -6,6 +6,7 @@ function start20TPSLoop(tickFunction, setFunction, input) {
     const MSPT = now - lastTick;
     if (MSPT >= MSPT_) {
       lastTick = now - (MSPT % MSPT_);
+      //console.log(MSPT)
       setFunction(tickFunction(input));
     }
     requestAnimationFrame(tick);
@@ -19,6 +20,7 @@ function tick(input){
     let entity = input[2]
     let block = input[3]
     let tick = input[4]
+    let gen = input[5]
     let output = [seed]
     let _
 
@@ -199,6 +201,34 @@ function tick(input){
 
     tick++
 
+    for(const p of player){
+        for(const e of entity){
+            if(p.uuid == e.uuid){
+                if(Math.round(e.x)+16>gen[0]){
+                    while(Math.round(e.x)+16 > gen[0]){
+                        block.push({
+                            x: gen[0], 
+                            y: -1, 
+                            type: "dirt"
+                        })
+                        gen[0]++
+                        //console.log(gen[0])
+                    }
+                }
+                if(Math.round(e.x)-16<gen[1]){
+                    while(Math.round(e.x)-16 < gen[1]){
+                        block.push({
+                            x: gen[1], 
+                            y: -1, 
+                            type: "dirt"
+                        })
+                        gen[1]--
+                    }
+                }
+            }
+        }
+    }
+
     for(let p of player){
         if(p?.action?.place?.slot != undefined && p?.action?.place?.pos?.x != undefined && p?.action?.place?.pos?.y != undefined){
             _ = true
@@ -208,6 +238,7 @@ function tick(input){
                 }
             }
             if(_){
+                console.log(p?.action?.place)
                 block.push({type: p.inventory.hotbar[p.action.place.slot].type, x: p.action.place.pos.x, y: p.action.place.pos.y})
                 _ = player.indexOf(p)
                 delete player[_].action.place
@@ -215,7 +246,7 @@ function tick(input){
         }
         if(p?.action?.break?.slot != undefined && p?.action?.break?.pos?.x != undefined && p?.action?.break?.pos?.y != undefined){
             for(let i of block){
-                if(i.x == p.action.break.pos.x && i.y == p.action.break.pos.y){
+                if(i.x == p.action.break?.pos.x && i.y == p.action.break?.pos.y){
                     _ = block.indexOf(i)
                     let mining_speed = property?.tools?.[property?.item?.[p.inventory.hotbar[p.action.break.slot].type]?.tool].speed??1
                     EL:
@@ -243,6 +274,8 @@ function tick(input){
                     if(block[_].dammage < 0){
                         block.splice(_, 1)
                     }
+                    _ = player.indexOf(p)
+                    delete player[_].action.break
                     //block[_]
                 }
             }

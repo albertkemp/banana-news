@@ -85,7 +85,7 @@ const Player = forwardRef((props, ref)=>{
 
 function Block(props){
   const P_pos = useContext(pos)
-  const R_pos = {x: props.x-P_pos.x, y: props.y+P_pos.y}
+  const R_pos = {x: props.x-P_pos.x, y: -props.y+P_pos.y}
   let src;
   switch (props.type) {
     case "dirt":
@@ -105,7 +105,7 @@ function Block(props){
       <img src={src} className="no-drag" style={{
         position: "absolute", 
         left: R_pos.x*100+window.innerWidth/2,
-        top: R_pos.y*100+100+window.innerHeight/2,
+        top: R_pos.y*100-100+window.innerHeight/2,
         width: "100px", 
         height: "100px"
       }}/>
@@ -116,9 +116,13 @@ function Block(props){
 function Blocks(){
   //[{type: "oak_planks", key: 0, x: 1, y: 0}, {type: "oak_planks", key: 1, x: 0, y: 0}, {type: "oak_planks", key: 2, x: -1, y: 0}, {type: "oak_planks", key: 3, x: 1, y: -1}, {type: "oak_planks", key: 4, x: 0, y: -1}, {type: "oak_planks", key: 5, x: -1, y: -1}]
   const [blockRenderList, setBlockRenderList] = useState(useContext(world)[3])
+  const P_pos = useContext(pos)
   return (
     <>
       {blockRenderList.map((block) => {
+        if(block.x + 16 < P_pos.x || block.x - 16 > P_pos.x){
+          return;
+        }
         return (
           <Block key={Math.random()} type={block.type} x={block.x} y={block.y}/>
         )
@@ -148,6 +152,76 @@ function Entities(){
   )
 }
 
+function Click(){
+  const P_pos = useContext(pos)
+  const world_ = useContext(world)
+  var Pointer_state = useRef(false)
+  var mode = useRef(null)
+  var EVENT = {}
+  const PHandle = () => {
+    var br = false
+    console.log(mode.current)
+    if(mode.current != 1&& mode.current != null){
+      OL:
+      for(const i of world_[3]){
+        if(i.x == Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100) && i.y == Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)){
+          for(const j of world_[1]){
+            if(j.username == "h7777"){
+              j.action.break = {}
+              j.action.break.slot = 0
+              j.action.break.pos = {}
+              j.action.break.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)
+              j.action.break.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)
+              mode.current = 0
+              br = true
+              break OL;
+            }
+          }
+        }
+      }
+    }
+    if(!br && mode.current != 0 && mode.current != null){
+      for(const j of world_[1]){
+        if(j.username == "h7777"){
+          j.action.place = {}
+          j.action.place.slot = 0
+          j.action.place.pos = {}
+          j.action.place.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)
+          j.action.place.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)
+          mode.current = 1
+        }
+      }
+    }
+    if(Pointer_state.current){
+      requestAnimationFrame(PHandle)
+    }
+  }
+  return (
+    <div style={{
+      position: 'absolute',
+      top: 0, 
+      left: 0,  
+      width: '100%', 
+      height: '100%', 
+      zIndex: 10
+    }} onPointerDown={()=>{
+      EVENT = event
+      if(!Pointer_state.current){
+        Pointer_state.current = true;
+        mode.current = -1;
+        requestAnimationFrame(PHandle)
+      }
+    }} onPointerUp={()=>{
+      EVENT = event
+      mode.current = null
+      Pointer_state.current = false;
+    }} onPointerMove={()=>{
+      EVENT = event
+    }}>
+    </div>
+  )
+}
+
 function Game(){
   const [engineList, setEngineList] = useState(__default__)
   const gateRef = useRef();
@@ -157,20 +231,6 @@ function Game(){
   useEffect(()=>{
     const username = "h7777"
     const keys = new Set();
-    const blockedCombos = new Set([
-      "Ctrl+KeyD",
-      "Ctrl+KeyS",
-      "Ctrl+KeyP",
-      "Ctrl+KeyR",
-      "Ctrl+KeyW",
-      "Ctrl+KeyT",
-      "Space",
-      "Tab",
-      "ArrowUp",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
-    ]);
     const update = () => {
       for(let j of keys){
         for(let i of engineList[1]){
@@ -186,16 +246,6 @@ function Game(){
     }
     window.addEventListener("keydown", (e) => {
       keys.add(e.code);
-      const combo =
-        (e.ctrlKey ? "Ctrl+" : "") +
-        (e.shiftKey ? "Shift+" : "") +
-        (e.altKey ? "Alt+" : "") +
-        e.code;
-
-      if (blockedCombos.has(combo)) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
       update()
     });
 
@@ -219,6 +269,7 @@ function Game(){
     <>
       <pos.Provider value={playerPos}>
         <world.Provider value={engineList}>
+          <Click/>
           <Player ref={gateRef}/>
           <Entities/>
           <Blocks/>

@@ -46,26 +46,7 @@ const __default__ = [
           }
         ]
       }, 
-      action: {
-        place: {
-            slot: 0, 
-            pos: {
-                x: 1, 
-                y: -1
-            }
-        }, 
-        break: {
-            slot: 0, 
-            pos: {
-                x: 1, 
-                y: -1
-            }
-        }, 
-        Hmotion: {
-            type: "walk", 
-            dir: undefined
-        }
-      }, 
+      action: {}, 
     }
   ],
   [
@@ -86,14 +67,9 @@ const __default__ = [
       type: "player"
     }
   ],
-  [
-    {
-      x: 0,
-      y: -1,
-      type: "oak_plank"
-    }
-  ],
-  0
+  [],
+  0, 
+  [0, 0]
 ]
 
 export { __default__ }
