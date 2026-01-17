@@ -53,14 +53,6 @@ const __default__ = [
     {
       x: 0,
       y: 0,
-      v: [100, 0],
-      uuid: crypto.randomUUID(), 
-      s: 0, 
-      type: "arrow"
-    },
-    {
-      x: 0,
-      y: 0,
       v: [0, 0],
       uuid: uuid, 
       s: 0, 

@@ -17,7 +17,9 @@ import oak_plank from '/oak_plank.jpg'
 import oak_log from '/oak_log.jpg'
 
 const pos = createContext({x: 0, y: 0})
+const PosS = createContext([])
 const world = createContext([0, [], [], [], 0])
+const MPF = createContext(()=>void(0))
 
 const Player = forwardRef((props, ref)=>{
   const [head_angle, setHead_angle] = useState(0);
@@ -82,6 +84,64 @@ const Player = forwardRef((props, ref)=>{
     </>
   )
 })
+
+const Players = props => {
+  return (
+    <>
+      <img src={head} className="no-drag" style={{
+          position: "absolute",
+          zIndex: 3, 
+          left: props.x-16,
+          top: props.y-264,
+          width: "64px",
+          height: "64px",
+          transform: `rotate(${0}deg)`
+        }}/>
+      <img src={arm} className="no-drag" style={{
+          position: "absolute",
+          zIndex: 4, 
+          left: props.x - (34 - Math.cos(68 * Math.PI / 180) * 34),
+          top: props.y-200 + Math.sin(68 * Math.PI / 180) * 34,
+          width: "100px",
+          height: "32px",
+          transform: `rotate(${68}deg)`
+        }}/>
+      <img src={body} className="no-drag" style={{
+          position: "absolute",
+          zIndex: 1, 
+          left: props.x,
+          top: props.y-200,
+          width: "32px",
+          height: "100px",
+          transform: `rotate(${0}deg)`
+        }}/>
+      <img src={leg} className="no-drag" style={{
+          position: "absolute",
+          zIndex: 2, 
+          left: props.x,
+          top: props.y-100,
+          width: "32px",
+          height: "100px",
+          transform: `rotate(${0}deg)`
+        }}/>
+    </>
+  )
+}
+
+function PlayersW () {
+  const P_pos = useContext(pos)
+  var list = []
+  for(var i of useContext(PosS)){
+    list.push(
+      <Players x={100*(i.x-P_pos.x)+window.innerWidth/2} y={100*(-i.y+P_pos.y)+window.innerHeight/2} key={Math.random()}/>
+    )
+  }
+  return (
+    <>
+      {list}
+    </>
+  )
+}
 
 function Block(props){
   const P_pos = useContext(pos)
@@ -148,6 +208,23 @@ function Entities(){
           <Entity key={entity.key}/>
         )
       })}
+    </>
+  )
+}
+
+function MP(){
+  const F = useContext(MPF)
+  return (
+    <>
+      <button style={{
+        zIndex:11
+      }} onClick={()=>{F(0, "")}}> Create offer</button>
+      <button style={{
+        zIndex:11
+      }} onClick={()=>{F(1, "")}}> Create ans</button>
+      <button style={{
+        zIndex:11
+      }} onClick={()=>{F(2, "")}}> connect</button>
     </>
   )
 }
@@ -222,7 +299,7 @@ function Click(){
   )
 }
 
-function Game(){
+function Game({ref}){
   const [engineList, setEngineList] = useState(__default__)
   const gateRef = useRef();
   useEffect(() => {
@@ -236,7 +313,9 @@ function Game(){
         for(let i of engineList[1]){
           if(i.username == username){
             let _ = engineList[1].indexOf(i)
-            engineList[1][_].action.Hmotion = {}
+            if(engineList[1][_].action.Hmotion == undefined){
+              engineList[1][_].action.Hmotion = {}
+            }
             engineList[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("ControlLeft") || keys.has("ControlRight") ? "sprint" : "walk"
             engineList[1][_].action.Hmotion.dir = j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : engineList[1][_].action.Hmotion.dir;
             engineList[1][_].action.Vmotion = j=="KeyW" || engineList[1][_].action.Vmotion
@@ -252,6 +331,7 @@ function Game(){
     window.addEventListener("keyup", (e) => {
       keys.delete(e.code);
       update()
+      update()
     });
   }, [])
   let playerPos = {x: 0, y: 0}
@@ -264,25 +344,199 @@ function Game(){
       }
     }
   }
+  let playersPos = []
+  for(let i of engineList[1]){
+    if(i.username != "h7777"){
+      for(let j of engineList[2]){
+        if(j.uuid==i.uuid){
+          playersPos.push({x: j.x, y: j.y})
+        }
+      }
+    }
+  }
+  
+  useImperativeHandle(ref, () => {
+    return {
+      addPlayer(data) {
+        structuredClone(engineList[1].push(data))
+      }, 
+      addEntity(data) {
+        structuredClone(engineList[2].push(data))
+      }
+    };
+  }, [])
   start20TPSLoop(tick, setEngineList, engineList)
+
   return (
     <>
-      <pos.Provider value={playerPos}>
-        <world.Provider value={engineList}>
-          <Click/>
-          <Player ref={gateRef}/>
-          <Entities/>
-          <Blocks/>
-        </world.Provider>
-      </pos.Provider>
+      <PosS.Provider value={playersPos}>
+        <pos.Provider value={playerPos}>
+          <world.Provider value={engineList}>
+            <Player ref={gateRef}/>
+            <PlayersW/>
+            <Entities/>
+            <Blocks/>
+          </world.Provider>
+        </pos.Provider>
+      </PosS.Provider>
     </>
   )
 }
 
 function App(){
+  const pc = useRef(new RTCPeerConnection({
+    iceServers: [
+      {urls: "stun:stun.l.google.com:19302"}, 
+      { urls: "stun:stun1.l.google.com:19302" }, 
+      { urls: "stun:stun2.l.google.com:19302" }, 
+      { urls: "stun:stun3.l.google.com:19302" }, 
+      { urls: "stun:stun4.l.google.com:19302"}, 
+      {urls: "stun:stun.relay.metered.ca:80"}, 
+      {
+        urls: "turn:global.relay.metered.ca:443",
+        username: "b9ef557234472bc8c25f65e3",
+        credential: "vy7k6gSHvcB1Bk3p",
+      },
+      {
+        urls: "turns:global.relay.metered.ca:443?transport=tcp",
+        username: "b9ef557234472bc8c25f65e3",
+        credential: "vy7k6gSHvcB1Bk3p",
+      }
+    ]
+  }))
+  const MPR = useRef()
+  let MPR_ = () => void(0)
+  useEffect(()=>{
+    MPR_ = MPR.current
+  }, [])
   return (
     <>
-      <Game/>
+      <Game ref={MPR}/>
+      <MPF.Provider value={async(type, str)=>{
+        if(type == 0){
+          const channelA = pc.current.createDataChannel("chat")
+          channelA.onopen = () => channelA.send("packet:hello");
+          channelA.onmessage = (e) => {
+            if(e.data.split(":")[0] == "packet"){
+              if(e.data.split(":")[1] != undefined){
+                const data = e.data.split(":")[1]
+                switch (data) {
+                  case "ping":
+                    console.log(123)
+                    const uuid = crypto.randomUUID() 
+                    MPR.current.addPlayer({
+                      username: crypto.randomUUID(), 
+                      uuid: uuid, 
+                      inventory: {
+                        hotbar: [
+                          {
+                            type: "oak_log",
+                            ammount: 1
+                          }, 
+                          {
+                            type: "",
+                            ammount: 0
+                          }, 
+                          {
+                            type: "",
+                            ammount: 0
+                          }, 
+                          {
+                            type: "",
+                            ammount: 0
+                          }, 
+                          {
+                            type: "",
+                            ammount: 0
+                          }, 
+                          {
+                            type: "",
+                            ammount: 0
+                          }, 
+                          {
+                            type: "",
+                            ammount: 0
+                          }, 
+                          {
+                            type: "",
+                            ammount: 0
+                          }, 
+                          {
+                            type: "",
+                            ammount: 0
+                          }
+                        ]
+                      }, 
+                      action: {}, 
+                    })
+                    MPR.current.addEntity({
+                      x: 0,
+                      y: 0,
+                      v: [0, 0],
+                      uuid: uuid, 
+                      s: 0, 
+                      type: "player"
+                    })
+                    break;
+                  default:
+                    break;
+                }
+              }
+            }
+          }
+
+          const offer = await pc.current.createOffer()
+          await pc.current.setLocalDescription(offer)
+
+          if (pc.current.iceGatheringState !== "complete") {
+            await new Promise(resolve => {
+              function checkState() {
+                if (pc.current.iceGatheringState === "complete") {
+                  pc.current.removeEventListener("icegatheringstatechange", checkState);
+                  resolve();
+                }
+              }
+              pc.current.addEventListener("icegatheringstatechange", checkState);
+            });
+          }
+
+          console.log("OFFER:", JSON.stringify(pc.current.localDescription))
+        } else if (type == 1){
+          pc.current.ondatachannel = (event) => {
+            const channel = event.channel
+            channel.onmessage = (e) => console.log("B received:", e.data)
+            channel.onopen = () => channel.send("packet:ping")
+          }
+
+          const offerFromA = JSON.parse(prompt("offer plz"))
+          await pc.current.setRemoteDescription(offerFromA)
+          const answer = await pc.current.createAnswer()
+          await pc.current.setLocalDescription(answer)
+
+          if (pc.current.iceGatheringState !== "complete") {
+            await new Promise(resolve => {
+              function checkState() {
+                if (pc.current.iceGatheringState === "complete") {
+                  pc.current.removeEventListener("icegatheringstatechange", checkState)
+                  resolve()
+                }
+              }
+              pc.current.addEventListener("icegatheringstatechange", checkState)
+            })
+          }
+
+          console.log("ANSWER:", JSON.stringify(pc.current.localDescription))
+        } else if (type == 2){
+          const answerFromB = JSON.parse(prompt("ans plz"))
+          await pc.current.setRemoteDescription(answerFromB)
+          console.log("Peer A connected (once ICE completes)")
+          console.log("pcA:", pc.current.connectionState)
+          console.log("iceA:", pc.current.iceConnectionState)
+          console.log("sctpA:", pc.current.sctp?.state)
+        }
+      }}>
+        <MP/>
+      </MPF.Provider>
     </>
   )
 }

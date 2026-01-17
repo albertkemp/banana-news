@@ -208,8 +208,8 @@ function tick(input){
                     while(Math.round(e.x)+16 > gen[0]){
                         block.push({
                             x: gen[0], 
-                            y: -1, 
-                            type: "dirt"
+                            y:-1, 
+                            type: gen[0]<16?"oak_plank":"dirt"
                         })
                         gen[0]++
                         //console.log(gen[0])
@@ -220,7 +220,7 @@ function tick(input){
                         block.push({
                             x: gen[1], 
                             y: -1, 
-                            type: "dirt"
+                            type: gen[1]>-16?"oak_plank":"dirt"
                         })
                         gen[1]--
                     }
