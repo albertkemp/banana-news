@@ -87,9 +87,53 @@ const Player = forwardRef((props, ref)=>{
 })
 
 const Players = props => {
+  const [skinMemory, setSkinMemory] = useState({
+    head: null, 
+    arm: null, 
+    body: null, 
+    leg: null
+  })
+  const skinMemoryPromises = useRef({
+    head: null, 
+    arm: null, 
+    body: null, 
+    leg: null
+  })
+  const skinMemoryFetchURL = {
+    head: head, 
+    arm: arm, 
+    body: body, 
+    leg: leg
+  }
+  const fetchImg = async src => {
+    const res = await fetch(src);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    return url;
+  };
+  for(const i in skinMemory){
+    if(skinMemory[i] == null){
+      skinMemoryPromises.current[i] = fetchImg(skinMemoryFetchURL[i])
+    }
+  }
+  useEffect(() => {
+    for(const i in skinMemoryPromises.current){
+      if (typeof skinMemoryPromises.current[i] === "string") {
+        let tmp = skinMemory
+        tmp[i] = skinMemoryPromises.current[i]
+        setSkinMemory(structuredClone(tmp))
+        return;
+      }
+      skinMemoryPromises.current[i].then(url => {
+        let tmp = skinMemory
+        tmp[i] = url
+        setSkinMemory(structuredClone(tmp))
+      });
+    }
+  }, [skinMemoryPromises.current]);
   return (
     <>
-      <img src={head} className="no-drag" style={{
+      <img src={skinMemory.head} className="no-drag" style={{
           position: "absolute",
           zIndex: 3, 
           left: props.x-16,
@@ -98,7 +142,7 @@ const Players = props => {
           height: "64px",
           transform: `rotate(${0}deg)`
         }}/>
-      <img src={arm} className="no-drag" style={{
+      <img src={skinMemory.arm} className="no-drag" style={{
           position: "absolute",
           zIndex: 4, 
           left: props.x - (34 - Math.cos(68 * Math.PI / 180) * 34),
@@ -107,7 +151,7 @@ const Players = props => {
           height: "32px",
           transform: `rotate(${68}deg)`
         }}/>
-      <img src={body} className="no-drag" style={{
+      <img src={skinMemory.body} className="no-drag" style={{
           position: "absolute",
           zIndex: 1, 
           left: props.x,
@@ -116,7 +160,7 @@ const Players = props => {
           height: "100px",
           transform: `rotate(${0}deg)`
         }}/>
-      <img src={leg} className="no-drag" style={{
+      <img src={skinMemory.leg} className="no-drag" style={{
           position: "absolute",
           zIndex: 2, 
           left: props.x,
@@ -134,7 +178,7 @@ function PlayersW () {
   var list = []
   for(var i of useContext(PosS)){
     list.push(
-      <Players x={100*(i.x-P_pos.x)+window.innerWidth/2} y={100*(-i.y+P_pos.y)+window.innerHeight/2} key={Math.random()}/>
+      <Players x={100*(i.x-P_pos.x)+window.innerWidth/2} y={100*(-i.y+P_pos.y)+window.innerHeight/2} key={i.u}/>
     )
   }
   return (
@@ -451,7 +495,7 @@ function Game({ref}){
     if(i.username != "h7777"){
       for(let j of engineList[2]){
         if(j.uuid==i.uuid){
-          playersPos.push({x: j.x, y: j.y})
+          playersPos.push({x: j.x, y: j.y, u: i.username})
         }
       }
     }
