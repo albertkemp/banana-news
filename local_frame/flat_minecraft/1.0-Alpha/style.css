@@ -7,6 +7,7 @@ body{
   height: 100%;
   width: 100%;
   margin: 0px;
+  background-color: #a6a6a6;
 }
 
 .mcText{
@@ -76,6 +77,25 @@ body{
   width: 40%;
   height: 100%;
   min-width: 150px;
+}
+
+.dark-grey{
+  background-color: #333333;
+}
+
+.text-inp{
+  border: 5px inset;
+  outline: none;
+}
+
+/**********************/
+
+#newBtn-Hold{
+  text-align: center;
+}
+
+#message{
+  color: red;
 }
 
 /**********************/

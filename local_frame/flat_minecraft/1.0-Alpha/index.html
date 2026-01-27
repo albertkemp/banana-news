@@ -41,6 +41,7 @@
           <div id="newBtn-Hold" class="dark-grey">
             <button class="btn btn-nw" onclick="updatePage(3)">Create New</button>
           </div>
+          <div class="dark-grey center"><button class="btn" onclick="updatePage(4)">Join</button></div>
           <div class="dark-grey" height="25%">
             <br>
           </div>
@@ -65,21 +66,30 @@
         <button class="btn-s" onclick="updatePage(1)">←</button>
       </div>
       <div id="CreateWorldDisplay">
-        <div>
+        <!--<div>
           <p class="mcText center" id="worldType">Normal</p>
         </div>
         <div class="dropdown">
-        <button class="dropbtn">World type</button>
+        <button class="dropbtn">World type</button>--><!--
         <div class="dropdown-content">
           <div class="sel" onclick="setWorldtype(0)">Normal</div>
           <div class="sel" onclick="setWorldtype(1)">Flat</div>
-        </div>
+        </div>-->
       </div>
-      <div id="CreateWorld-btn-con"><button class="btn btn-cw" onclick="">Create</button></div>
+      <div id="CreateWorld-btn-con"><button class="btn btn-cw" onclick="forwardPageDataHref({test: 123})">Create</button></div>
       </div>
       <div id="CreateWorldLeft">
       </div>
       <div id="CreateWorldRight"></div>
+    </div>
+    <div id="join-menu">
+      <button class="btn-s" onclick="updatePage(1)">Back</button>
+      <form>
+        <label for="offer" class="mcText">Add offer here:</label><br>
+        <input type="text" id="offer" name="offer" class="text-inp"><br>
+        <input type="submit" value="Create answer" class="btn">
+      </form>
+      <p id="message"></p>
     </div>
     <!--<div id="game">
       <div id="chat">

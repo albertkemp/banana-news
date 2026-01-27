@@ -20,6 +20,7 @@ const pos = createContext({x: 0, y: 0})
 const PosS = createContext([])
 const world = createContext([0, [], [], [], 0])
 const MPF = createContext(()=>void(0))
+const Pdata = createContext()
 
 const Player = forwardRef((props, ref)=>{
   const [head_angle, setHead_angle] = useState(0);
@@ -144,25 +145,19 @@ function PlayersW () {
 }
 
 function Block(props){
+  const [imageURL, setImageURL] = useState(undefined)
   const P_pos = useContext(pos)
   const R_pos = {x: props.x-P_pos.x, y: -props.y+P_pos.y}
-  let src;
-  switch (props.type) {
-    case "dirt":
-      src = dirt;
-      break;
-    case "oak_plank":
-      src = oak_plank;
-      break;
-    case "oak_log":
-      src = oak_log;
-      break;
-    default:
-      break;
-  }
+  useEffect(() => {
+    if (!props.promise) return;
+    if (typeof props.promise === "string") return;
+
+    props.promise.then(url => setImageURL(url));
+  }, [props.promise]);
+
   return(
     <>
-      <img src={src} className="no-drag" style={{
+      <img src={typeof props.promise=='string'?props.promise:imageURL} className="no-drag" style={{
         position: "absolute", 
         left: R_pos.x*100+window.innerWidth/2,
         top: R_pos.y*100-100+window.innerHeight/2,
@@ -177,14 +172,121 @@ function Blocks(){
   //[{type: "oak_planks", key: 0, x: 1, y: 0}, {type: "oak_planks", key: 1, x: 0, y: 0}, {type: "oak_planks", key: 2, x: -1, y: 0}, {type: "oak_planks", key: 3, x: 1, y: -1}, {type: "oak_planks", key: 4, x: 0, y: -1}, {type: "oak_planks", key: 5, x: -1, y: -1}]
   const [blockRenderList, setBlockRenderList] = useState(useContext(world)[3])
   const P_pos = useContext(pos)
+  const memoizedImg = useRef({})
+  const cacheItems = useRef([])
+  const fetchImg = src => {
+    return fetch(src)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.blob();
+      })
+      .then(blob => URL.createObjectURL(blob))
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+        return null;
+      });
+  };
+
   return (
     <>
       {blockRenderList.map((block) => {
         if(block.x + 16 < P_pos.x || block.x - 16 > P_pos.x){
           return;
         }
+        let src;
+        let src_;
+        switch (block.type) {
+          case "dirt":
+            src = dirt;
+            if(memoizedImg.current[src]){
+              if(cacheItems.current.includes(src)){
+                src_ = src
+              }else{
+                src_ = memoizedImg.current[src]
+              }
+            }else{
+              src_ = fetchImg(src)
+              memoizedImg.current[src] = src_;
+              (async function (){
+                await src_
+                performance.clearResourceTimings()
+                await fetch(src);
+                while (performance.getEntriesByType('resource').length === 0) {
+                  await new Promise(r => setTimeout(r, 10));
+                }
+                performance.getEntriesByType('resource').forEach(resource => {
+                  if(resource.name.includes(src)){
+                    if(resource.transferSize === 0){
+                      cacheItems.current.push(src)
+                    }
+                  }
+                })
+              })()
+            }
+            break;
+          case "oak_plank":
+            src = oak_plank;
+            if(memoizedImg.current[src]){
+              if(cacheItems.current.includes(src)){
+                src_ = src
+              }else{
+                src_ = memoizedImg.current[src]
+              }
+            }else{
+              src_ = fetchImg(src)
+              memoizedImg.current[src] = src_;
+              (async function (){
+                await src_
+                performance.clearResourceTimings()
+                await fetch(src);
+                while (performance.getEntriesByType('resource').length === 0) {
+                  await new Promise(r => setTimeout(r, 10));
+                }
+                performance.getEntriesByType('resource').forEach(resource => {
+                  if(resource.name.includes(src)){
+                    if(resource.transferSize === 0){
+                      cacheItems.current.push(src)
+                    }
+                  }
+                })
+              })()
+            }
+            break;
+          case "oak_log":
+            src = oak_log;
+            if(memoizedImg.current[src]){
+              if(cacheItems.current.includes(src)){
+                src_ = src
+              }else{
+                src_ = memoizedImg.current[src]
+              }
+            }else{
+              src_ = fetchImg(src)
+              memoizedImg.current[src] = src_;
+              (async function (){
+                await src_
+                performance.clearResourceTimings()
+                await fetch(src);
+                while (performance.getEntriesByType('resource').length === 0) {
+                  await new Promise(r => setTimeout(r, 10));
+                }
+                performance.getEntriesByType('resource').forEach(resource => {
+                  if(resource.name.includes(src)){
+                    if(resource.transferSize === 0){
+                      cacheItems.current.push(src)
+                    }
+                  }
+                })
+              })()
+            }
+            break;
+          default:
+            break;
+        }
         return (
-          <Block key={Math.random()} type={block.type} x={block.x} y={block.y}/>
+          <Block key={`${block.x}${block.y}`} promise={src_} x={block.x} y={block.y}/>
         )
       })}
     </>
@@ -309,6 +411,7 @@ function Game({ref}){
     const username = "h7777"
     const keys = new Set();
     const update = () => {
+      //if(use(Pdata))
       for(let j of keys){
         for(let i of engineList[1]){
           if(i.username == username){
@@ -316,7 +419,7 @@ function Game({ref}){
             if(engineList[1][_].action.Hmotion == undefined){
               engineList[1][_].action.Hmotion = {}
             }
-            engineList[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("ControlLeft") || keys.has("ControlRight") ? "sprint" : "walk"
+            engineList[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"
             engineList[1][_].action.Hmotion.dir = j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : engineList[1][_].action.Hmotion.dir;
             engineList[1][_].action.Vmotion = j=="KeyW" || engineList[1][_].action.Vmotion
           }
@@ -330,7 +433,6 @@ function Game({ref}){
 
     window.addEventListener("keyup", (e) => {
       keys.delete(e.code);
-      update()
       update()
     });
   }, [])
@@ -384,14 +486,20 @@ function Game({ref}){
 }
 
 function App(){
+  const data = JSON.parse(sessionStorage.getItem("pageData"));
+  sessionStorage.removeItem("pageData");
+  if(data==null){
+    //window.location.href = "../../"
+  }
+  console.log(data)
   const pc = useRef(new RTCPeerConnection({
     iceServers: [
-      {urls: "stun:stun.l.google.com:19302"}, 
+      { urls: "stun:stun.l.google.com:19302" }, 
       { urls: "stun:stun1.l.google.com:19302" }, 
       { urls: "stun:stun2.l.google.com:19302" }, 
       { urls: "stun:stun3.l.google.com:19302" }, 
-      { urls: "stun:stun4.l.google.com:19302"}, 
-      {urls: "stun:stun.relay.metered.ca:80"}, 
+      { urls: "stun:stun4.l.google.com:19302" }, 
+      { urls: "stun:stun.relay.metered.ca:80" }, 
       {
         urls: "turn:global.relay.metered.ca:443",
         username: "b9ef557234472bc8c25f65e3",
@@ -404,6 +512,34 @@ function App(){
       }
     ]
   }))
+  if(data.offer!=null&&data.offer!=undefined){
+    (async()=>{
+      pc.current.ondatachannel = (event) => {
+        const channel = event.channel
+        channel.onmessage = (e) => console.log("B received:", e.data)
+        channel.onopen = () => channel.send("packet:ping")
+      }
+
+      const offerFromA = data.offer
+      await pc.current.setRemoteDescription(offerFromA)
+      const answer = await pc.current.createAnswer()
+      await pc.current.setLocalDescription(answer)
+
+      if (pc.current.iceGatheringState !== "complete") {
+        await new Promise(resolve => {
+          function checkState() {
+            if (pc.current.iceGatheringState === "complete") {
+              pc.current.removeEventListener("icegatheringstatechange", checkState)
+              resolve()
+            }
+          }
+          pc.current.addEventListener("icegatheringstatechange", checkState)
+        })
+      }
+
+      console.log("ANSWER:", JSON.stringify(pc.current.localDescription))
+    })()
+  }
   const MPR = useRef()
   let MPR_ = () => void(0)
   useEffect(()=>{
@@ -411,18 +547,19 @@ function App(){
   }, [])
   return (
     <>
-      <Game ref={MPR}/>
+      <Pdata.Provider value={data}>
+        <Game ref={MPR}/>
+      </Pdata.Provider>
       <MPF.Provider value={async(type, str)=>{
         if(type == 0){
           const channelA = pc.current.createDataChannel("chat")
-          channelA.onopen = () => channelA.send("packet:hello");
+          channelA.onopen = () => channelA.send("packet:ping");
           channelA.onmessage = (e) => {
             if(e.data.split(":")[0] == "packet"){
               if(e.data.split(":")[1] != undefined){
                 const data = e.data.split(":")[1]
                 switch (data) {
                   case "ping":
-                    console.log(123)
                     const uuid = crypto.randomUUID() 
                     MPR.current.addPlayer({
                       username: crypto.randomUUID(), 
@@ -530,9 +667,6 @@ function App(){
           const answerFromB = JSON.parse(prompt("ans plz"))
           await pc.current.setRemoteDescription(answerFromB)
           console.log("Peer A connected (once ICE completes)")
-          console.log("pcA:", pc.current.connectionState)
-          console.log("iceA:", pc.current.iceConnectionState)
-          console.log("sctpA:", pc.current.sctp?.state)
         }
       }}>
         <MP/>
