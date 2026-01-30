@@ -10,6 +10,12 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.setFrontMatterParsingOptions({
     enabled: true
   });
+  eleventyConfig.setTemplateFormats([
+    "html",
+    "liquid",
+    "njk",
+    "md"
+  ]);
 
   eleventyConfig.addGlobalData("layoutMap", {});
   eleventyConfig.addExtension("html", {
