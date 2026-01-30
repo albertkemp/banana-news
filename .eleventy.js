@@ -23,6 +23,7 @@ module.exports = function(eleventyConfig) {
     if (!layout) {
       return content;
     }
+    console.log(layout)
     if(layout == "beta.njk"){
       return "This works";
     }
