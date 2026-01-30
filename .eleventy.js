@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addTransform("beta", function(content){
     const layout = eleventyConfig.globalData.layoutMap[this.page.inputPath];
     if (!layout) {
-      console.log(`${this.page.inputPath} is undefined`)
+      console.log(`${this.page.inputPath} is ${layout}`)
       return content;
     }
     console.log(layout)
