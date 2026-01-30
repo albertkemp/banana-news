@@ -22,6 +22,7 @@ module.exports = function(eleventyConfig) {
     const layout = eleventyConfig.globalData.layoutMap[this.page.inputPath];
     if (!layout) {
       console.log(`${this.page.inputPath} is ${layout}`)
+      console.log(eleventyConfig.globalData.layoutMap)
       return content;
     }
     console.log(layout)
