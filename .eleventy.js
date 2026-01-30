@@ -15,7 +15,7 @@ module.exports = function(eleventyConfig) {
       if (layout) {
         eleventyConfig.globalData.layoutMap[inputPath] = layout;
       }
-      return false;
+      return undefined;
     }
   });
   eleventyConfig.addTransform("beta", function(content){
