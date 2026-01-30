@@ -1,3 +1,6 @@
+const fs = require("fs");
+const matter = require("gray-matter");
+
 module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("styles");
   eleventyConfig.addPassthroughCopy("scripts");
@@ -8,23 +11,18 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("local_frame");
 
-  /*eleventyConfig.addGlobalData("layoutMap", {});
-  eleventyConfig.addExtension("html", {
-    compile: function (inputContent, inputPath) {
-      const layout = this.frontMatter?.data?.layout;
-      if (layout) {
-        eleventyConfig.globalData.layoutMap[inputPath] = layout;
-      }
-      return false;
-    }
-  });
   eleventyConfig.addTransform("beta", function(content){
-    const layout = eleventyConfig.globalData.layoutMap[this.page.inputPath];
+    const raw = fs.readFileSync(this.page.inputPath, "utf8");
+    const parsed = matter(raw);
+    const frontMatter = parsed?.data;
+    const layout = frontMatter?.layout;
     if (!layout) {
       return content;
     }
     if(layout == "beta.njk"){
       return "This works";
+    } else {
+      return content;
     }
-  });*/
+  });
 };
