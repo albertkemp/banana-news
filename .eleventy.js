@@ -19,7 +19,7 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addGlobalData("layoutMap", {});
   eleventyConfig.addExtension("html", {
-    compile: (inputContent, inputPath)=>{
+    compile: function(inputContent, inputPath){
       const layout = this.frontMatter?.data?.layout;
       console.log(this)
       if (layout) {
