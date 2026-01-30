@@ -8,14 +8,26 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("local_frame");
 
+  /*
+  eleventyConfig.setFrontMatterParsingOptions({
+    enabled: true
+  });
+  eleventyConfig.setTemplateFormats([
+    "html",
+    "liquid",
+    "njk",
+    "md"
+  ]);
+
   eleventyConfig.addGlobalData("layoutMap", {});
   eleventyConfig.addExtension("html", {
-    compile: function (inputContent, inputPath) {
+    compile: function(inputContent, inputPath){
       const layout = this.frontMatter?.data?.layout;
+      console.log(this)
       if (layout) {
         eleventyConfig.globalData.layoutMap[inputPath] = layout;
       }
-      return false;
+      return undefined;
     }
   });
   eleventyConfig.addTransform("beta", function(content){
@@ -26,5 +38,5 @@ module.exports = function(eleventyConfig) {
     if(layout == "beta.njk"){
       return "This works";
     }
-  });
+  });*/
 };
