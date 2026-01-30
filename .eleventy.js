@@ -18,7 +18,7 @@ module.exports = function(eleventyConfig) {
       return false;
     }
   });
-  eleventyConfig.addTransform("beta", content=>{
+  eleventyConfig.addTransform("beta", function(content){
     const layout = eleventyConfig.globalData.layoutMap[this.page.inputPath];
     if (!layout) {
       return content;
