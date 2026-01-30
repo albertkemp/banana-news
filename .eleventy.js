@@ -8,8 +8,22 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("local_frame");
 
+  eleventyConfig.addGlobalData("layoutMap", {});
+  eleventyConfig.addExtension("html", {
+    compile: function (inputContent, inputPath) {
+      const layout = this.frontMatter?.data?.layout;
+      if (layout) {
+        eleventyConfig.globalData.layoutMap[inputPath] = layout;
+      }
+      return false;
+    }
+  });
   eleventyConfig.addTransform("beta", content=>{
-    if(content.frontmatter.layout == "beta.njk"){
+    const layout = eleventyConfig.globalData.layoutMap[this.page.inputPath];
+    if (!layout) {
+      return content;
+    }
+    if(layout == "beta.njk"){
       return "This works";
     }
   });
