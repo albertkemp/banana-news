@@ -7,6 +7,9 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("server");
   eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("local_frame");
+  eleventyConfig.setFrontMatterParsingOptions({
+    enabled: true
+  });
 
   eleventyConfig.addGlobalData("layoutMap", {});
   eleventyConfig.addExtension("html", {
