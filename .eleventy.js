@@ -7,6 +7,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("server");
   eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("local_frame");
+
+  /*
   eleventyConfig.setFrontMatterParsingOptions({
     enabled: true
   });
@@ -36,5 +38,5 @@ module.exports = function(eleventyConfig) {
     if(layout == "beta.njk"){
       return "This works";
     }
-  });
+  });*/
 };
