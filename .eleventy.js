@@ -8,7 +8,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("local_frame");
 
-  eleventyConfig.addGlobalData("layoutMap", {});
+  /*eleventyConfig.addGlobalData("layoutMap", {});
   eleventyConfig.addExtension("html", {
     compile: function (inputContent, inputPath) {
       const layout = this.frontMatter?.data?.layout;
@@ -26,5 +26,5 @@ module.exports = function(eleventyConfig) {
     if(layout == "beta.njk"){
       return "This works";
     }
-  });
+  });*/
 };
