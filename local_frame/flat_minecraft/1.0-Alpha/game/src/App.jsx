@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useRef } from 'react'
 import { useContext } from 'react'
+import { useLayoutEffect } from 'react'
 import { useImperativeHandle } from 'react'
 import { forwardRef } from 'react'
 import { createContext } from 'react';
@@ -21,6 +22,7 @@ const PosS = createContext([])
 const world = createContext([0, [], [], [], 0])
 const MPF = createContext(()=>void(0))
 const Pdata = createContext()
+const RTCContext = createContext({ channel: null, channelOpen: false });
 
 const Player = forwardRef((props, ref)=>{
   const [head_angle, setHead_angle] = useState(0);
@@ -339,9 +341,7 @@ function Blocks(){
 
 function Entity(){
   return(
-    <>
-      <h1>Entity</h1>
-    </>
+    <></>
   )
 }
 
@@ -363,14 +363,83 @@ function MP(){
   return (
     <>
       <button style={{
+        position:'absolute', 
         zIndex:11
-      }} onClick={()=>{F(0, "")}}> Create offer</button>
+      }} className='auto-pointer' onClick={()=>{F(0, "")}}> Create offer</button>
       <button style={{
         zIndex:11
       }} onClick={()=>{F(1, "")}}> Create ans</button>
       <button style={{
         zIndex:11
       }} onClick={()=>{F(2, "")}}> connect</button>
+    </>
+  )
+}
+
+function Pause(){
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight)
+  const [pauseBtnWidth, setPauseBtnWidth] = useState(0)
+  const [pauseScreenState, setPauseScreenState] = useState(false)
+  const pauseBtnRef = useRef(null)
+
+  useLayoutEffect(()=>{
+    if(pauseBtnRef.current){
+      setPauseBtnWidth(pauseBtnRef.current.getBoundingClientRect().width)
+    }
+  }, [])
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+      setWindowHeight(window.innerHeight);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return(
+    <>
+      <button
+        ref={pauseBtnRef}
+        style={{
+          position:'absolute', 
+          zIndex:13, 
+          top: 0, 
+          left: windowWidth/2-pauseBtnWidth/2
+        }}
+        className='btn'
+        onClick={()=>{
+          setPauseScreenState(!pauseScreenState)
+        }}
+      >| |</button>
+      <div
+        style={{
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          zIndex:11, 
+          display: pauseScreenState ? 'block' : 'none', 
+          width: '100%', 
+          height: '100%', 
+          backgroundColor: '#000000', 
+          opacity: 0.5
+        }}
+      ></div>
+      <div
+        style={{
+          position: 'absolute', 
+          top: windowHeight/2-windowHeight*0.9/2,
+          left: windowWidth/2-(windowWidth*0.9<300?300:windowWidth*0.9)/2,  
+          display: pauseScreenState ? 'block' : 'none', 
+          zIndex: 12, 
+          minWidth: 300, 
+          width: '90%', 
+          height: '90%', 
+          backgroundColor: '#a6a6a6', 
+          border: 'outset'
+        }}
+      ></div>
     </>
   )
 }
@@ -448,6 +517,9 @@ function Click(){
 function Game({ref}){
   const [engineList, setEngineList] = useState(__default__)
   const gateRef = useRef();
+  const host = !(useContext(Pdata).offer != null && useContext(Pdata).offer != undefined);
+  const RTC = useContext(RTCContext);
+  //console.log(RTC.channelOpen)
   useEffect(() => {
     gateRef.current.update(window.innerWidth/2, window.innerHeight/2)
   }, [window.innerWidth, window.innerHeight]);
@@ -455,17 +527,28 @@ function Game({ref}){
     const username = "h7777"
     const keys = new Set();
     const update = () => {
-      //if(use(Pdata))
       for(let j of keys){
         for(let i of engineList[1]){
           if(i.username == username){
-            let _ = engineList[1].indexOf(i)
-            if(engineList[1][_].action.Hmotion == undefined){
-              engineList[1][_].action.Hmotion = {}
+            if(!host){
+              //console.log(RTC.channelOpen)
+              if(RTC.channelOpen){
+                if(j=="KeyA" ? true : j=="KeyD" ? true : j=="ArrowRight" ? true : j=="ArrowLeft" ? true : false){
+                  RTC.channel.send(`packet:Hmove:${keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"}:${j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : engineList[1][_].action.Hmotion.dir}`)
+                }
+                if(j=="KeyW" || j=="ArrowUp"){
+                  RTC.channel.send("packet:Vmove")
+                }
+              }
+            }else if(host){
+              let _ = engineList[1].indexOf(i)
+              if(engineList[1][_].action.Hmotion == undefined){
+                engineList[1][_].action.Hmotion = {}
+              }
+              engineList[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"
+              engineList[1][_].action.Hmotion.dir = j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : engineList[1][_].action.Hmotion.dir;
+              engineList[1][_].action.Vmotion = j=="KeyW" || engineList[1][_].action.Vmotion
             }
-            engineList[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"
-            engineList[1][_].action.Hmotion.dir = j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : engineList[1][_].action.Hmotion.dir;
-            engineList[1][_].action.Vmotion = j=="KeyW" || engineList[1][_].action.Vmotion
           }
         }
       }
@@ -479,7 +562,7 @@ function Game({ref}){
       keys.delete(e.code);
       update()
     });
-  }, [])
+  }, [RTC])
   let playerPos = {x: 0, y: 0}
   for(let i of engineList[1]){
     if(i.username == "h7777"){
@@ -508,6 +591,16 @@ function Game({ref}){
       }, 
       addEntity(data) {
         structuredClone(engineList[2].push(data))
+      }, addAction(data, type) {
+        let j = 0;
+        for(let i of engineList[1]){
+          if(i.username != "h7777"){
+            engineList[1][j].action[type] = data
+            console.log(engineList)
+            structuredClone(engineList)
+          }
+          j++
+        }
       }
     };
   }, [])
@@ -518,6 +611,7 @@ function Game({ref}){
       <PosS.Provider value={playersPos}>
         <pos.Provider value={playerPos}>
           <world.Provider value={engineList}>
+            <Click/>
             <Player ref={gateRef}/>
             <PlayersW/>
             <Entities/>
@@ -530,12 +624,17 @@ function Game({ref}){
 }
 
 function App(){
-  const data = JSON.parse(sessionStorage.getItem("pageData"));
+  const [RTCChannelState, setRTCChannelState] = useState(false)
+  const [RTCChannel, setRTCChannel] = useState(null)
+  const data = useRef(JSON.parse(sessionStorage.getItem("pageData")));
   sessionStorage.removeItem("pageData");
-  if(data==null){
-    //window.location.href = "../../"
+  /*const data = {
+    offer: null
   }
-  console.log(data)
+  if(data.current==null){
+    //window.location.href = "../../"
+  }*/
+  console.log(data.current)
   const pc = useRef(new RTCPeerConnection({
     iceServers: [
       { urls: "stun:stun.l.google.com:19302" }, 
@@ -544,7 +643,7 @@ function App(){
       { urls: "stun:stun3.l.google.com:19302" }, 
       { urls: "stun:stun4.l.google.com:19302" }, 
       { urls: "stun:stun.relay.metered.ca:80" }, 
-      {
+      /*{
         urls: "turn:global.relay.metered.ca:443",
         username: "b9ef557234472bc8c25f65e3",
         credential: "vy7k6gSHvcB1Bk3p",
@@ -553,18 +652,25 @@ function App(){
         urls: "turns:global.relay.metered.ca:443?transport=tcp",
         username: "b9ef557234472bc8c25f65e3",
         credential: "vy7k6gSHvcB1Bk3p",
+      }, */
+      {
+        urls: "turn:free.expressturn.com:3478",
+        username: "000000002084940025", 
+        credential: "944su+RsD2/M07E2LuN8TOaFdls="
       }
     ]
   }))
-  if(data.offer!=null&&data.offer!=undefined){
+  if(data.current.offer!=null&&data.current.offer!=undefined&&!RTCChannelState){
     (async()=>{
       pc.current.ondatachannel = (event) => {
         const channel = event.channel
         channel.onmessage = (e) => console.log("B received:", e.data)
-        channel.onopen = () => channel.send("packet:ping")
+        channel.onopen = () => {setRTCChannelState(true);channel.send("packet:ping")}
+        channel.onclose = () => setRTCChannelState(false)
+        setRTCChannel(channel)
       }
 
-      const offerFromA = data.offer
+      const offerFromA = data.current.offer
       await pc.current.setRemoteDescription(offerFromA)
       const answer = await pc.current.createAnswer()
       await pc.current.setLocalDescription(answer)
@@ -591,14 +697,20 @@ function App(){
   }, [])
   return (
     <>
-      <Pdata.Provider value={data}>
-        <Game ref={MPR}/>
+      <Pdata.Provider value={data.current}>
+        <RTCContext.Provider value={{
+          channel: RTCChannel, 
+          channelOpen: RTCChannelState
+        }}>
+          <Game ref={MPR}/>
+        </RTCContext.Provider>
       </Pdata.Provider>
       <MPF.Provider value={async(type, str)=>{
         if(type == 0){
           const channelA = pc.current.createDataChannel("chat")
           channelA.onopen = () => channelA.send("packet:ping");
           channelA.onmessage = (e) => {
+            console.log(e.data)
             if(e.data.split(":")[0] == "packet"){
               if(e.data.split(":")[1] != undefined){
                 const data = e.data.split(":")[1]
@@ -659,6 +771,18 @@ function App(){
                       type: "player"
                     })
                     break;
+                  case "Hmove":
+                    console.log(`${e.data.split(":")[2]} : ${e.data.split(":")[3]}`)
+                    MPR.current.addAction(
+                      {
+                        type: e.data.split(":")[2], 
+                        dir: e.data.split(":")[3]
+                      }, 
+                      "Hmotion"
+                    )
+                    break;
+                  case "Vmove":
+                    MPR.current.addAction(true, "Vmotion")
                   default:
                     break;
                 }
@@ -714,6 +838,7 @@ function App(){
         }
       }}>
         <MP/>
+        <Pause/>
       </MPF.Provider>
     </>
   )
