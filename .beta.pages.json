@@ -1,0 +1,9 @@
+[
+    {
+        "page" : "test.html", 
+        "title" : "test", 
+        "plugins" : [], 
+        "scripts" : [], 
+        "compilers" : []
+    }
+]
