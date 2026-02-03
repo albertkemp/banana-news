@@ -18,10 +18,10 @@ module.exports = function(eleventyConfig) {
     const frontMatter = parsed?.data;
     const layout = frontMatter?.layout;
     if (!layout) {
-      return beta.beta(content, this.page.inputPath);
+      return content;
     }
     if(layout == "beta.njk"){
-      return "This works";
+      return beta.beta(content, this.page.inputPath);
     } else {
       return content;
     }
