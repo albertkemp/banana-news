@@ -21,7 +21,7 @@ module.exports = function(eleventyConfig) {
       return content;
     }
     if(layout == "beta.njk"){
-      return beta.beta(content, this.page.inputPath);
+      return beta(content, this.page.inputPath);
     } else {
       return content;
     }

@@ -2,7 +2,7 @@
     {
         "page" : "test.html", 
         "title" : "test", 
-        "template" : "", 
+        "template" : "bn", 
         "plugins" : [], 
         "scripts" : [], 
         "compilers" : []
