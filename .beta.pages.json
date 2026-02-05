@@ -1,0 +1,10 @@
+[
+    {
+        "page" : "test.html", 
+        "title" : "test", 
+        "template" : "", 
+        "plugins" : [], 
+        "scripts" : [], 
+        "compilers" : []
+    }
+]

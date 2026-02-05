@@ -1,5 +1,6 @@
 const fs = require("fs");
 const matter = require("gray-matter");
+const beta = require("./.beta.cjs");
 
 module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("styles");
@@ -20,7 +21,7 @@ module.exports = function(eleventyConfig) {
       return content;
     }
     if(layout == "beta.njk"){
-      return "This works";
+      return beta.beta(content, this.page.inputPath);
     } else {
       return content;
     }
