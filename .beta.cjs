@@ -16,7 +16,9 @@ module.exports = function(content, inputPath){
     for(const i of config){
         if(i?.page == pageName){
             if(typeof i?.title != "string" && i?.title != undefined)return throwError("The title parameter must be string. ");
-            if(i?.title)$("title").text(i?.title);else $("head > title:first").remove();
+            if(i?.title)$("head").append(`<title>${i?.title}</title>`)
+            if(typeof i?.logo != "string" && i?.logo != undefined)return throwError("The logo parameter must be string. ");
+            if(i?.logo)$("head").append(`<link rel="icon" href="${i?.logo}">`)
             if(typeof i?.template != "string" && i?.template != undefined)return throwError("The template parameter must be string. ");
             switch (i?.template) {
                 case undefined:

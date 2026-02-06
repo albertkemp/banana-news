@@ -2,6 +2,7 @@
     {
         "page" : "test.html", 
         "title" : "test", 
+        "logo" : "/images/logosvg.svg", 
         "template" : "bn", 
         "plugins" : [], 
         "scripts" : [], 
@@ -9,6 +10,7 @@
     }, 
     {
         "page" : "indexTest.html", 
+        "logo" : "/images/logosvg.svg", 
         "title" : "Home", 
         "template" : "bn"
     }
