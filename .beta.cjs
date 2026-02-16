@@ -15,7 +15,11 @@ module.exports = function(content, inputPath){
     const $ = cheerio.load(content);
     for(const i of config){
         if(i?.page == pageName){
-            if(typeof i?.template != "string" && i?.template == undefined)return throwError("The template parameter must be string. ");
+            if(typeof i?.title != "string" && i?.title != undefined)return throwError("The title parameter must be string. ");
+            if(i?.title)$("head").append(`<title>${i?.title}</title>`)
+            if(typeof i?.logo != "string" && i?.logo != undefined)return throwError("The logo parameter must be string. ");
+            if(i?.logo)$("head").append(`<link rel="icon" href="${i?.logo}">`)
+            if(typeof i?.template != "string" && i?.template != undefined)return throwError("The template parameter must be string. ");
             switch (i?.template) {
                 case undefined:
                     break;
@@ -30,6 +34,11 @@ module.exports = function(content, inputPath){
                     break;
                 default:
                     return throwError(`"${i?.template}" was not a template. `);
+            }
+            if(i?.plugins){
+                if(i?.plugins?.name == undefined)return throwError("Must specify the name of the plugin. ");
+                if(typeof i?.plugins?.name != "string")return throwError("Plugin name must be string. ");
+                if(typeof i?.plugins?.args != "object" && i?.plugins?.args != undefined)return throwError(`Arguments of plugin: ${i?.plugins?.name} must be objects. `);
             }
         }
     }
