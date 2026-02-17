@@ -30,7 +30,7 @@ module.exports = function(content, inputPath){
                     const body = $("body").html();
                     const templated = templatehtml.replace("{{Content}}", body);
                     $("body").html(templated);
-                    $("head").append('<link rel="stylesheet" href="/styles/style.css">')
+                    $("head").append('<link rel="stylesheet" href="/styles/style.css">\n<link rel="stylesheet" href="/styles/divstyles.css">')
                     break;
                 default:
                     return throwError(`"${i?.template}" was not a template. `);
