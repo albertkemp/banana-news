@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useRef } from 'react'
+import { use } from 'react'
 import { useContext } from 'react'
 import { useLayoutEffect } from 'react'
 import { useImperativeHandle } from 'react'
 import { forwardRef } from 'react'
 import { createContext } from 'react';
+import { Suspense } from 'react';
+import { Component } from 'react';
 import './App.css'
 import { start20TPSLoop, tick } from './minecraftEngine.js'
 import { __default__ } from './default.js'
@@ -23,6 +26,52 @@ const world = createContext([0, [], [], [], 0])
 const MPF = createContext(()=>void(0))
 const Pdata = createContext()
 const RTCContext = createContext({ channel: null, channelOpen: false });
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false,
+      error: null,
+      info: null
+    };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, info) {
+    this.setState({ info });
+
+    console.error("Error message:", error.message);
+    console.error("JS stack:", error.stack);
+    console.error("Component stack:", info.componentStack);
+  }
+
+  render() {
+    const { hasError, error, info } = this.state;
+    if (hasError) {
+      if (typeof this.props.fallback === "function") {
+        return this.props.fallback(error, info);
+      }
+
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
+
+      return (
+        <div style={{ color: "red" }}>
+          <h3>{error?.message}</h3>
+          {info && <pre>{info.componentStack}</pre>}
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 
 const Player = forwardRef((props, ref)=>{
   const [head_angle, setHead_angle] = useState(0);
@@ -378,11 +427,133 @@ function MP(){
   )
 }
 
+function Offer({ state, count }) {
+  const RTC = useContext(MPF)
+  const [text, setText] = useState("")
+  const prevCount = useRef(0)
+  const promiseRef = useRef(null)
+  const inputRef = useRef(null)
+  
+  if (state && prevCount.current !== count) {
+    prevCount.current = count
+    promiseRef.current = RTC(0, null)
+  }
+
+  if (!promiseRef.current) {
+    promiseRef.current = new Promise(res => setTimeout(() => res(""), 0))
+  }
+  
+  const offer = use(promiseRef.current)
+
+  return (
+    <div
+      style={{
+        display: state ? 'block' : 'none'
+      }}
+    >
+      <input type="text" value={offer} ref={inputRef} style={{
+        border: '5px inset', 
+        outline: 'none', 
+        verticalAlign: 'top', 
+        height: 15, 
+        lineHeight: 0, 
+      }} readOnly/>
+      <button
+        className='btn'
+        style={{
+          borderWidth: 5, 
+          paddingTop: 1, 
+          paddingRight: 2, 
+          paddingBottom: 1, 
+          paddingLeft: 2, 
+          margin: 0, 
+          lineHeight: 0
+        }}
+        onClick={
+          async () => {
+            await navigator.clipboard.writeText(inputRef?.current?.value);
+            setText("Coppied to clipboard! ")
+          }
+        }
+      >
+        <svg 
+          viewBox="0 0 24 24" 
+          fill="black"
+          style={{
+            height: 15
+          }}
+        >
+          <path d="M5.5028 4.62704L5.5 6.75V17.2542C5.5 19.0491 6.95507 20.5042 8.75 20.5042L17.3663 20.5045C17.0573 21.3782 16.224 22.0042 15.2444 22.0042H8.75C6.12665 22.0042 4 19.8776 4 17.2542V6.75C4 5.76929 4.62745 4.93512 5.5028 4.62704ZM17.75 2C18.9926 2 20 3.00736 20 4.25V17.25C20 18.4926 18.9926 19.5 17.75 19.5H8.75C7.50736 19.5 6.5 18.4926 6.5 17.25V4.25C6.5 3.00736 7.50736 2 8.75 2H17.75ZM17.75 3.5H8.75C8.33579 3.5 8 3.83579 8 4.25V17.25C8 17.6642 8.33579 18 8.75 18H17.75C18.1642 18 18.5 17.6642 18.5 17.25V4.25C18.5 3.83579 18.1642 3.5 17.75 3.5Z"></path>
+        </svg>
+      </button>
+      <br/>
+      <p
+        style={{
+          color: '#00dd00ff', 
+          margin: 0
+        }}
+      >{text}</p>
+    </div>
+  )
+}
+
+function ConnectUI ({ state }){
+  const RTC = useContext(MPF)
+  const [promise, setPromise] = useState(null)
+  const inputRef = useRef(null)
+
+  function handleConnect() {
+    setPromise(RTC(1, inputRef?.current?.value))
+   } 
+   
+   let result = null 
+   if (promise) {
+    result = use(promise)
+  }
+
+  return (
+    <div
+      style={{
+        display: state ? "block" : "none"
+      }}
+    >
+      <input
+        type="text" 
+        placeholder='Add answer here...' 
+        style={{
+          border: '5px inset', 
+          outline: 'none', 
+          verticalAlign: 'top', 
+          height: 15, 
+          lineHeight: 0, 
+        }}
+        ref={inputRef}
+      />
+      <button
+        className='btn'
+        style={{
+          borderWidth: 5, 
+          paddingTop: 1, 
+          paddingRight: 2, 
+          paddingBottom: 1, 
+          paddingLeft: 2, 
+          margin: 0, 
+          fontSize: 14
+        }}
+        onClick={handleConnect}
+      >Connect</button>
+    </div>
+  )
+}
+
 function Pause(){
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [windowHeight, setWindowHeight] = useState(window.innerHeight)
   const [pauseBtnWidth, setPauseBtnWidth] = useState(0)
   const [pauseScreenState, setPauseScreenState] = useState(false)
+  const [inviteState, setInviteState] = useState(false)
+  const [offerState, setOfferState] = useState([false, 0])
+  const [connectUIState, setConnectUIState] = useState(false)
   const pauseBtnRef = useRef(null)
 
   useLayoutEffect(()=>{
@@ -412,7 +583,8 @@ function Pause(){
         }}
         className='btn'
         onClick={()=>{
-          setPauseScreenState(!pauseScreenState)
+          setPauseScreenState(!pauseScreenState);
+          void pauseScreenState ? null : setInviteState(false)
         }}
       >| |</button>
       <div
@@ -439,7 +611,7 @@ function Pause(){
           width: '90%', 
           height: '90%', 
           backgroundColor: '#a6a6a6', 
-          border: 'outset'
+          border: '5px outset'
         }}
       >
         <div style={{
@@ -451,10 +623,74 @@ function Pause(){
               width: '40%', 
               minWidth: 100
             }}
+            onClick={()=>{
+              setInviteState(!inviteState)
+            }}
           >Invite</button>
-          <div>
+          <div
+            style={{
+              display: inviteState ? 'block' : 'none'
+            }}
+          >
             <h2>How to invite:</h2>
             <p>Click Create Offer it will generate an "Offer" send this to the person you want to invite. Then they will create an "Answer" they will need to send that to you. Then click Connect and they should connect. </p>
+            <button
+              className='btn'
+              onClick={()=>{
+                setOfferState([
+                  true, 
+                  offerState[1]+1
+                ])
+              }}
+            >Create Offer</button>
+            <ErrorBoundary fallback={(error, info) => (<div style={{textAlign: 'left'}}>
+              <p>An error occurred when generating Offer:</p>
+              <p>Error message: {error.message}</p>
+              <p>JS stack: </p>
+              <pre>{error.stack}</pre>
+              <p>Component stack: </p>
+              {info && <pre>{info.componentStack}</pre>}
+            </div>)}>
+              <Suspense fallback={<div>Creating Offer...</div>}>
+                <ErrorBoundary fallback={(error, info) => (<div style={{textAlign: 'left'}}>
+                  <p>An error occurred when generating Offer:</p>
+                  <p>Error message: {error.message}</p>
+                  <p>JS stack: </p>
+                  <pre>{error.stack}</pre>
+                  <p>Component stack: </p>
+                  {info && <pre>{info.componentStack}</pre>}
+                </div>)}>
+                  <Offer state={offerState[0]} count={offerState[1]}/>
+                </ErrorBoundary>
+              </Suspense>
+            </ErrorBoundary>
+            <button
+              className='btn'
+              onClick={
+                ()=>void setConnectUIState(!connectUIState)
+              }
+            >Connect</button>
+            <ErrorBoundary fallback={(error, info) => (<div style={{textAlign: 'left'}}>
+              <p>An error occurred when Connecting:</p>
+              <p>Error message: {error.message}</p>
+              <p>JS stack: </p>
+              <pre>{error.stack}</pre>
+              <p>Component stack: </p>
+              {info && <pre>{info.componentStack}</pre>}
+            </div>)}>
+              <Suspense fallback={<div>Connecting...</div>}>
+                <ErrorBoundary fallback={(error, info) => (<div style={{textAlign: 'left'}}>
+                  <p>An error occurred when Connecting:</p>
+                  <p>Error message: {error.message}</p>
+                  <p>JS stack: </p>
+                  <pre>{error.stack}</pre>
+                  <p>Component stack: </p>
+                  {info && <pre>{info.componentStack}</pre>}
+                </div>)}>
+                  <ConnectUI state={connectUIState}/>
+                </ErrorBoundary>
+              </Suspense>
+            </ErrorBoundary>
           </div>
         </div>
       </div>
@@ -470,7 +706,7 @@ function Click(){
   var EVENT = {}
   const PHandle = () => {
     var br = false
-    console.log(mode.current)
+    //console.log(mode.current)
     if(mode.current != 1&& mode.current != null){
       OL:
       for(const i of world_[3]){
@@ -535,6 +771,7 @@ function Click(){
 function Game({ref}){
   const [engineList, setEngineList] = useState(__default__)
   const gateRef = useRef();
+  const data = useContext(Pdata);
   const host = !(useContext(Pdata).offer != null && useContext(Pdata).offer != undefined);
   const RTC = useContext(RTCContext);
   //console.log(RTC.channelOpen)
@@ -622,7 +859,11 @@ function Game({ref}){
       }
     };
   }, [])
-  start20TPSLoop(tick, setEngineList, engineList)
+  useEffect(()=>{
+    if(!RTC.channelOpen && !data.offer){
+      start20TPSLoop(tick, setEngineList, engineList);
+    }
+  }, [])
 
   return (
     <>
@@ -647,9 +888,11 @@ function App(){
   const data = useRef(JSON.parse(sessionStorage.getItem("pageData")));
   sessionStorage.removeItem("pageData");
   /*const data = {
-    offer: null
+    current: {
+      offer: null
+    }
   }
-  if(data.current==null){
+  /*if(data.current==null){
     //window.location.href = "../../"
   }*/
   console.log(data.current)
@@ -823,39 +1066,13 @@ function App(){
             });
           }
 
-          console.log("OFFER:", JSON.stringify(pc.current.localDescription))
+          return JSON.stringify(pc.current.localDescription);
         } else if (type == 1){
-          pc.current.ondatachannel = (event) => {
-            const channel = event.channel
-            channel.onmessage = (e) => console.log("B received:", e.data)
-            channel.onopen = () => channel.send("packet:ping")
-          }
-
-          const offerFromA = JSON.parse(prompt("offer plz"))
-          await pc.current.setRemoteDescription(offerFromA)
-          const answer = await pc.current.createAnswer()
-          await pc.current.setLocalDescription(answer)
-
-          if (pc.current.iceGatheringState !== "complete") {
-            await new Promise(resolve => {
-              function checkState() {
-                if (pc.current.iceGatheringState === "complete") {
-                  pc.current.removeEventListener("icegatheringstatechange", checkState)
-                  resolve()
-                }
-              }
-              pc.current.addEventListener("icegatheringstatechange", checkState)
-            })
-          }
-
-          console.log("ANSWER:", JSON.stringify(pc.current.localDescription))
-        } else if (type == 2){
-          const answerFromB = JSON.parse(prompt("ans plz"))
+          const answerFromB = JSON.parse(str)
           await pc.current.setRemoteDescription(answerFromB)
-          console.log("Peer A connected (once ICE completes)")
+          return true;
         }
       }}>
-        <MP/>
         <Pause/>
       </MPF.Provider>
     </>
