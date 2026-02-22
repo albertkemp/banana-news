@@ -698,6 +698,82 @@ function Pause(){
   )
 }
 
+function AnswerUI({ answer, error }){
+  const [text, setText] = useState("")
+  return(
+    <>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0, 
+          left: 0,  
+          width: '100%', 
+          height: '100%', 
+          zIndex: 14, 
+          backgroundColor: '#a6a6a6', 
+          textAlign: 'center'
+        }}
+      >
+        {error ? 
+        <div>
+          <h2>An error occurred when generating Answer:</h2>
+          <p>Error message:</p>
+          <p>{error[0]}</p>
+          <p>JS stack:</p>
+          <pre>{error[1]}</pre>
+        </div> :
+        answer ? 
+          <>
+            <textarea
+              style={{
+                border: '5px inset', 
+                outline: 'none', 
+                verticalAlign: 'top', 
+                height: 15
+              }}
+              readOnly
+            >{answer}</textarea>
+            <button
+              className='btn'
+              style={{
+                borderWidth: 5, 
+                paddingTop: 1, 
+                paddingRight: 2, 
+                paddingBottom: 1, 
+                paddingLeft: 2, 
+                margin: 0, 
+                lineHeight: 0
+              }}
+              onClick={
+                async () => {
+                  await navigator.clipboard.writeText(answer);
+                  setText("Coppied to clipboard! ")
+                }
+              }
+            >
+              <svg 
+                viewBox="0 0 24 24" 
+                fill="black"
+                style={{
+                  height: 15
+                }}
+              >
+                <path d="M5.5028 4.62704L5.5 6.75V17.2542C5.5 19.0491 6.95507 20.5042 8.75 20.5042L17.3663 20.5045C17.0573 21.3782 16.224 22.0042 15.2444 22.0042H8.75C6.12665 22.0042 4 19.8776 4 17.2542V6.75C4 5.76929 4.62745 4.93512 5.5028 4.62704ZM17.75 2C18.9926 2 20 3.00736 20 4.25V17.25C20 18.4926 18.9926 19.5 17.75 19.5H8.75C7.50736 19.5 6.5 18.4926 6.5 17.25V4.25C6.5 3.00736 7.50736 2 8.75 2H17.75ZM17.75 3.5H8.75C8.33579 3.5 8 3.83579 8 4.25V17.25C8 17.6642 8.33579 18 8.75 18H17.75C18.1642 18 18.5 17.6642 18.5 17.25V4.25C18.5 3.83579 18.1642 3.5 17.75 3.5Z"></path>
+              </svg>
+            </button>
+            <p style={{
+              color: '#00dd00ff', 
+              margin: 0
+            }}>
+              {text}
+            </p>
+          </> : 
+        "Generating answer..."}
+      </div>
+    </>
+  )
+}
+
 function Click(){
   const P_pos = useContext(pos)
   const world_ = useContext(world)
@@ -885,6 +961,8 @@ function Game({ref}){
 function App(){
   const [RTCChannelState, setRTCChannelState] = useState(false)
   const [RTCChannel, setRTCChannel] = useState(null)
+  const [answerState, setAnswerState] = useState(null)
+  const [answerError, setAnswerError] = useState(null)
   const data = useRef(JSON.parse(sessionStorage.getItem("pageData")));
   sessionStorage.removeItem("pageData");
   /*const data = {
@@ -921,36 +999,47 @@ function App(){
       }
     ]
   }))
-  if(data.current.offer!=null&&data.current.offer!=undefined&&!RTCChannelState){
-    (async()=>{
-      pc.current.ondatachannel = (event) => {
-        const channel = event.channel
-        channel.onmessage = (e) => console.log("B received:", e.data)
-        channel.onopen = () => {setRTCChannelState(true);channel.send("packet:ping")}
-        channel.onclose = () => setRTCChannelState(false)
-        setRTCChannel(channel)
-      }
-
-      const offerFromA = data.current.offer
-      await pc.current.setRemoteDescription(offerFromA)
-      const answer = await pc.current.createAnswer()
-      await pc.current.setLocalDescription(answer)
-
-      if (pc.current.iceGatheringState !== "complete") {
-        await new Promise(resolve => {
-          function checkState() {
-            if (pc.current.iceGatheringState === "complete") {
-              pc.current.removeEventListener("icegatheringstatechange", checkState)
-              resolve()
-            }
+  useEffect(()=>{
+    try{
+      if(data.current.offer!=null&&data.current.offer!=undefined&&!RTCChannelState){
+        (async()=>{
+          pc.current.ondatachannel = (event) => {
+            const channel = event.channel
+            channel.onmessage = (e) => console.log("B received:", e.data)
+            channel.onopen = () => {setRTCChannelState(true);channel.send("packet:ping")}
+            channel.onclose = () => setRTCChannelState(false)
+            setRTCChannel(channel)
           }
-          pc.current.addEventListener("icegatheringstatechange", checkState)
-        })
-      }
 
-      console.log("ANSWER:", JSON.stringify(pc.current.localDescription))
-    })()
-  }
+          const offerFromA = data.current.offer
+          await pc.current.setRemoteDescription(offerFromA)
+          const answer = await pc.current.createAnswer()
+          await pc.current.setLocalDescription(answer)
+
+          if (pc.current.iceGatheringState !== "complete") {
+            await new Promise(resolve => {
+              function checkState() {
+                if (pc.current.iceGatheringState === "complete") {
+                  pc.current.removeEventListener("icegatheringstatechange", checkState)
+                  resolve()
+                }
+              }
+              pc.current.addEventListener("icegatheringstatechange", checkState)
+            })
+          }
+
+          setAnswerState(JSON.stringify(pc.current.localDescription))
+        })()
+      }
+    } catch (err) {
+      setAnswerError(
+        [
+          err.name + ": " + err.message, 
+          err.stack
+        ]
+      )
+    }
+  }, [])
   const MPR = useRef()
   let MPR_ = () => void(0)
   useEffect(()=>{
@@ -1075,6 +1164,7 @@ function App(){
       }}>
         <Pause/>
       </MPF.Provider>
+      {data.current.offer && !RTCChannelState ? <AnswerUI answer={answerState} error={answerError}/> : <></>}
     </>
   )
 }
