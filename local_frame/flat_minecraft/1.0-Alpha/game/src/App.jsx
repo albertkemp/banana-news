@@ -6,12 +6,15 @@ import { useContext } from 'react'
 import { useLayoutEffect } from 'react'
 import { useImperativeHandle } from 'react'
 import { forwardRef } from 'react'
-import { createContext } from 'react';
-import { Suspense } from 'react';
-import { Component } from 'react';
+import { createContext } from 'react'
+import { Suspense } from 'react'
+import { Component } from 'react'
+import { deflate } from "pako"
+import { inflate } from "pako"
 import './App.css'
 import { start20TPSLoop, tick } from './minecraftEngine.js'
 import { __default__ } from './default.js'
+import { VERSION } from './version.js'
 import arm from '/steve_arm.png'
 import head from '/steve_head.png'
 import body from '/steve.png'
@@ -228,6 +231,12 @@ function PlayersW () {
   const P_pos = useContext(pos)
   var list = []
   for(var i of useContext(PosS)){
+    if(
+      i.x+16<P_pos.x || 
+      i.x-16>P_pos.x || 
+      i.y+16<P_pos.y ||
+      i.y-16>P_pos.y
+    )continue;
     list.push(
       <Players x={100*(i.x-P_pos.x)+window.innerWidth/2} y={100*(-i.y+P_pos.y)+window.innerHeight/2} key={i.u}/>
     )
@@ -287,7 +296,7 @@ function Blocks(){
   return (
     <>
       {blockRenderList.map((block) => {
-        if(block.x + 16 < P_pos.x || block.x - 16 > P_pos.x){
+        if(block.x + 16 < P_pos.x || block.x - 16 > P_pos.x || block.y + 16 < P_pos.y || block.y - 16 > P_pos.y){
           return;
         }
         let src;
@@ -427,6 +436,37 @@ function MP(){
   )
 }
 
+function Alert({ message, w, h }){
+  return (
+    <>
+      <div
+        style={{
+          position: 'absolute', 
+          top: 0, 
+          left: 0, 
+          zIndex: 13, 
+          width: '100%', 
+          height: '100%', 
+          backgroundColor: '#000000', 
+          opacity: 0.5
+        }}
+      ></div>
+      <div style={{
+        position: 'absolute', 
+        top: h/2-(h*0.4<300?300:h*0.4)/2, 
+        left: w/2-(w*0.4<300?300:w*0.4)/2, 
+        minWidth: 300, 
+        minHeight: 300, 
+        width: '40%', 
+        height: '40%', 
+        zIndex: 14, 
+        backgroundColor: '#a6a6a6', 
+        border: '5px outset'
+      }}>{message}</div>
+    </>
+  )
+}
+
 function Offer({ state, count }) {
   const RTC = useContext(MPF)
   const [text, setText] = useState("")
@@ -554,7 +594,13 @@ function Pause(){
   const [inviteState, setInviteState] = useState(false)
   const [offerState, setOfferState] = useState([false, 0])
   const [connectUIState, setConnectUIState] = useState(false)
+  const [urlState, setUrlState] = useState(false)
+  const [alertState, setAlert] = useState([false, ""])
+  const [saveStatus, setSaveStatus] = useState(false)
   const pauseBtnRef = useRef(null)
+  const urlRef = useRef(null)
+  const worldData = useContext(world)
+  const pageData = useContext(Pdata)
 
   useLayoutEffect(()=>{
     if(pauseBtnRef.current){
@@ -570,6 +616,311 @@ function Pause(){
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  async function save(quit=true){
+    const encoder = new TextEncoder();
+    for(let i = 0;i < worldData[0].length;i++){
+      if(worldData[0][i].username != "h7777"){
+        delete worldData[0][i];
+      }
+    }
+    const compressed = deflate(JSON.stringify(worldData));
+    const v = encoder.encode(VERSION);
+    const staged = new Uint8Array(compressed.length + v.length + 1);
+    staged.set(v, 0);
+    staged.set(compressed, v.length + 1);
+    staged[v.length] = 0x00;
+    const hashBuffer = await crypto.subtle.digest("SHA-256", compressed);
+    const checkSum = new Uint8Array(hashBuffer);
+    const file = new Uint8Array(staged.length + 36);
+    file[0] = 0x46;
+    file[1] = 0x4D;
+    file[2] = 0x43;
+    file[3] = 0x00;
+    file.set(checkSum, 4);
+    file.set(staged, 36);
+    if("showDirectoryPicker" in window) {
+      const request = indexedDB.open("FMC_DB", 1);
+      request.onupgradeneeded = event => {
+        const db = event.target.result; 
+        if(!db.objectStoreNames.contains("handle")){
+          db.createObjectStore("handle", {
+            autoIncrement: true
+          })
+        }
+      }
+      request.onsuccess = event => {
+        const db = event.target.result; 
+        if(!db.objectStoreNames.contains("handle")){
+          db.createObjectStore("handle", {
+            autoIncrement: true
+          })
+        }
+        const transaction = db.transaction("handle", "readonly");
+        const store = transaction.objectStore("handle");
+        const request = store.getAll();
+        request.onsuccess = () => {
+          (async()=>{
+            const dir = request.result?.[0];
+            if(request.result?.[0]){
+              const perm = await dir.queryPermission({ mode: "readwrite" });
+              if (perm === "granted") {
+                try {
+                  const fileHandle = await dir.getFileHandle(`${pageData.name}.fmc`);
+                  const writable = await fileHandle.createWritable();
+                  await writable.write(file);
+                  await writable.close();
+                  if(!quit){
+                    setSaveStatus(true);
+                    setTimeout(function(){setSaveStatus(false)}, 2000)
+                  }
+                } catch (err) {
+                  if (err.name === "NotFoundError"){
+                    const fileHandle = await dir.getFileHandle(`${pageData.name}.fmc`, { create: true });
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(file);
+                    await writable.close();
+                    if(!quit){
+                      setSaveStatus(true);
+                      setTimeout(function(){setSaveStatus(false)}, 2000);
+                    }
+                  } else {
+                    setAlert([true, 
+                      <>
+                        <h1>An error occurred:</h1>
+                        <p>An unexpected error occurred while dirPicker queryPermission was "granted"</p>
+                        <p>Error message: </p>
+                        <p>{err.name}: {err.message}</p>
+                        <p>JS stack:</p>
+                        <p>{err.stack}</p>
+                        <br/>
+                        <p>Please report this error. </p>
+                        <button className='btn' onClick={setAlert([false, ""])}>Close</button>
+                      </>
+                    ])
+                  }
+                }
+              } else if (perm === "prompt"){
+                setAlert([
+                  true, 
+                  <>
+                    <h1>Please read:</h1>
+                    <p>Flat Minecraft requires a folder to save your world please create and select a folder to save your world. </p>
+                    <button className='btn' onClick={
+                      async function (){
+                        const dir = await window.showDirectoryPicker({ mode: "readwrite" });
+                        try {
+                          const fileHandle = await dir.getFileHandle(`${pageData.name}.fmc`);
+                          const writable = await fileHandle.createWritable();
+                          await writable.write(file); 
+                          await writable.close();
+                          const transaction = db.transaction("handle", "readwrite");
+                          const store = transaction.objectStore("handle");
+                          const request = store.add(dir);
+                          request.onsuccess = () => {
+                            if(quit){
+                              window.location.href = "../../"
+                            } else {
+                              setSaveStatus(true);
+                              setTimeout(function(){setSaveStatus(false)}, 2000);
+                            }
+                          }
+                          request.onerror = event => setAlert([true, 
+                            <>
+                              <h1>An error occurred:</h1>
+                              <p>Failed opening IDB with error at "readwrite" perm in try statement, "add" operation inside perm query "prompt". </p>
+                              <p>Error:</p>
+                              <p>{event.target.error?.name}: {event.target.error?.message}</p>
+                              <br/>
+                              <p>Please report this error. </p>
+                              <button className='btn' onClick={setAlert([false, ""])}>Close</button>
+                            </>
+                          ])
+                        } catch (err) {
+                          if (err.name === "NotFoundError"){
+                            const fileHandle = await dir.getFileHandle(`${pageData.name}.fmc`, { create: true });
+                            const writable = await fileHandle.createWritable();
+                            await writable.write(file);
+                            await writable.close();
+                            const transaction = db.transaction("handle", "readwrite");
+                            const store = transaction.objectStore("handle");
+                            const request = store.add(dir);
+                            request.onsuccess = () => {
+                              if(quit){
+                                window.location.href = "../../"
+                              } else {
+                                setSaveStatus(true);
+                                setTimeout(function(){setSaveStatus(false)}, 2000);
+                              }
+                            }
+                            request.onerror = event => setAlert([true, 
+                              <>
+                                <h1>An error occurred:</h1>
+                                <p>Failed opening IDB with error at "readwrite" perm in catch statement, "add" operation inside perm query "prompt". </p>
+                                <p>Error:</p>
+                                <p>{event.target.error?.name}: {event.target.error?.message}</p>
+                                <br/>
+                                <p>Please report this error. </p>
+                                <button className='btn' onClick={setAlert([false, ""])}>Close</button>
+                              </>
+                            ])
+                          } else {
+                            setAlert([true, 
+                              <>
+                                <h1>An error occurred:</h1>
+                                <p>An unexpected error occurred while dirPicker queryPermission was "prompt"</p>
+                                <p>Error message: </p>
+                                <p>{err.name}: {err.message}</p>
+                                <p>JS stack:</p>
+                                <p>{err.stack}</p>
+                                <br/>
+                                <p>Please report this error. </p>
+                                <button className='btn' onClick={setAlert([false, ""])}>Close</button>
+                              </>
+                            ])
+                          }
+                        }
+                        setAlert([false, ""]);
+                      }
+                    }>Continue</button>
+                  </>
+                ])
+              } else {
+                const blob = new Blob([file], { type: "application/octet-stream" });
+                const url = URL.createObjectURL(blob);
+                setUrlState(true);
+                urlRef.current.href = url;
+                urlRef.current.download = `${pageData.name}.fmc`;
+                urlRef.current.click();
+                setUrlState(false);
+                URL.revokeObjectURL(url);
+              }
+            } else {
+              setAlert([
+                true, 
+                <>
+                  <h1>Please read:</h1>
+                  <p>Flat Minecraft requires a folder to save your world please create and select a folder to save your world. </p>
+                  <button className='btn' onClick={
+                    async function (){
+                      const dir = await window.showDirectoryPicker({ mode: "readwrite" });
+                      try {
+                        const fileHandle = await dir.getFileHandle(`${pageData.name}.fmc`);
+                        const writable = await fileHandle.createWritable();
+                        await writable.write(file); 
+                        await writable.close();
+                        const transaction = db.transaction("handle", "readwrite");
+                        const store = transaction.objectStore("handle");
+                        const request = store.add(dir);
+                        request.onsuccess = () => {
+                          if(quit){
+                            window.location.href = "../../"
+                          } else {
+                            setSaveStatus(true);
+                            setTimeout(function(){setSaveStatus(false)}, 2000);
+                          }
+                        }
+                        request.onerror = event => setAlert([true, 
+                          <>
+                            <h1>An error occurred:</h1>
+                            <p>Failed opening IDB with error at "readwrite" perm in try statement, "add" operation. </p>
+                            <p>Error:</p>
+                            <p>{event.target.error?.name}: {event.target.error?.message}</p>
+                            <br/>
+                            <p>Please report this error. </p>
+                            <button className='btn' onClick={setAlert([false, ""])}>Close</button>
+                          </>
+                        ])
+                      } catch (err) {
+                        if (err.name === "NotFoundError"){
+                          const fileHandle = await dir.getFileHandle(`${pageData.name}.fmc`, { create: true });
+                          const writable = await fileHandle.createWritable();
+                          await writable.write(file);
+                          await writable.close();
+                          const transaction = db.transaction("handle", "readwrite");
+                          const store = transaction.objectStore("handle");
+                          const request = store.add(dir);
+                          request.onsuccess = () => {
+                            if(quit){
+                              window.location.href = "../../"
+                            } else {
+                              setSaveStatus(true);
+                              setTimeout(function(){setSaveStatus(false)}, 2000);
+                            }
+                          }
+                          request.onerror = event => setAlert([true, 
+                            <>
+                              <h1>An error occurred:</h1>
+                              <p>Failed opening IDB with error at "readwrite" perm in catch statement, "add" operation. </p>
+                              <p>Error:</p>
+                              <p>{event.target.error?.name}: {event.target.error?.message}</p>
+                              <br/>
+                              <p>Please report this error. </p>
+                              <button className='btn' onClick={setAlert([false, ""])}>Close</button>
+                            </>
+                          ])
+                        } else {
+                          setAlert([true, 
+                            <>
+                              <h1>An error occurred:</h1>
+                              <p>An unexpected error occurred while dirPicker handle did not exist in IDB. </p>
+                              <p>Error message: </p>
+                              <p>{err.name}: {err.message}</p>
+                              <p>JS stack:</p>
+                              <p>{err.stack}</p>
+                              <br/>
+                              <p>Please report this error. </p>
+                              <button className='btn' onClick={setAlert([false, ""])}>Close</button>
+                            </>
+                          ])
+                        }
+                      }
+                      setAlert([false, ""]);
+                    }
+                  }>Continue</button>
+                </>
+              ])
+            }
+          })()
+        }
+        request.onerror = () => {
+          setAlert([true, 
+            <>
+              <h1>An error occurred:</h1>
+              <p>Failed opening IDB with "readonly" permission. </p>
+              <p>Error:</p>
+              <p>{request.error?.name}: {request.error?.message}</p>
+              <br/>
+              <p>Please report this error. </p>
+              <button className='btn' onClick={setAlert([false, ""])}>Close</button>
+            </>
+          ])
+        }
+      }
+      request.onerror = event => {
+        setAlert([true, 
+          <>
+            <h1>An error occurred:</h1>
+            <p>Failed opening IDB "FMC_DB". </p>
+            <p>Error:</p>
+            <p>{event.target.error?.name}: {event.target.error?.message}</p>
+            <p>Please report this error. </p>
+            <button className='btn' onClick={setAlert([false, ""])}>Close</button>
+            <br/>
+          </>
+        ])
+      }
+    } else {
+      const blob = new Blob([file], { type: "application/octet-stream" });
+      const url = URL.createObjectURL(blob);
+      setUrlState(true);
+      urlRef.current.href = url;
+      urlRef.current.download = `${pageData.name}.fmc`;
+      urlRef.current.click();
+      setUrlState(false);
+      URL.revokeObjectURL(url);
+    }
+  }
 
   return(
     <>
@@ -692,8 +1043,25 @@ function Pause(){
               </Suspense>
             </ErrorBoundary>
           </div>
+          <div>
+            <button onClick={function(){save(false)}} className='btn' style={{
+              width: '40%', 
+              minWidth: 100
+            }}>Save</button>
+            {saveStatus ? <p style={{
+              color: '#00dd00ff', 
+              margin: 0
+            }}>Game saved</p> : <></>}
+            <br/>
+            <button onClick={save} className='btn' style={{
+              width: '40%', 
+              minWidth: 100
+            }}>Save and quit</button>
+          </div>
         </div>
       </div>
+      {alertState[0] ? <Alert message={alertState[1]} w={windowWidth} h={windowHeight}/> : <></>}
+      {urlState ? <a ref={urlRef} style={{display: 'none'}}></a> : <></>}
     </>
   )
 }
@@ -963,10 +1331,11 @@ function App(){
   const [RTCChannel, setRTCChannel] = useState(null)
   const [answerState, setAnswerState] = useState(null)
   const [answerError, setAnswerError] = useState(null)
-  const data = useRef(JSON.parse(sessionStorage.getItem("pageData")));
+  //const data = useRef(JSON.parse(sessionStorage.getItem("pageData")));
   sessionStorage.removeItem("pageData");
-  /*const data = {
+  const data = {
     current: {
+      name: "test", 
       offer: null
     }
   }
@@ -1162,7 +1531,9 @@ function App(){
           return true;
         }
       }}>
-        <Pause/>
+        <Pdata.Provider value={data.current}>
+          <Pause/>
+        </Pdata.Provider>
       </MPF.Provider>
       {data.current.offer && !RTCChannelState ? <AnswerUI answer={answerState} error={answerError}/> : <></>}
     </>
