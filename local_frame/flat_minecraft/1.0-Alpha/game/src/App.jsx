@@ -274,7 +274,7 @@ function Block(props){
 
 function Blocks(){
   //[{type: "oak_planks", key: 0, x: 1, y: 0}, {type: "oak_planks", key: 1, x: 0, y: 0}, {type: "oak_planks", key: 2, x: -1, y: 0}, {type: "oak_planks", key: 3, x: 1, y: -1}, {type: "oak_planks", key: 4, x: 0, y: -1}, {type: "oak_planks", key: 5, x: -1, y: -1}]
-  const [blockRenderList, setBlockRenderList] = useState(useContext(world)[3])
+  const blockRenderList = useContext(world)[3]
   const P_pos = useContext(pos)
   const memoizedImg = useRef({})
   const cacheItems = useRef([])
@@ -586,7 +586,7 @@ function ConnectUI ({ state }){
   )
 }
 
-function Pause(){
+function Pause({ getWorld }){
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [windowHeight, setWindowHeight] = useState(window.innerHeight)
   const [pauseBtnWidth, setPauseBtnWidth] = useState(0)
@@ -599,7 +599,6 @@ function Pause(){
   const [saveStatus, setSaveStatus] = useState(false)
   const pauseBtnRef = useRef(null)
   const urlRef = useRef(null)
-  const worldData = useContext(world)
   const pageData = useContext(Pdata)
 
   useLayoutEffect(()=>{
@@ -619,9 +618,12 @@ function Pause(){
 
   async function save(quit=true){
     const encoder = new TextEncoder();
-    for(let i = 0;i < worldData[0].length;i++){
-      if(worldData[0][i].username != "h7777"){
-        delete worldData[0][i];
+    console.log(getWorld())
+    const worldData = getWorld();
+    console.log(getWorld)
+    for(let i = 0;i < worldData[1].length;i++){
+      if(worldData[1][i].username != "h7777"){
+        delete worldData[1][i];
       }
     }
     const compressed = deflate(JSON.stringify(worldData));
@@ -662,7 +664,7 @@ function Pause(){
         request.onsuccess = () => {
           (async()=>{
             const dir = request.result?.[0];
-            if(request.result?.[0]){
+            if(dir){
               const perm = await dir.queryPermission({ mode: "readwrite" });
               if (perm === "granted") {
                 try {
@@ -1066,6 +1068,336 @@ function Pause(){
   )
 }
 
+function InputWorldUI({ pageData, upload }){
+  const [alertState, setAlert] = useState([false, null])
+
+  const content = (function(){
+    if(pageData.upload){
+      async function handleFile(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const buf = await file.arrayBuffer();
+        const u8 = new Uint8Array(buf);
+
+        const name = file.name.replace(/\.[^/.]+$/, "");
+
+        if(
+          u8[0] == 0x46 &&
+          u8[1] == 0x4D &&
+          u8[2] == 0x43 &&
+          u8[3] == 0x00
+        ){
+          let ptr = 36;
+          let ver = [];
+          while(ptr < u8.length && u8[ptr] !== 0x00){
+            ver.push(u8[ptr]);
+            ptr++;
+          }
+          if(ptr == u8.length){
+            setAlert([true, 
+              <>
+                <p>Null terminator character could not be found. </p>
+                <p>You may have loaded the wrong file or it was corrupted. </p>
+                <p>Details:</p>
+                <p>Pointer reached position {ptr} without finding a null terminator character. </p>
+              </>
+            ])
+            return;
+          } else if(new TextDecoder().decode(new Uint8Array(ver)) != VERSION){
+            setAlert([true, 
+              <>
+                <p>Unknown version of the game. </p>
+                <p>You may have loaded the wrong file or a future version of the game. </p>
+                <p>Details:</p>
+                <p>Receieved version {new TextDecoder().decode(new Uint8Array(ver))}. </p>
+              </>
+            ])
+            return;
+          } else {
+            let fc = [];
+            let SHA256 = new Uint8Array(32);
+            ptr++;
+            while(ptr < u8.length){
+              fc.push(u8[ptr]);
+              ptr++;
+            }
+            ptr = 4;
+            for(let _ of new Uint8Array(32)){
+              SHA256[ptr - 4] =  u8[ptr];
+              ptr++;
+            }
+            const hashBuffer = await crypto.subtle.digest("SHA-256", new Uint8Array(fc));
+            const checkSum = new Uint8Array(hashBuffer);
+            for(let i = 0;i<32;i++){
+              if(SHA256[i] === checkSum[i]){
+                continue;
+              }else{
+                setAlert([true, 
+                  <>
+                    <p>SHA-256 Checksum did not match. </p>
+                    <p>This file may be currupted or tampered with. </p>
+                    <p>Details:</p>
+                    <p>Receieved checksum: </p>
+                    <p>{[...SHA256].map(b => b.toString(16).padStart(2, "0")).join("")}</p>
+                    <p>Computed checksum:</p>
+                    <p>{[...SHA256].map(b => b.toString(16).padStart(2, "0")).join("")}</p>
+                  </>
+                ])
+                return;
+              }
+            }
+            const decompress = (()=>{
+              try{
+                return inflate(new Uint8Array(fc), { to: "string" });
+              }catch(err){
+                setAlert([true, 
+                  <>
+                    <p>Error decompressing file</p>
+                    <p>This file may be currupted. </p>
+                    <p>Details:</p>
+                    <p>Error: </p>
+                    <p>{err.name}: {err.message}</p>
+                    <p>JS stack: </p>
+                    <pre>{err.stack}</pre>
+                  </>
+                ])
+                return;
+              }
+            })();
+            if(!decompress)return;
+            const parse = (function(){
+              try{
+                return JSON.parse(decompress);
+              }catch(err){
+                setAlert([true, 
+                  <>
+                    <p>Error parsing file</p>
+                    <p>This file may be currupted. </p>
+                    <p>Details:</p>
+                    <p>Error: </p>
+                    <p>{err.name}: {err.message}</p>
+                    <p>JS stack: </p>
+                    <pre>{err.stack}</pre>
+                  </>
+                ])
+              }
+            })()
+            upload([parse, name]);
+            console.log(parse)
+          }
+        } else {
+          setAlert([true, 
+            <>
+              <p>File header/MAGIC did not match. </p>
+              <p>You may have loaded the wrong file or it was corrupted. </p>
+              <p>Details:</p>
+              <p>Expected header/MAGIC:</p>
+              <p>0x46 0x4D 0x43 0x00</p>
+              <p>Received header/MAGIC:</p>
+              <p>0x{u8[0].toString(16).padStart(2, "0")} 0x{u8[1].toString(16).padStart(2, "0")} 0x{u8[2].toString(16).padStart(2, "0")} 0x{u8[3].toString(16).padStart(2, "0")}</p>
+            </>
+          ])
+          return;
+        }
+      }
+      return (
+        <>
+          {[...new Uint8Array(8)].map(()=>{
+            return (
+              <br key={Math.random()}/>
+            )
+          })}
+          <form>
+            <label style={{
+              padding: '8px 14px', 
+              background: '#333', 
+              color: 'white', 
+              borderRadius: 6, 
+              cursor: 'pointer', 
+              border: 'none', 
+            }}>
+              Upload File
+              <input
+                type="file"
+                onChange={handleFile}
+                style={{ display: "none" }}
+              />
+            </label>
+          </form>
+        </>
+      )
+    } else if(pageData.dir){
+      const request = indexedDB.open("FMC_DB", 1);
+      request.onupgradeneeded = e => {
+        setAlert([true, 
+          <>
+            <p>Indexed DB was not initialized. </p>
+          </>
+        ])
+        const tx = e.target.transaction;
+        tx.abort();
+      };
+      request.onsuccess = e =>{
+        const db = e.target.result; 
+        if(!db.objectStoreNames.contains("handle")){
+          setAlert([true, 
+            <>
+              <p>No store name called "handle" in Indexed DB. </p>
+            </>
+          ])
+          return;
+        }
+        const transaction = db.transaction("handle", "readonly");
+        const store = transaction.objectStore("handle");
+        const request = store.getAll();
+        request.onsuccess = async() => {
+          const dir = request.result?.[0];
+          const fileHandle = await dir.getFileHandle(pageData.name);
+          const file = await fileHandle.getFile();
+          const u8 = new Uint8Array(await file.arrayBuffer());
+          if(
+            u8[0] == 0x46 &&
+            u8[1] == 0x4D &&
+            u8[2] == 0x43 &&
+            u8[3] == 0x00
+          ){
+            let ptr = 36;
+            let ver = [];
+            while(ptr < u8.length && u8[ptr] !== 0x00){
+              ver.push(u8[ptr]);
+              ptr++;
+            }
+            if(ptr == u8.length){
+              setAlert([true, 
+                <>
+                  <p>Null terminator character could not be found. </p>
+                  <p>You may have loaded the wrong file or it was corrupted. </p>
+                  <p>Details:</p>
+                  <p>Pointer reached position {ptr} without finding a null terminator character. </p>
+                </>
+              ])
+              return;
+            } else if(new TextDecoder().decode(new Uint8Array(ver)) != VERSION){
+              setAlert([true, 
+                <>
+                  <p>Unknown version of the game. </p>
+                  <p>You may have loaded the wrong file or a future version of the game. </p>
+                  <p>Details:</p>
+                  <p>Receieved version {new TextDecoder().decode(new Uint8Array(ver))}. </p>
+                </>
+              ])
+              return;
+            } else {
+              let fc = [];
+              let SHA256 = new Uint8Array(32);
+              ptr++;
+              while(ptr < u8.length){
+                fc.push(u8[ptr]);
+                ptr++;
+              }
+              ptr = 4;
+              for(let _ of new Uint8Array(32)){
+                SHA256[ptr - 4] =  u8[ptr];
+                ptr++;
+              }
+              const hashBuffer = await crypto.subtle.digest("SHA-256", new Uint8Array(fc));
+              const checkSum = new Uint8Array(hashBuffer);
+              for(let i = 0;i<32;i++){
+                if(SHA256[i] === checkSum[i]){
+                  continue;
+                }else{
+                  setAlert([true, 
+                    <>
+                      <p>SHA-256 Checksum did not match. </p>
+                      <p>This file may be currupted or tampered with. </p>
+                      <p>Details:</p>
+                      <p>Receieved checksum: </p>
+                      <p>{[...SHA256].map(b => b.toString(16).padStart(2, "0")).join("")}</p>
+                      <p>Computed checksum:</p>
+                      <p>{[...SHA256].map(b => b.toString(16).padStart(2, "0")).join("")}</p>
+                    </>
+                  ])
+                  return;
+                }
+              }
+              const decompress = (()=>{
+                try{
+                  return inflate(new Uint8Array(fc), { to: "string" });
+                }catch(err){
+                  setAlert([true, 
+                    <>
+                      <p>Error decompressing file</p>
+                      <p>This file may be currupted. </p>
+                      <p>Details:</p>
+                      <p>Error: </p>
+                      <p>{err.name}: {err.message}</p>
+                      <p>JS stack: </p>
+                      <pre>{err.stack}</pre>
+                    </>
+                  ])
+                  return;
+                }
+              })();
+              if(!decompress)return;
+              const parse = (function(){
+                try{
+                  return JSON.parse(decompress);
+                }catch(err){
+                  setAlert([true, 
+                    <>
+                      <p>Error parsing file</p>
+                      <p>This file may be currupted. </p>
+                      <p>Details:</p>
+                      <p>Error: </p>
+                      <p>{err.name}: {err.message}</p>
+                      <p>JS stack: </p>
+                      <pre>{err.stack}</pre>
+                    </>
+                  ])
+                }
+              })()
+              upload([parse, null]);
+            }
+          } else {
+            setAlert([true, 
+              <>
+                <p>File header/MAGIC did not match. </p>
+                <p>You may have loaded the wrong file or it was corrupted. </p>
+                <p>Details:</p>
+                <p>Expected header/MAGIC:</p>
+                <p>0x46 0x4D 0x43 0x00</p>
+                <p>Received header/MAGIC:</p>
+                <p>0x{u8[0].toString(16).padStart(2, "0")} 0x{u8[1].toString(16).padStart(2, "0")} 0x{u8[2].toString(16).padStart(2, "0")} 0x{u8[3].toString(16).padStart(2, "0")}</p>
+              </>
+            ])
+            return;
+          }
+        }
+      }
+      return (
+        <></>
+      )
+    }
+  })()
+  return (
+    <>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0, 
+          left: 0,  
+          width: '100%', 
+          height: '100%', 
+          zIndex: 14, 
+          backgroundColor: '#a6a6a6', 
+          textAlign: 'center'
+        }}
+      >{content}{alertState[0] ? alertState[1] : undefined}</div>
+    </>
+  )
+}
+
 function AnswerUI({ answer, error }){
   const [text, setText] = useState("")
   return(
@@ -1212,13 +1544,25 @@ function Click(){
   )
 }
 
-function Game({ref}){
+function Game({ ref, upload }){
   const [engineList, setEngineList] = useState(__default__)
   const gateRef = useRef();
+  const inputRef = useRef(__default__)
   const data = useContext(Pdata);
   const host = !(useContext(Pdata).offer != null && useContext(Pdata).offer != undefined);
   const RTC = useContext(RTCContext);
   //console.log(RTC.channelOpen)
+  if(RTC.channelOpen && !data.offer){
+    RTC.channel.send(JSON.stringify(inputRef.current))
+  }
+  useEffect(()=>{
+    console.log(upload)
+    if(upload && typeof upload == 'object' && (data.upload || data.dir))setEngineList(upload);
+    inputRef.current = engineList
+  }, [upload])
+  useEffect(() => {
+    inputRef.current = engineList;
+  }, [engineList]);
   useEffect(() => {
     gateRef.current.update(window.innerWidth/2, window.innerHeight/2)
   }, [window.innerWidth, window.innerHeight]);
@@ -1227,26 +1571,26 @@ function Game({ref}){
     const keys = new Set();
     const update = () => {
       for(let j of keys){
-        for(let i of engineList[1]){
+        for(let i of inputRef.current[1]){
           if(i.username == username){
             if(!host){
               //console.log(RTC.channelOpen)
               if(RTC.channelOpen){
                 if(j=="KeyA" ? true : j=="KeyD" ? true : j=="ArrowRight" ? true : j=="ArrowLeft" ? true : false){
-                  RTC.channel.send(`packet:Hmove:${keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"}:${j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : engineList[1][_].action.Hmotion.dir}`)
+                  RTC.channel.send(`packet:Hmove:${keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"}:${j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : inputRef.current[1][_].action.Hmotion.dir}`)
                 }
                 if(j=="KeyW" || j=="ArrowUp"){
                   RTC.channel.send("packet:Vmove")
                 }
               }
             }else if(host){
-              let _ = engineList[1].indexOf(i)
-              if(engineList[1][_].action.Hmotion == undefined){
-                engineList[1][_].action.Hmotion = {}
+              let _ = inputRef.current[1].indexOf(i)
+              if(inputRef.current[1][_].action.Hmotion == undefined){
+                inputRef.current[1][_].action.Hmotion = {}
               }
-              engineList[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"
-              engineList[1][_].action.Hmotion.dir = j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : engineList[1][_].action.Hmotion.dir;
-              engineList[1][_].action.Vmotion = j=="KeyW" || engineList[1][_].action.Vmotion
+              inputRef.current[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"
+              inputRef.current[1][_].action.Hmotion.dir = j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : inputRef.current[1][_].action.Hmotion.dir;
+              inputRef.current[1][_].action.Vmotion = j=="KeyW" || inputRef.current[1][_].action.Vmotion
             }
           }
         }
@@ -1286,26 +1630,29 @@ function Game({ref}){
   useImperativeHandle(ref, () => {
     return {
       addPlayer(data) {
-        structuredClone(engineList[1].push(data))
+        structuredClone(inputRef.current[1].push(data))
       }, 
       addEntity(data) {
-        structuredClone(engineList[2].push(data))
+        structuredClone(inputRef.current[2].push(data))
       }, addAction(data, type) {
         let j = 0;
-        for(let i of engineList[1]){
+        for(let i of inputRef.current[1]){
           if(i.username != "h7777"){
-            engineList[1][j].action[type] = data
-            console.log(engineList)
-            structuredClone(engineList)
+            inputRef.current[1][j].action[type] = data
+            console.log(inputRef.current)
+            structuredClone(inputRef.current)
           }
           j++
         }
+      }, getWorld() {
+        return inputRef.current;
       }
     };
   }, [])
   useEffect(()=>{
     if(!RTC.channelOpen && !data.offer){
-      start20TPSLoop(tick, setEngineList, engineList);
+      console.log(inputRef.current)
+      start20TPSLoop(tick, setEngineList, ()=>inputRef.current);
     }
   }, [])
 
@@ -1331,18 +1678,24 @@ function App(){
   const [RTCChannel, setRTCChannel] = useState(null)
   const [answerState, setAnswerState] = useState(null)
   const [answerError, setAnswerError] = useState(null)
-  //const data = useRef(JSON.parse(sessionStorage.getItem("pageData")));
+  const [tmpWorldExtract, setTmpWorldExtract] = useState(null)
+  const [getWorldFunc, setGetWorldFunc] = useState(()=>void(0))
+  const data = useRef(JSON.parse(sessionStorage.getItem("pageData")));
   sessionStorage.removeItem("pageData");
-  const data = {
+  /*const data = {
     current: {
       name: "test", 
       offer: null
     }
-  }
+  }*/
   /*if(data.current==null){
     //window.location.href = "../../"
   }*/
+  console.log(tmpWorldExtract)
   console.log(data.current)
+  if(tmpWorldExtract && typeof tmpWorldExtract === 'object'){
+    data.current.name = tmpWorldExtract[1];
+  }
   const pc = useRef(new RTCPeerConnection({
     iceServers: [
       { urls: "stun:stun.l.google.com:19302" }, 
@@ -1413,6 +1766,7 @@ function App(){
   let MPR_ = () => void(0)
   useEffect(()=>{
     MPR_ = MPR.current
+    setGetWorldFunc(()=>MPR.current.getWorld)
   }, [])
   return (
     <>
@@ -1421,7 +1775,7 @@ function App(){
           channel: RTCChannel, 
           channelOpen: RTCChannelState
         }}>
-          <Game ref={MPR}/>
+          <Game ref={MPR} upload={typeof tmpWorldExtract == 'object' && tmpWorldExtract != null ? tmpWorldExtract[0] : null}/>
         </RTCContext.Provider>
       </Pdata.Provider>
       <MPF.Provider value={async(type, str)=>{
@@ -1532,9 +1886,10 @@ function App(){
         }
       }}>
         <Pdata.Provider value={data.current}>
-          <Pause/>
+          <Pause getWorld={getWorldFunc}/>
         </Pdata.Provider>
       </MPF.Provider>
+      {(data.current.upload || data.current.dir) && !tmpWorldExtract ? <InputWorldUI pageData={data.current} upload={setTmpWorldExtract}/> : <></>}
       {data.current.offer && !RTCChannelState ? <AnswerUI answer={answerState} error={answerError}/> : <></>}
     </>
   )

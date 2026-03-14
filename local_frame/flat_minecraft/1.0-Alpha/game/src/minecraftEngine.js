@@ -7,7 +7,7 @@ function start20TPSLoop(tickFunction, setFunction, input) {
     if (MSPT >= MSPT_) {
       lastTick = now - (MSPT % MSPT_);
       //console.log(MSPT)
-      setFunction(tickFunction(input));
+      setFunction(tickFunction(input()));
     }
     requestAnimationFrame(tick);
   }
@@ -336,7 +336,7 @@ function tick(input){
         delete player[_].action.Hmotion
     }
 
-    output.push(player, entity, block, tick)
+    output.push(player, entity, block, tick, gen)
     return output;
 }
 
