@@ -1477,6 +1477,8 @@ function AnswerUI({ answer, error }){
 function Click(){
   const P_pos = useContext(pos)
   const world_ = useContext(world)
+  const data = useContext(Pdata)
+  const RTC = useContext(RTCContext)
   var Pointer_state = useRef(false)
   var mode = useRef(null)
   var EVENT = {}
@@ -1487,31 +1489,39 @@ function Click(){
       OL:
       for(const i of world_[3]){
         if(i.x == Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100) && i.y == Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)){
-          for(const j of world_[1]){
-            if(j.username == "h7777"){
-              j.action.break = {}
-              j.action.break.slot = 0
-              j.action.break.pos = {}
-              j.action.break.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)
-              j.action.break.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)
-              mode.current = 0
-              br = true
-              break OL;
+          if(!data.offer){
+            for(const j of world_[1]){
+              if(j.username == "h7777"){
+                j.action.break = {}
+                j.action.break.slot = 0
+                j.action.break.pos = {}
+                j.action.break.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)
+                j.action.break.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)
+                mode.current = 0
+                br = true
+                break OL;
+              }
             }
+          } else if (data.offer && RTC.channelOpen){
+            RTC.channel.send(`packet:break:${0}:${Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)}:${Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)}`)
           }
         }
       }
     }
     if(!br && mode.current != 0 && mode.current != null){
-      for(const j of world_[1]){
-        if(j.username == "h7777"){
-          j.action.place = {}
-          j.action.place.slot = 0
-          j.action.place.pos = {}
-          j.action.place.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)
-          j.action.place.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)
-          mode.current = 1
+      if(!data.offer){
+        for(const j of world_[1]){
+          if(j.username == "h7777"){
+            j.action.place = {}
+            j.action.place.slot = 0
+            j.action.place.pos = {}
+            j.action.place.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)
+            j.action.place.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)
+            mode.current = 1
+          }
         }
+      } else if (data.offer && RTC.channelOpen){
+        RTC.channel.send(`packet:place:${0}:${Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)}:${Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)}`)
       }
     }
     if(Pointer_state.current){
@@ -1910,6 +1920,25 @@ function App(){
                     break;
                   case "Vmove":
                     MPR.current.addAction(true, "Vmotion")
+                    break;
+                  case "place":
+                    MPR.current.addAction({
+                      slot: e.data.split(":")[2], 
+                      pos: {
+                        x: e.data.split(":")[3], 
+                        y: e.data.split(":")[4]
+                      }
+                    }, "place")
+                    break;
+                  case "break":
+                    MPR.current.addAction({
+                      slot: e.data.split(":")[2], 
+                      pos: {
+                        x: e.data.split(":")[3], 
+                        y: e.data.split(":")[4]
+                      }
+                    }, "break")
+                    break;
                   default:
                     break;
                 }
