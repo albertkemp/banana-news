@@ -1551,10 +1551,13 @@ function Game({ ref, upload }){
   const data = useContext(Pdata);
   const host = !(useContext(Pdata).offer != null && useContext(Pdata).offer != undefined);
   const RTC = useContext(RTCContext);
-  //console.log(RTC.channelOpen)
+
+  const lastSend = useRef(performance.now())
+
   if(RTC.channelOpen && !data.offer){
-    RTC.channel.send(JSON.stringify(inputRef.current))
+    //console.log("state buffered:", RTC.channel.bufferedAmount);
   }
+
   useEffect(()=>{
     console.log(upload)
     if(upload && typeof upload == 'object' && (data.upload || data.dir))setEngineList(upload);
@@ -1608,7 +1611,7 @@ function Game({ ref, upload }){
   }, [RTC])
   let playerPos = {x: 0, y: 0}
   for(let i of engineList[1]){
-    if(i.username == "h7777"){
+    if((i.username == "h7777") == !data.offer){
       for(let j of engineList[2]){
         if(j.uuid==i.uuid){
           playerPos = {x: j.x, y: j.y}
@@ -1618,13 +1621,33 @@ function Game({ ref, upload }){
   }
   let playersPos = []
   for(let i of engineList[1]){
-    if(i.username != "h7777"){
+    if((i.username == "h7777") == !!data.offer){
       for(let j of engineList[2]){
         if(j.uuid==i.uuid){
           playersPos.push({x: j.x, y: j.y, u: i.username})
         }
       }
     }
+  }
+
+  if(RTC.channelOpen && !data.offer){
+    const now = performance.now();
+    //console.log("send interval ms:", now - lastSend.current, "buffered:", RTC.channel.bufferedAmount);
+    lastSend.current = now;
+    const data = [
+      inputRef.current[0], 
+      inputRef.current[1], 
+      inputRef.current[2], 
+      inputRef.current[3].filter(e=>{
+        for(let i of playersPos){
+          if(Math.abs(i.x-e.x)<16 && Math.abs(i.y-e.y)<16)return true;
+        }
+        return;
+      }), 
+      inputRef.current[4], 
+      inputRef.current[5]
+    ]
+    RTC.channel.send(`packet:data:${JSON.stringify(data)}`)
   }
   
   useImperativeHandle(ref, () => {
@@ -1634,7 +1657,8 @@ function Game({ ref, upload }){
       }, 
       addEntity(data) {
         structuredClone(inputRef.current[2].push(data))
-      }, addAction(data, type) {
+      }, 
+      addAction(data, type) {
         let j = 0;
         for(let i of inputRef.current[1]){
           if(i.username != "h7777"){
@@ -1644,7 +1668,11 @@ function Game({ ref, upload }){
           }
           j++
         }
-      }, getWorld() {
+      }, 
+      updateEngineList(data) {
+        setEngineList(data)
+      }, 
+      getWorld() {
         return inputRef.current;
       }
     };
@@ -1681,6 +1709,7 @@ function App(){
   const [tmpWorldExtract, setTmpWorldExtract] = useState(null)
   const [getWorldFunc, setGetWorldFunc] = useState(()=>void(0))
   const data = useRef(JSON.parse(sessionStorage.getItem("pageData")));
+  const latestTick = useRef(-1)
   sessionStorage.removeItem("pageData");
   /*const data = {
     current: {
@@ -1727,10 +1756,35 @@ function App(){
         (async()=>{
           pc.current.ondatachannel = (event) => {
             const channel = event.channel
-            channel.onmessage = (e) => console.log("B received:", e.data)
-            channel.onopen = () => {setRTCChannelState(true);channel.send("packet:ping")}
-            channel.onclose = () => setRTCChannelState(false)
-            setRTCChannel(channel)
+            if(channel.label === "state"){
+              channel.onopen = () => channel.send("packet:ping");
+              channel.onmessage = (e) => {
+                if(e.data.split(":")[0] == "packet"){
+                  if(e.data.split(":")[1] != undefined){
+                    switch (e.data.split(":")[1]) {
+                      case "ping":
+                        break;
+                      case "data":
+                        const t0 = performance.now();
+                        const data = JSON.parse(e.data.split(":").slice(2).join(":"))
+                        const t1 = performance.now();
+                        if(data[4] <= latestTick.current)return;
+                        latestTick.current = data[4];
+                        MPR.current.updateEngineList(data)
+                        const t2 = performance.now();
+                        console.log("parse:", t1 - t0, "apply:", t2 - t1);
+                        break;
+                      default:
+                        break;
+                    }
+                  }
+                }
+              }
+            }else if(channel.label === "input"){
+              channel.onopen = () => {setRTCChannelState(true);channel.send("packet:ping")}
+              channel.onclose = () => setRTCChannelState(false)
+              setRTCChannel(channel)
+            }
           }
 
           const offerFromA = data.current.offer
@@ -1780,9 +1834,9 @@ function App(){
       </Pdata.Provider>
       <MPF.Provider value={async(type, str)=>{
         if(type == 0){
-          const channelA = pc.current.createDataChannel("chat")
-          channelA.onopen = () => channelA.send("packet:ping");
-          channelA.onmessage = (e) => {
+          const InputChannel = pc.current.createDataChannel("input")
+          InputChannel.onopen = () => InputChannel.send("packet:ping");
+          InputChannel.onmessage = (e) => {
             console.log(e.data)
             if(e.data.split(":")[0] == "packet"){
               if(e.data.split(":")[1] != undefined){
@@ -1862,6 +1916,13 @@ function App(){
               }
             }
           }
+          const StateChannel = pc.current.createDataChannel("state", {
+            ordered: false,
+            maxRetransmits: 0
+          })
+          StateChannel.onopen = () => {setRTCChannelState(true);StateChannel.send("packet:ping");}
+          StateChannel.onclose = () => setRTCChannelState(false);
+          setRTCChannel(StateChannel)
 
           const offer = await pc.current.createOffer()
           await pc.current.setLocalDescription(offer)

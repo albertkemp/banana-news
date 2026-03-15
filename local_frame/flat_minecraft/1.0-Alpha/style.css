@@ -88,13 +88,26 @@ body{
   outline: none;
 }
 
+.noMargin{
+  margin: 0px;
+}
+
+.noResize{
+  resize: none;
+}
+
+.textarea{
+  height: 15px;
+  width: 170px;
+}
+
 /**********************/
 
 #newBtn-Hold{
   text-align: center;
 }
 
-#message{
+#message,  #world-name-invalid{
   color: red;
 }
 

@@ -19,7 +19,7 @@
         <button class="btn-m btn mcText center" onclick="updatePage(1)">Play</button><br>
         <button class="btn-m btn mcText center" onclick="updatePage(2)">Settings</button><br>
         <!--<button class="btn-m btn mcText center" onclick="">Marketplace</button><br>-->
-        <button class="btn-m btn mcText center" onclick="">Dressing Room</button><br>
+        <!--<button class="btn-m btn mcText center" onclick="">Dressing Room</button><br>-->
         <!--<button class="btn-m btn mcText center" onclick="">Achievements</button><br>
         <button class="btn-m btn mcText center" onclick="">Feedback</button><br>-->
       </div>
@@ -66,6 +66,9 @@
         <button class="btn-s" onclick="updatePage(1)">←</button>
       </div>
       <div id="CreateWorldDisplay">
+        <h2 class="mcText noMargin">World name:</h2>
+        <textarea id="world-name" class="text-inp noResize textarea"></textarea>
+        <p id="world-name-invalid" class="noMargin"></p>
         <!--<div>
           <p class="mcText center" id="worldType">Normal</p>
         </div>
@@ -76,7 +79,14 @@
           <div class="sel" onclick="setWorldtype(1)">Flat</div>
         </div>-->
       </div>
-      <div id="CreateWorld-btn-con"><button class="btn btn-cw" onclick="forwardPageDataHref({test: 123})">Create</button></div>
+      <div id="CreateWorld-btn-con"><button class="btn btn-cw" onclick="forwardPageDataHref({
+        name: (
+          document.getElementById('world-name').value ? document.getElementById('world-name').value : (()=>{
+            document.getElementById('world-name-invalid').innerHTML = 'Must give world a name. '
+            throw Error
+          })()
+        )
+      })">Create</button></div>
       </div>
       <div id="CreateWorldLeft">
       </div>
@@ -84,7 +94,7 @@
     </div>
     <div id="join-menu">
       <button class="btn-s" onclick="updatePage(1)">Back</button>
-      <form>
+      <form id="join-form">
         <label for="offer" class="mcText">Add offer here:</label><br>
         <input type="text" id="offer" name="offer" class="text-inp"><br>
         <input type="submit" value="Create answer" class="btn">

@@ -30,7 +30,7 @@ function setWorldtype(setType){
     }
 }
 
-document.querySelector("form").addEventListener("submit", function(e){
+document.querySelector("form#join-form").addEventListener("submit", function(e){
     e.preventDefault()
     pageData = {}
     try{
