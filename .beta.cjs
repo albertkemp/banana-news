@@ -26,19 +26,47 @@ module.exports = function(content, inputPath){
                 case "none":
                     break;
                 case "bn":
-                    const templatehtml = fs.readFileSync("./beta_assets/base.htm", "utf8");
-                    const body = $("body").html();
-                    const templated = templatehtml.replace("{{Content}}", body);
-                    $("body").html(templated);
-                    $("head").append('<link rel="stylesheet" href="/styles/style.css">\n<link rel="stylesheet" href="/styles/divstyles.css">')
+                    (()=>{
+                        const templatehtml = fs.readFileSync("./beta_assets/base.htm", "utf8");
+                        const body = $("body").html();
+                        const templated = templatehtml.replace("{{Content}}", body);
+                        $("body").html(templated);
+                    })()
                     break;
+                case "bn-div":
+                    (()=>{
+                        const templatehtml = fs.readFileSync("./beta_assets/base.htm", "utf8");
+                        const body = $("body").html();
+                        const templated = templatehtml.replace("{{Content}}", body);
+                        $("body").html(templated);
+                        $("head").append('<link rel="stylesheet" href="/styles/style.css">\n<link rel="stylesheet" href="/styles/divstyles.css">')
+                    })()
                 default:
                     return throwError(`"${i?.template}" was not a template. `);
             }
             if(i?.plugins){
-                if(i?.plugins?.name == undefined)return throwError("Must specify the name of the plugin. ");
-                if(typeof i?.plugins?.name != "string")return throwError("Plugin name must be string. ");
-                if(typeof i?.plugins?.args != "object" && i?.plugins?.args != undefined)return throwError(`Arguments of plugin: ${i?.plugins?.name} must be objects. `);
+                if(typeof i?.plugins != "object")return throwError("Plugins must be array. ");
+                for(let j in i?.plugins){
+                    if(j?.name == undefined)return throwError("Must specify the name of the plugin. ");
+                    if(typeof j?.name != "string")return throwError("Plugin name must be string. ");
+                    if(typeof j?.args != "object" && i?.plugins?.args != undefined)return throwError(`Arguments of plugin: ${i?.plugins?.name} must be objects. `);
+                }
+            }
+            if(i?.head){
+                if(typeof i?.head != "object")return throwError("Head tags are not objects. ");
+                $("head").append(i?.head.join("\n"))
+            }
+            if(i?.lang){
+                if(typeof i?.lang != "object")return throwError("Lang parameter must be object. ");
+                for(let j in i?.lang){
+                    if(j == "babel"){
+                        $("head").append(`<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>
+Babel.registerPreset("beta-defualt", ${i?.lang?.[j]});
+</script>`)
+                        $("script[type=\"text/babel\"]").attr("data-presets", "beta-defualt")
+                    }
+                }
             }
         }
     }
