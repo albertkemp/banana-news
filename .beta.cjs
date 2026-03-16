@@ -64,7 +64,17 @@ module.exports = function(content, inputPath){
 <script>
 Babel.registerPreset("beta-defualt", ${i?.lang?.[j]});
 </script>`)
-                        $("script[type=\"text/babel\"]").attr("data-presets", "beta-defualt")
+                        $('script[type="text/babel"]').each((i, el) => {
+                            const $el = $(el);
+                            const presets = $el.attr('data-presets');
+
+                            if (!presets || presets.trim() === '') {
+                                $el.attr('data-presets', 'beta-defualt');
+                            }
+                        });
+                    }
+                    if(j == "jquery"){
+                        $("head").append('<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>')
                     }
                 }
             }
