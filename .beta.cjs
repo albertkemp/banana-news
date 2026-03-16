@@ -63,7 +63,7 @@ module.exports = function(content, inputPath){
                         $("head").append(`<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script>
 Babel.registerPreset("beta-defualt", ${i?.lang?.[j]});
-</script>`)
+</script>`);
                         $('script[type="text/babel"]').each((i, el) => {
                             const $el = $(el);
                             const presets = $el.attr('data-presets');
@@ -74,7 +74,11 @@ Babel.registerPreset("beta-defualt", ${i?.lang?.[j]});
                         });
                     }
                     if(j == "jquery"){
-                        $("head").append('<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>')
+                        $("head").append('<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>');
+                    }
+                    if(j == "typescript"){
+                        $("head").append('<script src="/scripts/external/tsc/typescript.js"></script>');
+                        $("body").append('<script src="/scripts/external/tsc/transpiler.js"></script>');
                     }
                 }
             }
