@@ -101,6 +101,19 @@ body{
   width: 170px;
 }
 
+.world-item{
+  background-color: #b3b3b3;
+  border: outset 5px;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 0px;
+  padding-bottom: 5px;
+}
+
+.world-btn{
+  width: min-content;
+}
+
 /**********************/
 
 #newBtn-Hold{
