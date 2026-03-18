@@ -46,8 +46,62 @@ const forwardPageDataHref = data => {
     location.href = "./game/dist";
 }
 
+function createElement(tag, props, ...children) {
+  const el = document.createElement(tag);
+  for (const key in props) {
+    if (key === "class") el.className = props[key];
+    else if (key.startsWith("on")) el[key.toLowerCase()] = props[key];
+    else el.setAttribute(key, props[key]);
+  }
+  for (const child of children) {
+    if (typeof child === "string" || typeof child === "number") {
+      el.appendChild(document.createTextNode(child));
+    } else if (child instanceof Node) {
+      el.appendChild(child);
+    }
+  }
+  return el;
+}
+
+
 const init = () => {
     updatePage(0);
+    const request = indexedDB.open("FMC_DB", 1);
+    request.onupgradeneeded = e => {
+        const tx = e.target.transaction;
+        tx.abort();
+    }
+    request.onsuccess = e =>{
+        const db = e.target.result; 
+        const transaction = db.transaction("handle", "readonly");
+        const store = transaction.objectStore("handle");
+        const request = store.getAll();
+        request.onsuccess = async() => {
+          const dir = request.result?.[0];
+          console.log(await dir.queryPermission({ mode: "readwrite" }))
+          if(await dir.queryPermission({ mode: "readwrite" }) === "granted"){
+            for await (const [name, handle] of dir.entries()) {
+                if (handle.kind === "file") {
+                    document.getElementById("worldShow").appendChild(
+                        createElement("div", {
+                            class: "world-item"
+                        }, createElement("h2", {
+                            class: "mcText noMargin"
+                        }, name.replace(/\.[^/.]+$/, "")), createElement("div", {
+                            class: "mcText btn world-btn",
+                            onclick: ()=>{
+                                forwardPageDataHref({
+                                    name: name,
+                                    dir: true
+                                });
+                            }
+                        }, "Play"))
+                    )
+                }
+            }
+          }
+        }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", init);
