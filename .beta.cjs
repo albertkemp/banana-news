@@ -6,9 +6,20 @@ module.exports = function(content, inputPath){
     const throwError = e => {
         return `An error occured while building: ${e}`;
     }
+    function objectToSource(obj) {
+        if (typeof obj === "function") return obj.toString();
+        if (Array.isArray(obj)) return `[${obj.map(objectToSource).join(",")}]`;
+        if (obj && typeof obj === "object") {
+            return `{${Object.entries(obj)
+            .map(([k, v]) => `${JSON.stringify(k)}:${objectToSource(v)}`)
+            .join(",")}}`;
+        }
+        return JSON.stringify(obj);
+    }
     if (typeof inputPath !== 'string'){
         return throwError("Path must be a string. ");
     }
+    const beta = {};
     const pageName = path.normalize(inputPath).replace(/^(\.\/|\/)+/, '');
     const raw = fs.readFileSync("./.beta.pages.json", "utf8");
     const config = JSON.parse(raw);
@@ -53,7 +64,7 @@ module.exports = function(content, inputPath){
                 }
             }
             if(i?.head){
-                if(typeof i?.head != "object")return throwError("Head tags are not objects. ");
+                if(typeof i?.head != "object")return throwError("Head parameter are not objects. ");
                 $("head").append(i?.head.join("\n"))
             }
             if(i?.lang){

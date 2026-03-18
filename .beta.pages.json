@@ -5,8 +5,8 @@
         "logo" : "/images/logosvg.svg", 
         "template" : "bn", 
         "plugins" : [], 
-        "head" : [], 
-        "scripts" : [], 
+        "head" : {}, 
+        "scripts" : {}, 
         "lang" : {}
     }, 
     {
