@@ -65,7 +65,16 @@ module.exports = function(content, inputPath){
             }
             if(i?.head){
                 if(typeof i?.head != "object")return throwError("Head parameter are not objects. ");
-                //$("head").append(i?.head.join("\n"))
+                for(j in i?.head){
+                    if(typeof j !== 'string')return throwError("Head parameter's element is not string. ")
+                    if(fs.existsSync(`beta_build/head/${i?.head?.[j]?.path}`)){
+                        if(typeof i?.head?.[j]?.encoding !== 'string' && typeof i?.head?.[j]?.encoding !== 'undefined' && i?.head?.[j]?.encoding !== null)return throwError(`Invalid encoding type: "${typeof i?.head?.[j]?.encoding}"`);
+                        const tag = fs.readFileSync(`beta_build/head/${i?.head?.[j]?.path}`, i?.head?.[j]?.encoding??"utf-8");
+                        $(j).append(tag);
+                    }else{
+                        return throwError(`beta_build/head/${i?.head?.[j]?.path} did not exist. `);
+                    }
+                }
             }
             if(i?.lang){
                 if(typeof i?.lang != "object")return throwError("Lang parameter must be object. ");
