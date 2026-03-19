@@ -65,7 +65,7 @@ module.exports = function(content, inputPath){
             }
             if(i?.head){
                 if(typeof i?.head != "object")return throwError("Head parameter are not objects. ");
-                $("head").append(i?.head.join("\n"))
+                //$("head").append(i?.head.join("\n"))
             }
             if(i?.lang){
                 if(typeof i?.lang != "object")return throwError("Lang parameter must be object. ");
