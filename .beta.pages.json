@@ -28,6 +28,7 @@
         "scripts" : {
             "body" : {
                 "path" : "/scripts/paper.ts", 
+                "encoding" : "utf-8", 
                 "type" : "text/typescript", 
                 "inline" : false
             }
