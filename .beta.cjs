@@ -65,7 +65,7 @@ module.exports = function(content, inputPath){
             }
             if(i?.head){
                 if(typeof i?.head != "object")return throwError("Head parameter are not objects. ");
-                for(j in i?.head){
+                for(const j in i?.head){
                     if(typeof j !== 'string')return throwError("Head parameter's element is not string. ")
                     if(fs.existsSync(`beta_build/head/${i?.head?.[j]?.path}`)){
                         if(typeof i?.head?.[j]?.encoding !== 'string' && typeof i?.head?.[j]?.encoding !== 'undefined' && i?.head?.[j]?.encoding !== null)return throwError(`Invalid encoding type: "${typeof i?.head?.[j]?.encoding}"`);
@@ -78,7 +78,7 @@ module.exports = function(content, inputPath){
             }
             if(i?.script){
                 if(typeof i?.script != "object")return throwError("Script parameter are not objects. ");
-                for(j in i?.script){
+                for(const j in i?.script){
                     if(typeof j !== 'string')return throwError("Script parameter's element is not string. ")
                     if(i?.script?.[j]?.path){
                         if(typeof i?.script?.[j]?.encoding !== 'string' && typeof i?.script?.[j]?.encoding !== 'undefined' && i?.script?.[j]?.encoding !== null)return throwError(`Invalid encoding type: "${typeof i?.head?.[j]?.encoding}"`);

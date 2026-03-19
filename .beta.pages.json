@@ -25,7 +25,7 @@
                 "encoding" : "utf-8"
             }
         }, 
-        "scripts" : {
+        "script" : {
             "body" : {
                 "path" : "/scripts/paper.ts", 
                 "encoding" : "utf-8", 
