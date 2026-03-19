@@ -1,0 +1,12 @@
+body{
+    margin: 0px;
+}
+
+#main{
+    height: 100%;
+    width: 100%;
+}
+
+.center{
+    text-align: center;
+}
