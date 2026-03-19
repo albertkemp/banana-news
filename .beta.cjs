@@ -76,6 +76,23 @@ module.exports = function(content, inputPath){
                     }
                 }
             }
+            if(i?.script){
+                if(typeof i?.script != "object")return throwError("Script parameter are not objects. ");
+                for(j in i?.script){
+                    if(typeof j !== 'string')return throwError("Script parameter's element is not string. ")
+                    if(i?.script?.[j]?.path){
+                        if(typeof i?.script?.[j]?.encoding !== 'string' && typeof i?.script?.[j]?.encoding !== 'undefined' && i?.script?.[j]?.encoding !== null)return throwError(`Invalid encoding type: "${typeof i?.head?.[j]?.encoding}"`);
+                        if(!!i?.script?.[j]?.inline || i?.script?.[j]?.inline === undefined){
+                            const src = fs.readFileSync(i?.script?.[j]?.path, i?.script?.[j]?.encoding??"utf-8");
+                            $(j).append(`<script type="${i?.script?.[j]?.type??"text/javascript"} ${i?.script?.[j]?.data??""}">\n${src}\n</script>`);
+                        }else{
+                            $(j).append(`<script src="${i?.script?.[j]?.path}" type="${i?.script?.[j]?.type??"text/javascript"} ${i?.script?.[j]?.data??""}"></script>`);
+                        }
+                    }else{
+                        return throwError(`${i?.head?.[j]?.path} did not exist. `);
+                    }
+                }
+            }
             if(i?.lang){
                 if(typeof i?.lang != "object")return throwError("Lang parameter must be object. ");
                 for(let j in i?.lang){
