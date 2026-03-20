@@ -86,7 +86,7 @@ module.exports = function(content, inputPath){
                             const src = fs.readFileSync(i?.script?.[j]?.path, i?.script?.[j]?.encoding??"utf-8");
                             $(j).append(`<script type="${i?.script?.[j]?.type??"text/javascript"} ${i?.script?.[j]?.data??""}">\n${src}\n</script>`);
                         }else{
-                            $(j).append(`<script src="${i?.script?.[j]?.path}" type="${i?.script?.[j]?.type??"text/javascript"} ${i?.script?.[j]?.data??""}"></script>`);
+                            $(j).append(`<script src="${i?.script?.[j]?.path}" type="${i?.script?.[j]?.type??"text/javascript"}" ${i?.script?.[j]?.data??""}></script>`);
                         }
                     }else{
                         return throwError(`${i?.head?.[j]?.path} did not exist. `);
