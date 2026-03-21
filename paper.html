@@ -1,20 +1,42 @@
 ---
 layout: "beta.njk"
 ---
-<div id="main">
-    <div class="center" id="title-div">
-        <h1 class="inter">Paper co</h1>
+<div id="main" class="none">
+    <button class="back-btn" onclick="location.hash='';location.href='../'">← Back</button>
+    <div class="center">
+        <div class="center" id="title-div">
+            <h1 class="inter">Paper co</h1>
+        </div>
     </div>
     <div class="center">
         <h2 class="inter">Our products:</h2>
     </div>
     <div class="center">
-        <p class="inter">Normal - $1</p>
+        <div class="animate">
+            <p class="inter">Normal - $1</p>
+        </div>
     </div>
     <div class="center">
-        <p class="inter">Small - $0.50</p>
+        <div class="animate">
+            <p class="inter">Small - $0.50</p>
+        </div>
     </div>
     <div class="center">
-        <p class="inter">Customise - $1.50</p>
+        <div class="animate">
+            <p class="inter">Customise - $1.50</p>
+        </div>
+    </div>
+</div>
+<div id="normal" class="none">
+    <button class="back-btn back-to-main">← Back</button>
+    <div class="center">
+        <h1>Normal ball - $1</h1>
+    </div>
+    <div class="center">
+        <form>
+            <label name="name">Name: </label>
+            <input type="text" name="name" placeholder="Your name here...">
+            <input type="submit" value="Order">
+        </form>
     </div>
 </div>
