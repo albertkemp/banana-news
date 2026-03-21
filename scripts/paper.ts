@@ -44,6 +44,7 @@ function init():void{
         }
     }
 
+    initProductButton();
     updatePage(page.current);
 
     const width: number = TitleDiv.getBoundingClientRect().width;
