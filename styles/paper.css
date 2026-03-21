@@ -24,6 +24,10 @@ body{
     justify-content: center;
 }
 
+#positioning-wrapper{
+    position: relative;
+}
+
 .back-btn {
   position: absolute;
   top: 12px;
