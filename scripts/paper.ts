@@ -6,8 +6,6 @@ const page: { current: string, pages: HTMLElement[] } = {
     ]
 };
 
-
-
 window.addEventListener("resize", ()=>{
     const width: number = TitleDiv.getBoundingClientRect().width;
     TitleDiv.style.height = `${Math.min(width / 229 * 180, 350)}px`;
@@ -21,6 +19,9 @@ function updatePageDOM(__page__: string):void{
         case "":
             (document.getElementById("main") as HTMLDivElement).style.display = "block";
             break;
+        case "normal":
+            (document.getElementById("normal") as HTMLDivElement).style.display = "block";
+            break;
         default:
             break;
     }
@@ -31,6 +32,10 @@ function updatePage(current: string):void{
     updatePageDOM(current);
 }
 
+function initProductButton(): void{
+    (document.getElementById("to-normal") as HTMLElement).onclick = () => updatePage("normal");
+}
+
 function init():void{
     const backButtons: HTMLCollectionOf<Element> = document.getElementsByClassName("back-to-main");
     for(const i of backButtons){
@@ -39,7 +44,7 @@ function init():void{
         }
     }
 
-    updatePage("");
+    updatePage(page.current);
 
     const width: number = TitleDiv.getBoundingClientRect().width;
     TitleDiv.style.height = `${Math.min(width / 229 * 180, 350)}px`;
