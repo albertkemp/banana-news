@@ -32,10 +32,6 @@ function updatePage(current: string):void{
 }
 
 function init():void{
-    const width: number = TitleDiv.getBoundingClientRect().width;
-    TitleDiv.style.height = `${Math.min(width / 229 * 180, 350)}px`;
-    console.log(width)
-
     const backButtons: HTMLCollectionOf<Element> = document.getElementsByClassName("back-to-main");
     for(const i of backButtons){
         (i as HTMLElement).onclick = () => {
@@ -44,6 +40,9 @@ function init():void{
     }
 
     updatePage("");
+
+    const width: number = TitleDiv.getBoundingClientRect().width;
+    TitleDiv.style.height = `${Math.min(width / 229 * 180, 350)}px`;
 }
 
 init();

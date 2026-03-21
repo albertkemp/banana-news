@@ -44,12 +44,17 @@ body{
   background: rgba(0,0,0,0.55);
 }
 
+.align{
+    position: relative;
+    left: 5%;
+}
+
 .animate{
     transition: transform 0.25s ease;
     width: 90%;
 }
 
-.animate{
+.animate:hover{
     transform: scale(1.1);
 }
 
