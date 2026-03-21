@@ -42,6 +42,7 @@ function init():void{
         }
     }
 
+    updatePage("");
 }
 
 init();
