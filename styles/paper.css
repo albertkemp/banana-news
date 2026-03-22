@@ -66,6 +66,12 @@ body{
     text-align: center;
 }
 
+.center-v2 {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .inter{
     font-family: 'Inter';
 }

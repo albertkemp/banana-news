@@ -19,12 +19,12 @@ layout: "beta.njk"
         </div>
     </div>
     <div class="center">
-        <div class="animate align">
+        <div class="animate align" id="to-small">
             <p class="inter">Small - $0.50</p>
         </div>
     </div>
     <div class="center">
-        <div class="animate align">
+        <div class="animate align" id="to-custom">
             <p class="inter">Customise - $1.50</p>
         </div>
     </div>
@@ -34,10 +34,36 @@ layout: "beta.njk"
     <div class="center">
         <h1>Normal ball - $1</h1>
     </div>
-    <div class="center">
+    <div class="center center-v2">
         <form>
-            <label name="name">Name: </label>
-            <input type="text" name="name" placeholder="Your name here...">
+            <label for="name">Name: </label>
+            <input type="text" name="name" placeholder="Your name here..." autocomplete="given-name">
+            <input type="submit" value="Order">
+        </form>
+    </div>
+</div>
+<div id="small" class="none">
+    <button class="back-btn back-to-main">← Back</button>
+    <div class="center">
+        <h1>Small ball - $0.50</h1>
+    </div>
+    <div class="center center-v2">
+        <form>
+            <label for="name">Name: </label>
+            <input type="text" name="name" placeholder="Your name here..." autocomplete="given-name">
+            <input type="submit" value="Order">
+        </form>
+    </div>
+</div>
+<div id="custom" class="none">
+    <button class="back-btn back-to-main">← Back</button>
+    <div class="center">
+        <h1>Custom ball - $1.50</h1>
+    </div>
+    <div class="center center-v2">
+        <form>
+            <label for="name">Name: </label>
+            <input type="text" name="name" placeholder="Your name here..." autocomplete="given-name">
             <input type="submit" value="Order">
         </form>
     </div>
