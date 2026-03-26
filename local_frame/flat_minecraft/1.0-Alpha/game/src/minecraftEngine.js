@@ -240,9 +240,9 @@ function tick(input){
             if(_){
                 console.log(p?.action?.place)
                 block.push({type: p.inventory.hotbar[p.action.place.slot].type, x: p.action.place.pos.x, y: p.action.place.pos.y})
-                _ = player.indexOf(p)
-                delete player[_].action.place
             }
+            _ = player.indexOf(p)
+            delete player[_].action.place
         }
         if(p?.action?.break?.slot != undefined && p?.action?.break?.pos?.x != undefined && p?.action?.break?.pos?.y != undefined){
             for(let i of block){

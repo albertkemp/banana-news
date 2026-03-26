@@ -675,6 +675,8 @@ function Pause({ getWorld }){
                   if(!quit){
                     setSaveStatus(true);
                     setTimeout(function(){setSaveStatus(false)}, 2000)
+                  } else {
+                    window.location.href = "../../"
                   }
                 } catch (err) {
                   if (err.name === "NotFoundError"){
@@ -685,6 +687,8 @@ function Pause({ getWorld }){
                     if(!quit){
                       setSaveStatus(true);
                       setTimeout(function(){setSaveStatus(false)}, 2000);
+                    } else {
+                      window.location.href = "../../"
                     }
                   } else {
                     setAlert([true, 
@@ -921,6 +925,9 @@ function Pause({ getWorld }){
       urlRef.current.click();
       setUrlState(false);
       URL.revokeObjectURL(url);
+      if(quit){
+        window.location.href = "../../";
+      }
     }
   }
 
@@ -1474,54 +1481,64 @@ function AnswerUI({ answer, error }){
   )
 }
 
-function Click(){
+function Click({ func }){
   const P_pos = useContext(pos)
   const world_ = useContext(world)
   const data = useContext(Pdata)
   const RTC = useContext(RTCContext)
   var Pointer_state = useRef(false)
   var mode = useRef(null)
-  var EVENT = {}
+  var EVENT = useRef({})
+  useEffect(()=>{
+    setInterval(()=>console.log(mode.current), 50);
+  }, [])
   const PHandle = () => {
-    var br = false
     //console.log(mode.current)
-    if(mode.current != 1&& mode.current != null){
+    if(mode.current === 0 || mode.current === -1){
       OL:
       for(const i of world_[3]){
-        if(i.x == Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100) && i.y == Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)){
+        if(i.x == Math.round(P_pos.x)+Math.floor((EVENT.current.clientX-window.innerWidth/2)/100) && i.y == Math.round(P_pos.y)-Math.floor((EVENT.current.clientY-window.innerHeight/2+100)/100)){
           if(!data.offer){
             for(const j of world_[1]){
+              let index = 0
               if(j.username == "h7777"){
-                j.action.break = {}
-                j.action.break.slot = 0
-                j.action.break.pos = {}
-                j.action.break.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)
-                j.action.break.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)
+                const update = world_.filter(()=>true)
+                update[1][index].action.break = {}
+                update[1][index].action.break.slot = 0
+                update[1][index].action.break.pos = {}
+                update[1][index].action.break.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.current.clientX-window.innerWidth/2)/100)
+                update[1][index].action.break.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.current.clientY-window.innerHeight/2+100)/100)
                 mode.current = 0
-                br = true
+                func(update)
                 break OL;
               }
+              index++
             }
           } else if (data.offer && RTC.channelOpen){
-            RTC.channel.send(`packet:break:${0}:${Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)}:${Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)}`)
+            RTC.channel.send(`packet:break:${0}:${Math.round(P_pos.x)+Math.floor((EVENT.current.clientX-window.innerWidth/2)/100)}:${Math.round(P_pos.y)-Math.floor((EVENT.current.clientY-window.innerHeight/2+100)/100)}`)
           }
         }
       }
     }
-    if(!br && mode.current != 0 && mode.current != null){
+    if(mode.current === 1 || mode.current === -1){
       if(!data.offer){
         for(const j of world_[1]){
+          let index = 0
           if(j.username == "h7777"){
-            j.action.place = {}
-            j.action.place.slot = 0
-            j.action.place.pos = {}
-            j.action.place.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)
-            j.action.place.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)
+            const update = world_.filter(()=>true)
+            update[1][index].action.place = {}
+            update[1][index].action.place.slot = 0
+            update[1][index].action.place.pos = {}
+            update[1][index].action.place.pos.x = Math.round(P_pos.x)+Math.floor((EVENT.current.clientX-window.innerWidth/2)/100)
+            update[1][index].action.place.pos.y = Math.round(P_pos.y)-Math.floor((EVENT.current.clientY-window.innerHeight/2+100)/100)
             mode.current = 1
+            func(update)
+            break;
           }
+          index++
         }
       } else if (data.offer && RTC.channelOpen){
-        RTC.channel.send(`packet:place:${0}:${Math.round(P_pos.x)+Math.floor((EVENT.clientX-window.innerWidth/2)/100)}:${Math.round(P_pos.y)-Math.floor((EVENT.clientY-window.innerHeight/2+100)/100)}`)
+        RTC.channel.send(`packet:place:${0}:${Math.round(P_pos.x)+Math.floor((EVENT.current.clientX-window.innerWidth/2)/100)}:${Math.round(P_pos.y)-Math.floor((EVENT.current.clientY-window.innerHeight/2+100)/100)}`)
       }
     }
     if(Pointer_state.current){
@@ -1536,19 +1553,20 @@ function Click(){
       width: '100%', 
       height: '100%', 
       zIndex: 10
-    }} onPointerDown={()=>{
-      EVENT = event
+    }} onPointerDown={event=>{
+      console.log(event)
+      EVENT.current = event
       if(!Pointer_state.current){
         Pointer_state.current = true;
         mode.current = -1;
         requestAnimationFrame(PHandle)
       }
-    }} onPointerUp={()=>{
-      EVENT = event
+    }} onPointerUp={event=>{
+      EVENT.current = event
       mode.current = null
       Pointer_state.current = false;
-    }} onPointerMove={()=>{
-      EVENT = event
+    }} onPointerMove={event=>{
+      EVENT.current = event
     }}>
     </div>
   )
@@ -1562,12 +1580,30 @@ function Game({ ref, upload }){
   const host = !(useContext(Pdata).offer != null && useContext(Pdata).offer != undefined);
   const RTC = useContext(RTCContext);
 
-  const lastSend = useRef(performance.now())
+  const noSendTick = useRef(false)
 
-  if(RTC.channelOpen && !data.offer){
-    //console.log("state buffered:", RTC.channel.bufferedAmount);
-  }
+  const lastBuffered = useRef(0)
+  const sendEvery = useRef(1)
 
+  useEffect(()=>{
+    const interval = setInterval(() => {
+      if(RTC.channelOpen){
+        const diff = RTC.channel.bufferedAmount - lastBuffered.current;
+        lastBuffered.current = RTC.channel.bufferedAmount;
+
+        if (diff > 2000) {
+          sendEvery.current = Math.min(sendEvery.current + 1, 5);
+        } else if (diff < -2000) {
+          sendEvery.current = Math.max(sendEvery.current - 1, 1);
+        }
+      }
+    }, 200)
+    return ()=>{
+      clearInterval(interval);
+      lastBuffered.current = 0;
+      sendEvery.current = 1;
+    };
+  }, [RTC.channelOpen])
   useEffect(()=>{
     console.log(upload)
     if(upload && typeof upload == 'object' && (data.upload || data.dir))setEngineList(upload);
@@ -1641,23 +1677,33 @@ function Game({ ref, upload }){
   }
 
   if(RTC.channelOpen && !data.offer){
-    const now = performance.now();
-    //console.log("send interval ms:", now - lastSend.current, "buffered:", RTC.channel.bufferedAmount);
-    lastSend.current = now;
-    const data = [
-      inputRef.current[0], 
-      inputRef.current[1], 
-      inputRef.current[2], 
-      inputRef.current[3].filter(e=>{
-        for(let i of playersPos){
-          if(Math.abs(i.x-e.x)<16 && Math.abs(i.y-e.y)<16)return true;
-        }
-        return;
-      }), 
-      inputRef.current[4], 
-      inputRef.current[5]
-    ]
-    RTC.channel.send(`packet:data:${JSON.stringify(data)}`)
+    if(inputRef.current[4] % sendEvery.current == 0 && !noSendTick.current){
+      const data = [
+        inputRef.current[0], 
+        inputRef.current[1], 
+        inputRef.current[2], 
+        inputRef.current[3].filter(e=>{
+          for(let i of playersPos){
+            if(Math.abs(i.x-e.x)<16 && Math.abs(i.y-e.y)<16)return true;
+          }
+          return;
+        }), 
+        inputRef.current[4], 
+        inputRef.current[5]
+      ]
+      if(JSON.stringify(data[3]).length > 2000 || sendEvery.current > 2){
+        data[3] = data[3].map(e=>{
+          return `${e.x},${e.y},${e.type}`;
+        }).join(".");
+      }
+      RTC.channel.send(`packet:data:${JSON.stringify(data)}`)
+    } else if(noSendTick.current){
+      noSendTick.current = false
+    }
+  }
+
+  function clickFunc(data){
+    inputRef.current = data;
   }
   
   useImperativeHandle(ref, () => {
@@ -1673,8 +1719,8 @@ function Game({ ref, upload }){
         for(let i of inputRef.current[1]){
           if(i.username != "h7777"){
             inputRef.current[1][j].action[type] = data
-            console.log(inputRef.current)
-            structuredClone(inputRef.current)
+            noSendTick.current = true
+            setEngineList(structuredClone(inputRef.current))
           }
           j++
         }
@@ -1699,7 +1745,7 @@ function Game({ ref, upload }){
       <PosS.Provider value={playersPos}>
         <pos.Provider value={playerPos}>
           <world.Provider value={engineList}>
-            <Click/>
+            <Click func={clickFunc}/>
             <Player ref={gateRef}/>
             <PlayersW/>
             <Entities/>
@@ -1780,6 +1826,16 @@ function App(){
                         const t1 = performance.now();
                         if(data[4] <= latestTick.current)return;
                         latestTick.current = data[4];
+                        if(typeof data[3] === 'string'){
+                          data[3] = data[3].split(".").map(entry => {
+                            const [x, y, type] = entry.split(",");
+                            return {
+                              x: Number(x),
+                              y: Number(y),
+                              type
+                            };
+                          });
+                        }
                         MPR.current.updateEngineList(data)
                         const t2 = performance.now();
                         console.log("parse:", t1 - t0, "apply:", t2 - t1);
