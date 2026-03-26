@@ -1,0 +1,73 @@
+---
+layout: "beta.njk"
+---
+<div id="main" class="none">
+    <div id="positioning-wrapper">
+        <button class="back-btn" onclick="location.hash='';location.href='../'" style="z-index: 1;">← Back</button>
+        <div class="center">
+            <div class="center align" id="title-div">
+                <h1 class="inter">Paper co</h1>
+            </div>
+        </div>
+    </div>
+    <div class="center">
+        <h2 class="inter">Our products:</h2>
+    </div>
+    <div class="center">
+        <div class="animate align" id="to-normal">
+            <p class="inter">Normal - $1</p>
+        </div>
+    </div>
+    <div class="center">
+        <div class="animate align" id="to-small">
+            <p class="inter">Small - $0.50</p>
+        </div>
+    </div>
+    <div class="center">
+        <div class="animate align" id="to-custom">
+            <p class="inter">Customise - $1.50</p>
+        </div>
+    </div>
+</div>
+<div id="normal" class="none">
+    <button class="back-btn back-to-main">← Back</button>
+    <div class="center">
+        <h1>Normal ball - $1</h1>
+    </div>
+    <div class="center center-v2">
+        <form method="POST" action="https://reusable-ermelinda-orthopedically.ngrok-free.dev/">
+            <label for="name">Name: </label>
+            <input type="text" name="name" id="name" placeholder="Your name here..." autocomplete="given-name">
+            <input type="hidden" name="type" value="normal ball">
+            <input type="submit" value="Order">
+        </form>
+    </div>
+</div>
+<div id="small" class="none">
+    <button class="back-btn back-to-main">← Back</button>
+    <div class="center">
+        <h1>Small ball - $0.50</h1>
+    </div>
+    <div class="center center-v2">
+        <form method="POST" action="https://reusable-ermelinda-orthopedically.ngrok-free.dev/">
+            <label for="name">Name: </label>
+            <input type="text" name="name" id="name" placeholder="Your name here..." autocomplete="given-name">
+            <input type="hidden" name="type" value="small ball">
+            <input type="submit" value="Order">
+        </form>
+    </div>
+</div>
+<div id="custom" class="none">
+    <button class="back-btn back-to-main">← Back</button>
+    <div class="center">
+        <h1>Custom ball - $1.50</h1>
+    </div>
+    <div class="center center-v2">
+        <form method="POST" action="https://reusable-ermelinda-orthopedically.ngrok-free.dev/">
+            <label for="name">Name: </label>
+            <input type="text" name="name" id="name" placeholder="Your name here..." autocomplete="given-name">
+            <input type="hidden" name="type" value="custom ball">
+            <input type="submit" value="Order">
+        </form>
+    </div>
+</div>

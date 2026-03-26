@@ -6,9 +6,20 @@ module.exports = function(content, inputPath){
     const throwError = e => {
         return `An error occured while building: ${e}`;
     }
+    function objectToSource(obj) {
+        if (typeof obj === "function") return obj.toString();
+        if (Array.isArray(obj)) return `[${obj.map(objectToSource).join(",")}]`;
+        if (obj && typeof obj === "object") {
+            return `{${Object.entries(obj)
+            .map(([k, v]) => `${JSON.stringify(k)}:${objectToSource(v)}`)
+            .join(",")}}`;
+        }
+        return JSON.stringify(obj);
+    }
     if (typeof inputPath !== 'string'){
         return throwError("Path must be a string. ");
     }
+    const beta = {};
     const pageName = path.normalize(inputPath).replace(/^(\.\/|\/)+/, '');
     const raw = fs.readFileSync("./.beta.pages.json", "utf8");
     const config = JSON.parse(raw);
@@ -53,8 +64,34 @@ module.exports = function(content, inputPath){
                 }
             }
             if(i?.head){
-                if(typeof i?.head != "object")return throwError("Head tags are not objects. ");
-                $("head").append(i?.head.join("\n"))
+                if(typeof i?.head != "object")return throwError("Head parameter are not objects. ");
+                for(const j in i?.head){
+                    if(typeof j !== 'string')return throwError("Head parameter's element is not string. ")
+                    if(fs.existsSync(`beta_build/head/${i?.head?.[j]?.path}`)){
+                        if(typeof i?.head?.[j]?.encoding !== 'string' && typeof i?.head?.[j]?.encoding !== 'undefined' && i?.head?.[j]?.encoding !== null)return throwError(`Invalid encoding type: "${typeof i?.head?.[j]?.encoding}"`);
+                        const tag = fs.readFileSync(`beta_build/head/${i?.head?.[j]?.path}`, i?.head?.[j]?.encoding??"utf-8");
+                        $(j).append(tag);
+                    }else{
+                        return throwError(`beta_build/head/${i?.head?.[j]?.path} did not exist. `);
+                    }
+                }
+            }
+            if(i?.script){
+                if(typeof i?.script != "object")return throwError("Script parameter are not objects. ");
+                for(const j in i?.script){
+                    if(typeof j !== 'string')return throwError("Script parameter's element is not string. ")
+                    if(i?.script?.[j]?.path){
+                        if(typeof i?.script?.[j]?.encoding !== 'string' && typeof i?.script?.[j]?.encoding !== 'undefined' && i?.script?.[j]?.encoding !== null)return throwError(`Invalid encoding type: "${typeof i?.head?.[j]?.encoding}"`);
+                        if(!!i?.script?.[j]?.inline || i?.script?.[j]?.inline === undefined){
+                            const src = fs.readFileSync(i?.script?.[j]?.path, i?.script?.[j]?.encoding??"utf-8");
+                            $(j).append(`<script type="${i?.script?.[j]?.type??"text/javascript"} ${i?.script?.[j]?.data??""}">\n${src}\n</script>`);
+                        }else{
+                            $(j).append(`<script src="${i?.script?.[j]?.path}" type="${i?.script?.[j]?.type??"text/javascript"}" ${i?.script?.[j]?.data??""}></script>`);
+                        }
+                    }else{
+                        return throwError(`${i?.head?.[j]?.path} did not exist. `);
+                    }
+                }
             }
             if(i?.lang){
                 if(typeof i?.lang != "object")return throwError("Lang parameter must be object. ");
