@@ -618,9 +618,7 @@ function Pause({ getWorld }){
 
   async function save(quit=true){
     const encoder = new TextEncoder();
-    console.log(getWorld())
     const worldData = getWorld();
-    console.log(getWorld)
     for(let i = 0;i < worldData[1].length;i++){
       if(worldData[1][i].username != "h7777"){
         delete worldData[1][i];
@@ -1191,7 +1189,6 @@ function InputWorldUI({ pageData, upload }){
               }
             })()
             upload([parse, name]);
-            console.log(parse)
           }
         } else {
           setAlert([true, 
@@ -1489,11 +1486,7 @@ function Click({ func }){
   var Pointer_state = useRef(false)
   var mode = useRef(null)
   var EVENT = useRef({})
-  useEffect(()=>{
-    setInterval(()=>console.log(mode.current), 50);
-  }, [])
   const PHandle = () => {
-    //console.log(mode.current)
     if(mode.current === 0 || mode.current === -1){
       OL:
       for(const i of world_[3]){
@@ -1554,7 +1547,6 @@ function Click({ func }){
       height: '100%', 
       zIndex: 10
     }} onPointerDown={event=>{
-      console.log(event)
       EVENT.current = event
       if(!Pointer_state.current){
         Pointer_state.current = true;
@@ -1605,7 +1597,6 @@ function Game({ ref, upload }){
     };
   }, [RTC.channelOpen])
   useEffect(()=>{
-    console.log(upload)
     if(upload && typeof upload == 'object' && (data.upload || data.dir))setEngineList(upload);
     inputRef.current = engineList
   }, [upload])
@@ -1623,7 +1614,6 @@ function Game({ ref, upload }){
         for(let i of inputRef.current[1]){
           if(i.username == username){
             if(!host){
-              //console.log(RTC.channelOpen)
               if(RTC.channelOpen){
                 if(j=="KeyA" ? true : j=="KeyD" ? true : j=="ArrowRight" ? true : j=="ArrowLeft" ? true : false){
                   RTC.channel.send(`packet:Hmove:${keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"}:${j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : inputRef.current[1][_].action.Hmotion.dir}`)
@@ -1773,11 +1763,9 @@ function App(){
       offer: null
     }
   }*/
-  /*if(data.current==null){
-    //window.location.href = "../../"
-  }*/
-  console.log(tmpWorldExtract)
-  console.log(data.current)
+  if(data.current==null){
+    window.location.href = "../../"
+  }
   if(tmpWorldExtract && typeof tmpWorldExtract === 'object'){
     data.current.name = tmpWorldExtract[1];
   }
@@ -1821,9 +1809,7 @@ function App(){
                       case "ping":
                         break;
                       case "data":
-                        const t0 = performance.now();
                         const data = JSON.parse(e.data.split(":").slice(2).join(":"))
-                        const t1 = performance.now();
                         if(data[4] <= latestTick.current)return;
                         latestTick.current = data[4];
                         if(typeof data[3] === 'string'){
@@ -1837,8 +1823,6 @@ function App(){
                           });
                         }
                         MPR.current.updateEngineList(data)
-                        const t2 = performance.now();
-                        console.log("parse:", t1 - t0, "apply:", t2 - t1);
                         break;
                       default:
                         break;
@@ -1903,7 +1887,6 @@ function App(){
           const InputChannel = pc.current.createDataChannel("input")
           InputChannel.onopen = () => InputChannel.send("packet:ping");
           InputChannel.onmessage = (e) => {
-            console.log(e.data)
             if(e.data.split(":")[0] == "packet"){
               if(e.data.split(":")[1] != undefined){
                 const data = e.data.split(":")[1]
@@ -1965,7 +1948,6 @@ function App(){
                     })
                     break;
                   case "Hmove":
-                    console.log(`${e.data.split(":")[2]} : ${e.data.split(":")[3]}`)
                     MPR.current.addAction(
                       {
                         type: e.data.split(":")[2], 
