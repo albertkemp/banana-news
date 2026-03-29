@@ -1,7 +1,7 @@
 ---
 layout: "base.njk"
 title: "Login"
-withServer: "True"
+withNewServer: "True"
 ---
 
 
@@ -20,14 +20,25 @@ withServer: "True"
 
 <p>Don't have an account? <a href="/signup">Sign Up</a></p>
 <script>
-  var done = false
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value
     const password = document.getElementById("password").value
-    buildReq(4, [username, password], "server", 1, 0)
-    buildReq(5, [username], "server", 2)
-    setInterval(function(){
+    window.server.send(4, [username, password], "server", 1, 0)
+    window.server.onmessage(event=>{
+      const msg = JSON.parse(event.data)
+      if(msg?.id == 1){
+        if(msg?.content?.status==200){
+          window.server.setCookie("username", username, 1)
+          document.getElementById("message").innerHTML="✅Login success!"
+        }else if(msg?.content?.status==403){
+          document.getElementById("message").innerHTML="Invalid username or password"
+        }else{
+          document.getElementById("message").innerHTML="Invalid server response"
+        }
+      }
+    })
+    /*setInterval(function(){
       if(GetRes(1)!=undefined){
         if(GetRes(1)?.content?.status==200){
           setInterval(()=>{
@@ -46,7 +57,7 @@ withServer: "True"
           document.getElementById("message").innerHTML="Invalid server response"
         }
       }
-    }, 5)
+    }, 5)*/
   })
 </script>
 <script type="module">/*
