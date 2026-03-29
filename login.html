@@ -25,11 +25,12 @@ withNewServer: "True"
     const username = document.getElementById("username").value
     const password = document.getElementById("password").value
     window.server.send(4, [username, password], "server", 1, 0)
-    window.server.onmessage(event=>{
+    window.server.onmessage = event => {
       const msg = JSON.parse(event.data)
       if(msg?.id == 1){
         if(msg?.content?.status==200){
           window.server.setCookie("username", username, 1)
+          window.server.setCookie("sID", "0", 1)
           document.getElementById("message").innerHTML="✅Login success!"
         }else if(msg?.content?.status==403){
           document.getElementById("message").innerHTML="Invalid username or password"
@@ -37,7 +38,7 @@ withNewServer: "True"
           document.getElementById("message").innerHTML="Invalid server response"
         }
       }
-    })
+    }
     /*setInterval(function(){
       if(GetRes(1)!=undefined){
         if(GetRes(1)?.content?.status==200){
