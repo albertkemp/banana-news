@@ -24,6 +24,9 @@ withNewServer: "True"
     e.preventDefault();
     const username = document.getElementById("username").value
     const password = document.getElementById("password").value
+    if(!!window.server.getCookie("username")&&!!window.server.getCookie("sID")){
+      document.getElementById("message").innerHTML="Already logged in"
+    }
     window.server.send(4, [username, password], "server", 1, 0)
     window.server.onmessage = event => {
       const msg = JSON.parse(event.data)
