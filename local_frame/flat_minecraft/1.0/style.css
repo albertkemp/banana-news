@@ -1,0 +1,163 @@
+html{
+  height: 100%;
+  width: 100%;
+}
+
+body{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  background-color: #a6a6a6;
+}
+
+.mcText{
+    font-family: 'MinecraftiaRegular';
+    font-weight: normal;
+    font-style: normal;
+}
+
+.center{
+    text-align: center;
+}
+
+.btn{
+  border: outset;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  background-color: #b3b3b3;
+}
+
+.btn:hover{
+  background-color: #a6a6a6
+}
+
+.btn:active{
+  border: inset;
+}
+
+.btn-m{
+  width: 20%;
+  min-width: 125px;
+  height: 7%;
+}
+
+.btn-s{
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  box-sizing: inherit;
+  font: inherit;
+  margin: 0;
+  text-transform: none;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  display: inline-block;
+  padding: 8px 16px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+  border: 1px solid #ccc!important;
+  color: #000!important;
+  background-color: #f1f1f1!important;
+}
+
+.btn-nw{
+  width: 15%;
+  height: 100%;
+  min-width: 100px;
+}
+
+.btn-cw{
+  width: 40%;
+  height: 100%;
+  min-width: 150px;
+}
+
+.dark-grey{
+  background-color: #333333;
+}
+
+.text-inp{
+  border: 5px inset;
+  outline: none;
+}
+
+.noMargin{
+  margin: 0px;
+}
+
+.noResize{
+  resize: none;
+}
+
+.textarea{
+  height: 15px;
+  width: 170px;
+}
+
+.world-item{
+  background-color: #b3b3b3;
+  border: outset 5px;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 0px;
+  padding-bottom: 5px;
+}
+
+.world-btn{
+  width: min-content;
+}
+
+/**********************/
+
+#newBtn-Hold{
+  text-align: center;
+}
+
+#message,  #world-name-invalid{
+  color: red;
+}
+
+/**********************/
+
+.dropbtn {
+  background-color: #b3b3b3;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content.sel {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content .sel:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}

@@ -1,0 +1,380 @@
+html{
+  height: 100%;
+  width: 100%;
+}
+
+body{
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+}
+
+#messages{
+  overflow: auto;
+  height: 90%;
+  width: 100%;
+  color: rgb(255, 255, 255);
+  border-bottom: 1px solid black;
+  flex-direction: column-reverse;
+}
+
+#ChatMsgSub{
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+#chat{
+  height: 40%;
+  width: 30%;
+  background: rgba(0, 0, 0, 0.7); 
+}
+
+#content{
+  height: 10%
+}
+
+#pre-content{
+  height: 100%;
+  width: 100%;
+}
+
+#btn-con{
+  text-align: center;
+  height: 50%; 
+}
+
+#title{
+  text-align: center;
+  font-family: 'MinecraftiaRegular';
+  font-weight: normal;
+  font-style: normal;
+}
+
+#worldSector{
+  height: 97.9%;
+  width: 100%;
+}
+
+#btn-holder{
+  text-align: center;
+  height: 36px;
+}
+
+#worlds-btn, #friends-btn, #server-btn, #close{
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  box-sizing: inherit;
+  font: inherit;
+  margin: 0;
+  text-transform: none;
+  -webkit-appearance: button;
+  display: inline-block;
+  padding: 8px 16px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+  border: 1px solid #ccc!important;
+  color: #000!important;
+  background-color: #f1f1f1!important;
+}
+
+#closeSet{
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  box-sizing: inherit;
+  font: inherit;
+  margin: 0;
+  text-transform: none;
+  -webkit-appearance: button;
+  display: inline-block;
+  padding: 8px 16px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+  float: left!important;
+  border: 1px solid #ccc!important;
+  color: #000!important;
+  background-color: #f1f1f1;
+}
+
+#newBtn-Hold{
+  text-align: center;
+  height: 50%;
+}
+
+#newBtn-Hold-top{
+  height: 100%;
+}
+
+#newWorld{
+  border: outset;
+  background-color: #b3b3b3;
+  font-family: 'MinecraftiaRegular';
+  font-weight: normal;
+  font-style: normal;
+  text-align: center;
+  width: 15%;
+  height: 100%;
+}
+
+#CreateWorld-btn{
+  border: outset;
+  background-color: #b3b3b3;
+  font-family: 'MinecraftiaRegular';
+  font-weight: normal;
+  font-style: normal;
+  text-align: center;
+  width: 40%;
+  height: 100%;
+}
+
+#newWorld:hover, #CreateWorld-btn:hover{
+  background-color: #a6a6a6
+}
+
+#newWorld:active, #CreateWorld-btn:active{
+  border: inset;
+}
+
+#CreateWorld{height: 100%}
+
+#worldShow{
+  height: 80%;
+}
+
+#CreateWorld-btn-con{
+  text-align: center;
+  width: 100%;
+}
+
+#back{
+  text-size-adjust: 100%;
+  size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  box-sizing: inherit;
+  font: inherit;
+  margin: 0;
+  text-transform: none;
+  -webkit-appearance: button;
+  display: inline-block;
+  padding: 8px 16px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+  float: right!important;
+  border: 1px solid #ccc!important;
+  color: #000!important;
+  background-color: #f1f1f1;
+}
+
+#game{
+  height: 97.9%;
+  width: 100%;
+}
+
+#gameContentButton{
+  width: 100%;
+  height: 2.5%;
+  position: absolute;
+  top: 0px;
+  text-align: center;
+}
+
+#gameContent{
+  height: 100%;
+}
+
+#chat-btn, #pauseGame-btn{
+  border: outset;
+  background-color: #b3b3b3;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+}
+
+#chat-btn:hover, #pauseGame-btn:hover, #emotes-btn:hover{
+  background-color: #a6a6a6
+}
+
+#chat-btn:active, #pauseGame-btn:active, #emotes-btn:active{
+  border: inset;
+}
+
+#emotes-btn{
+  direction: rtl;
+  border: outset;
+  background-color: #b3b3b3;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+}
+
+#mobileDisplay{
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
+}
+
+.noSpace{
+  border: 0px;
+  border-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.btn-m{
+  border: outset;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  background-color: #b3b3b3;
+  font-family: 'MinecraftiaRegular';
+  font-weight: normal;
+  font-style: normal;
+  text-align: center;
+  width: 20%;
+  height: 7%;
+}
+
+.btn-m:hover{
+  background-color: #a6a6a6
+}
+
+.btn-m:active{
+  border: inset;
+}
+
+.dark-grey{
+  background-color: #333333;
+}
+
+.World-Tpe{
+  font-family: 'MinecraftiaRegular';
+  font-weight: normal;
+  font-style: normal;
+  text-align: center;
+}
+
+#CreateWorldTab{
+  height: 5%;
+  width: 100%;
+  background-color: #303030;
+}
+
+#CreateWorldDisplay{
+  height: 25%;
+  width: 40%;
+  float: left;
+  text-align: center;
+  background-color: #565656;
+}
+
+#CreateWorldLeft{
+  position: absolute;
+  bottom: 0%;
+  overflow: auto;
+  height:  71%;
+  width: 40%;
+  float: left!important;
+  background-color: #2b2b2b;
+}
+
+#CreateWorldRight{
+  position: absolute;
+  bottom: 0%;
+  right: 0%;
+  height: 95.1%;
+  width: 60%;
+  background-color: #7d7d7d;
+  overflow: auto;
+  float: right;
+}
+
+#worldType{
+  color: rgb(225, 225, 225);
+  border: 0px;
+  border-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+#defImg{
+  width: 20%;
+  height: 20%;
+  max-height: 30%;
+}
+
+/*---------------------------------------------------------------------------------------*/
+
+.dropbtn {
+  font-family: 'MinecraftiaRegular';
+  font-weight: normal;
+  font-style: normal;
+  background-color: #b3b3b3;
+  color: #000;
+  padding: 16px;
+  font-size: 16px;
+  width: 50%;
+  border: outset;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #b6b6b6;
+}
+
+.dropbtn:active{
+  border: inset;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
+.dropdown-content {
+  display: none;
+  margin: auto;
+  background-color: #f1f1f1;
+  width: 50%;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  text-align: center;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-family: 'MinecraftiaRegular';
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+/*---------------------------------------------------------------------------------------*/

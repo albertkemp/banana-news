@@ -78,7 +78,6 @@ const init = () => {
         const request = store.getAll();
         request.onsuccess = async() => {
           const dir = request.result?.[0];
-          console.log(await dir.queryPermission({ mode: "readwrite" }))
           if(await dir.queryPermission({ mode: "readwrite" }) === "granted"){
             for await (const [name, handle] of dir.entries()) {
                 if (handle.kind === "file") {
