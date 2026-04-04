@@ -57,6 +57,7 @@ function tick(input){
             }, 
             wood_pickaxe: {
                 tool: "pickaxe", 
+                tier: 1, 
                 mining_speed: 2
             }
         }, 
@@ -212,7 +213,8 @@ function tick(input){
             if(block){
                 const hitbox = input?.chunks?.[input?.players?.[i]?.ref[0]]?.[input?.players?.[i]?.ref[1]]?.entities?.[input?.players?.uuid]?.hitbox;
                 const [Px, Py] = [input?.chunks?.[input?.players?.[i]?.ref[0]]?.[input?.players?.[i]?.ref[1]]?.entities?.[input?.players?.uuid]?.x, input?.chunks?.[input?.players?.[i]?.ref[0]]?.[input?.players?.[i]?.ref[1]]?.entities?.[input?.players?.uuid]?.y];
-                let mining_speed = input?.chunks?.[input?.players?.[i]?.ref[0]]?.[input?.players?.[i]?.ref[1]]?.entities?.[input?.players?.uuid]?.inv?.hotbar?.[input?.players?.[i]?.action?.break?.slot]?.attributes?.mining_speed??1;
+                const item = input?.chunks?.[input?.players?.[i]?.ref[0]]?.[input?.players?.[i]?.ref[1]]?.entities?.[input?.players?.uuid]?.inv?.hotbar?.[input?.players?.[i]?.action?.break?.slot];
+                let mining_speed = item?.attributes?.mining_speed??1;
                 (function(){
                     const r = [];
                     const p1 = [((hitbox?.offset?.[0]??0)+(hitbox?.width??0)/2+Px)>>4, ((hitbox?.height??0)+(hitbox.offset?.[1]??0)+Py)>>4];
@@ -246,7 +248,74 @@ function tick(input){
                     }
                     mining_speed /= 5;
                 })()
+                let dammage = mining_speed/block?.attributes?.hardness;
+                let tmp = true;
+                for(let j of block?.attributes?.tool?.[1]){
+                    const data = {}
+                    switch(j?.[1]){
+                        case "none":
+                            data.tier = 0;
+                            break;
+                        case "wood":
+                            data.tier = 1;
+                            break;
+                        case "stone":
+                            data.tier = 2;
+                            break;
+                        case "gold":
+                            data.tier = 3;
+                            break;
+                        case "iron":
+                            data.tier = 4;
+                            break;
+                        case "diamond":
+                            data.tier = 5;
+                            break;
+                        default:
+                            data.tier = 0;
+                            break;
+                    }
+                    switch(j?.[0]){
+                        case 0:
+                            data.type = "sword";
+                            break;
+                        case 1:
+                            data.type = "axe";
+                            break;
+                        case 2:
+                            data.type = "pickaxe";
+                            break;
+                        case 3:
+                            data.type = "shovel";
+                            break;
+                        case 4:
+                            data.type = "hoe";
+                            break;
+                        default:
+                            data.type = null;
+                            break;
+                    }
+                    if(data.tier >= item?.attributes?.tier??0 && data.type === item?.attributes?.tool){
+                        dammage /= 30;
+                        tmp = false;
+                        break;
+                    }
+                }
+                if(tmp){
+                    dammage /= 100;
+                }
+                if(block.dammage == null || block.dammage == undefined){
+                    block.dammage = 1-dammage;
+                    setBlock(x, y, block);
+                }else{
+                    block.dammage -= dammage;
+                    setBlock(x, y, block);
+                }
+                if(block.dammage <= 0){
+                    deleteBlock(x, y);
+                }
             }
+            delete input?.players?.[i]?.action?.break;
         }
     }
 
