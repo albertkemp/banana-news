@@ -77,3 +77,7 @@ const loadLayout=(json)=>{jsonFile=json;for(i in jsonFile){if(i=="Defaultㅤlayo
         scienceDivs[scienceDivs.length-1].innerHTML+=c;
     }
     
+    var divs = document.getElementsByClassName("options-div");
+divs.addEventListener("click", function(target) {
+    window.location.href="banananews.netlify.app"+target.title;
+});
