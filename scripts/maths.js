@@ -96,3 +96,11 @@ function checkScore() {
         showNotification("Time to do the module!");
     }
 }
+    
+    var divs = document.getElementsByClassName("options-div");
+    divs.forEach(div => {
+        div.addEventListener("click", ()=>{
+            window.location.href="https://banananews.netlify.app"+div.title;
+        });
+    });
+document.body.style.backgroundColor = "red";

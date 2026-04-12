@@ -78,7 +78,9 @@ const loadLayout=(json)=>{jsonFile=json;for(i in jsonFile){if(i=="Defaultㅤlayo
     }
     
     var divs = document.getElementsByClassName("options-div");
-divs.addEventListener("click", function(target) {
-    window.location.href="banananews.netlify.app"+target.title;
-});
+    divs.forEach(div => {
+        div.addEventListener("click", ()=>{
+            window.location.href="https://banananews.netlify.app"+div.title;
+        });
+    });
 document.body.style.backgroundColor = "red";
