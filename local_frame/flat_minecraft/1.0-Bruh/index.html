@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Banana news - Flat Mincraft</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" media="screen" href="/fonts/minecraftia/main.css" type="text/css"/>
+  </head>
+  <body>
+    <div id="pre-content">
+      <h1 class="mcText center"><b>Flat Minecraft</b></h1>
+      <div>
+        <br>
+        <br>
+        <br>
+      </div>
+      <div class="center">
+        <button class="btn-m btn mcText center" onclick="updatePage(1)">Play</button><br>
+        <button class="btn-m btn mcText center" onclick="updatePage(2)">Settings</button><br>
+        <!--<button class="btn-m btn mcText center" onclick="">Marketplace</button><br>-->
+        <!--<button class="btn-m btn mcText center" onclick="">Dressing Room</button><br>-->
+        <!--<button class="btn-m btn mcText center" onclick="">Achievements</button><br>
+        <button class="btn-m btn mcText center" onclick="">Feedback</button><br>-->
+      </div>
+    </div>
+    <div id="worldSector">
+      <div id="selector">
+        <div class="center">
+          <!--<button id="worlds-btn" class="btn-s">Worlds</button>
+          <button id="friends-btn"class="btn-s">Friends</button>
+          <button id="server-btn"class="btn-s">Servers</button>-->
+          <button id="close" class="btn-s" onclick="updatePage(0)">X</button>
+        </div>
+      </div>
+      <div id="content">
+        <div id="newBtn-Hold-top">
+          <div class="dark-grey" height="25%">
+            <br>
+          </div>
+          <div id="newBtn-Hold" class="dark-grey">
+            <button class="btn btn-nw mcText" onclick="updatePage(3)">Create New</button>
+          </div>
+          <div class="dark-grey center"><button class="btn mcText" onclick="updatePage(4)">Join</button></div>
+          <div class="dark-grey center"><button class="btn mcText" onclick="forwardPageDataHref({upload: true})">Upload</button></div>
+          <div class="dark-grey" height="25%">
+            <br>
+          </div>
+        </div>
+      </div>
+      <div id="worldShow"></div>
+    </div>
+    <div id="setting">
+      <button id="closeSet" onclick="updatePage(0)">X</button>
+      <div>
+        <br>
+        <br>
+        <br>
+      </div>
+      <div>
+        <div>Controlers:</div>
+        <div><p>Not avalable</p></div>
+      </div>
+    </div>
+    <div id="CreateWorld">
+      <div id="CreateWorldTab">
+        <button class="btn-s" onclick="updatePage(1)">←</button>
+      </div>
+      <div id="CreateWorldDisplay">
+        <h2 class="mcText noMargin">World name:</h2>
+        <textarea id="world-name" class="text-inp noResize textarea mcText"></textarea>
+        <p id="world-name-invalid" class="noMargin mcText"></p>
+        <!--<div>
+          <p class="mcText center" id="worldType">Normal</p>
+        </div>
+        <div class="dropdown">
+        <button class="dropbtn">World type</button>--><!--
+        <div class="dropdown-content">
+          <div class="sel" onclick="setWorldtype(0)">Normal</div>
+          <div class="sel" onclick="setWorldtype(1)">Flat</div>
+        </div>-->
+      </div>
+      <div id="CreateWorld-btn-con"><button class="btn btn-cw mcText" onclick="forwardPageDataHref({
+        name: (
+          document.getElementById('world-name').value ? document.getElementById('world-name').value : (()=>{
+            document.getElementById('world-name-invalid').innerHTML = 'Must give world a name. '
+            throw Error
+          })()
+        ), 
+        scale: (()=>{
+          const v = document.getElementById('scale').value
+          if(Number(v) != NaN && Number(v) != 0)return v;
+          document.getElementById('world-name-invalid').innerHTML = 'Scale must be a non-zero integer or floating point. '
+          throw Error
+        })(), 
+        seed: document.getElementById('seed').value, 
+        vip: document.getElementById('VIP').checked
+      })">Create</button></div>
+      <div>
+        <button class="btn mcText" onclick="const e=document.getElementById('world-gen-config');e.style.display=='none'?e.style.display='block':e.style.display='none'">Show world generation settings...</button>
+        <div id="world-gen-config" style="display: none">
+          <label for="seed" class="mcText">Seed: </label>
+          <textarea id="seed" class="text-inp noResize textarea mcText">123456789</textarea><br>
+          <label for="scale" class="mcText">Scale: </label>
+          <textarea id="scale" class="text-inp noResize textarea mcText">1</textarea>
+          <button class="btn mcText" onclick="document.getElementById('scale').value=1">rough</button>
+          <button class="btn mcText" onclick="document.getElementById('scale').value=50">balanced</button>
+          <button class="btn mcText" onclick="document.getElementById('scale').value=100">smooth</button><br>
+          <label for="VIP" class="mcText">VIP access: </label>
+          <input id="VIP" type="checkbox" checked/>
+        </div>
+      </div>
+      </div>
+      <div id="CreateWorldLeft">
+      </div>
+      <div id="CreateWorldRight"></div>
+    </div>
+    <div id="join-menu">
+      <button class="btn-s mcText" onclick="updatePage(1)">Back</button>
+      <form id="join-form">
+        <label for="offer" class="mcText">Add offer here:</label><br>
+        <input type="text" id="offer" name="offer" class="text-inp mcText"><br>
+        <input type="submit" value="Create answer" class="btn mcText">
+      </form>
+      <p id="message" class="mcText"></p>
+    </div>
+    <!--<div id="game">
+      <div id="chat">
+        <div id="messages"></div>
+        <form name="publish" id="ChatMsg">
+          <input type="text" name="message" id="ChatMsgTxt">
+          <input type="submit" value="Send" id="ChatMsgSub">
+        </form>
+      </div>
+      <div id="gameContentButton">
+        <button id="chat-btn" onclick="ChatControll()">🗨</button>
+        <button id="pauseGame-btn">| |</button>
+        <button id="emotes-btn">🤺</button>
+      </div>
+      <div id="gameContent"></div>
+    </div>-->
+    <script>
+    function toggleList() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+    window.onclick = function(event) {
+      if (!event.target.matches('.dropbtn')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+    </script>
+    <script src="./script.js"></script>
+  </body>
+</html>
