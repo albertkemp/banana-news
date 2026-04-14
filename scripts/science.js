@@ -29,7 +29,7 @@ If you're the sort of person who looks at the source code of webpages, try our c
 
 https://banana-news.github.io/banana/share_this_page
 
-*/
+*//* 
 var jsonFile;
 var layout="";
 
@@ -38,7 +38,7 @@ const loadLayout=(json)=>{jsonFile=json;for(i in jsonFile){if(i=="Defaultㅤlayo
 (async()=>{await fetch('../data/science.json').then(response=>{if(!response.ok){throw new Error(`HTTP error retrieving science.json!Status: ${response.status}`);}return response.json();}).then(data=>loadLayout(data)).catch(error => console.error('Unable to fetch data (science.json):', error));})();
 
 
-
+ */
     const scienceDivs = document.querySelectorAll(".science-div");
     const keyTerms = document.querySelectorAll(".kt");
     function getRandom(max) {
@@ -78,7 +78,9 @@ const loadLayout=(json)=>{jsonFile=json;for(i in jsonFile){if(i=="Defaultㅤlayo
     }
     
     var divs = document.getElementsByClassName("options-div");
-divs.addEventListener("click", function(target) {
-    window.location.href="banananews.netlify.app"+target.title;
-});
+    divs.forEach(div => {
+        div.addEventListener("click", ()=>{
+            window.location.href="https://banananews.netlify.app"+div.title;
+        });
+    });
 document.body.style.backgroundColor = "red";
