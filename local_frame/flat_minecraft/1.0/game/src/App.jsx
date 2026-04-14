@@ -416,26 +416,6 @@ function Entities(){
   )
 }
 
-function MP(){
-  const F = useContext(MPF)
-  return (
-    <>
-      <button style={{
-        position:'absolute', 
-        zIndex:11
-      }} className='auto-pointer' onClick={()=>{F(0, "")}}> Create offer</button>
-      <button style={{
-        zIndex:11
-      }} onClick={()=>{F(1, "")}}> Create ans</button>
-      <button style={{
-        position:'absolute',
-        left: 50, 
-        zIndex:11
-      }} onClick={()=>{F(2, "")}}> connect</button>
-    </>
-  )
-}
-
 function Alert({ message, w, h }){
   return (
     <>
@@ -1565,170 +1545,14 @@ function Click({ func }){
 }
 
 function Game({ ref, upload }){
-  const [engineList, setEngineList] = useState(__default__)
+  const worldRef = useRef(undefined);
+  const renderRef = useRef(undefined);
+
   const gateRef = useRef();
-  const inputRef = useRef(__default__)
   const data = useContext(Pdata);
+
   const host = !(useContext(Pdata).offer != null && useContext(Pdata).offer != undefined);
   const RTC = useContext(RTCContext);
-
-  const noSendTick = useRef(false)
-
-  const lastBuffered = useRef(0)
-  const sendEvery = useRef(1)
-
-  useEffect(()=>{
-    const interval = setInterval(() => {
-      if(RTC.channelOpen){
-        const diff = RTC.channel.bufferedAmount - lastBuffered.current;
-        lastBuffered.current = RTC.channel.bufferedAmount;
-
-        if (diff > 2000) {
-          sendEvery.current = Math.min(sendEvery.current + 1, 5);
-        } else if (diff < -2000) {
-          sendEvery.current = Math.max(sendEvery.current - 1, 1);
-        }
-      }
-    }, 200)
-    return ()=>{
-      clearInterval(interval);
-      lastBuffered.current = 0;
-      sendEvery.current = 1;
-    };
-  }, [RTC.channelOpen])
-  useEffect(()=>{
-    if(upload && typeof upload == 'object' && (data.upload || data.dir))setEngineList(upload);
-    inputRef.current = engineList
-  }, [upload])
-  useEffect(() => {
-    inputRef.current = engineList;
-  }, [engineList]);
-  useEffect(() => {
-    gateRef.current.update(window.innerWidth/2, window.innerHeight/2)
-  }, [window.innerWidth, window.innerHeight]);
-  useEffect(()=>{
-    const username = "h7777"
-    const keys = new Set();
-    const update = () => {
-      for(let j of keys){
-        for(let i of inputRef.current[1]){
-          if(i.username == username){
-            if(!host){
-              if(RTC.channelOpen){
-                if(j=="KeyA" ? true : j=="KeyD" ? true : j=="ArrowRight" ? true : j=="ArrowLeft" ? true : false){
-                  RTC.channel.send(`packet:Hmove:${keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"}:${j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : inputRef.current[1][_].action.Hmotion.dir}`)
-                }
-                if(j=="KeyW" || j=="ArrowUp"){
-                  RTC.channel.send("packet:Vmove")
-                }
-              }
-            }else if(host){
-              let _ = inputRef.current[1].indexOf(i)
-              if(inputRef.current[1][_].action.Hmotion == undefined){
-                inputRef.current[1][_].action.Hmotion = {}
-              }
-              inputRef.current[1][_].action.Hmotion.type = keys.has("ShiftLeft") || keys.has("ShiftRight") ? "sneak" : keys.has("CapsLock") ? "sprint" : "walk"
-              inputRef.current[1][_].action.Hmotion.dir = j=="KeyA" ? -1 : j=="KeyD" ? 1 : j=="ArrowRight" ? 1 : j=="ArrowLeft" ? -1 : inputRef.current[1][_].action.Hmotion.dir;
-              inputRef.current[1][_].action.Vmotion = j=="KeyW" || inputRef.current[1][_].action.Vmotion
-            }
-          }
-        }
-      }
-    }
-    window.addEventListener("keydown", (e) => {
-      keys.add(e.code);
-      update()
-    });
-
-    window.addEventListener("keyup", (e) => {
-      keys.delete(e.code);
-      update()
-    });
-  }, [RTC])
-  let playerPos = {x: 0, y: 0}
-  for(let i of engineList[1]){
-    if((i.username == "h7777") == !data.offer){
-      for(let j of engineList[2]){
-        if(j.uuid==i.uuid){
-          playerPos = {x: j.x, y: j.y}
-        }
-      }
-    }
-  }
-  let playersPos = []
-  for(let i of engineList[1]){
-    if((i.username == "h7777") == !!data.offer){
-      for(let j of engineList[2]){
-        if(j.uuid==i.uuid){
-          playersPos.push({x: j.x, y: j.y, u: i.username})
-        }
-      }
-    }
-  }
-
-  if(RTC.channelOpen && !data.offer){
-    if(inputRef.current[4] % sendEvery.current == 0 && !noSendTick.current){
-      const data = [
-        inputRef.current[0], 
-        inputRef.current[1], 
-        inputRef.current[2], 
-        inputRef.current[3].filter(e=>{
-          for(let i of playersPos){
-            if(Math.abs(i.x-e.x)<16 && Math.abs(i.y-e.y)<16)return true;
-          }
-          return;
-        }), 
-        inputRef.current[4], 
-        inputRef.current[5]
-      ]
-      if(JSON.stringify(data[3]).length > 2000 || sendEvery.current > 2){
-        data[3] = data[3].map(e=>{
-          return `${e.x},${e.y},${e.type}`;
-        }).join(".");
-      }
-      RTC.channel.send(`packet:data:${JSON.stringify(data)}`)
-    } else if(noSendTick.current){
-      noSendTick.current = false
-    }
-  }
-
-  function clickFunc(data){
-    inputRef.current = data;
-  }
-  
-  useImperativeHandle(ref, () => {
-    return {
-      addPlayer(data) {
-        structuredClone(inputRef.current[1].push(data))
-      }, 
-      addEntity(data) {
-        structuredClone(inputRef.current[2].push(data))
-      }, 
-      addAction(data, type) {
-        let j = 0;
-        for(let i of inputRef.current[1]){
-          if(i.username != "h7777"){
-            inputRef.current[1][j].action[type] = data
-            noSendTick.current = true
-            setEngineList(structuredClone(inputRef.current))
-          }
-          j++
-        }
-      }, 
-      updateEngineList(data) {
-        setEngineList(data)
-      }, 
-      getWorld() {
-        return inputRef.current;
-      }
-    };
-  }, [])
-  useEffect(()=>{
-    if(!RTC.channelOpen && !data.offer){
-      console.log(inputRef.current)
-      start20TPSLoop(tick, setEngineList, ()=>inputRef.current);
-    }
-  }, [])
 
   return (
     <>

@@ -259,10 +259,10 @@ function tick(input){
                         case "wood":
                             data.tier = 1;
                             break;
-                        case "stone":
+                        case "gold":
                             data.tier = 2;
                             break;
-                        case "gold":
+                        case "stone":
                             data.tier = 3;
                             break;
                         case "iron":
