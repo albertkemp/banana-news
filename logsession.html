@@ -1,0 +1,18 @@
+---
+layout: "beta.njk"
+---
+<script type="module">
+    const sid = window.location.hash.slice(1);
+    window.location.hash = "";
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+    function setCookie(cname, cvalue) {
+        const d = new Date();
+        d.setTime(d.getTime() + 4.32e7);
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    setCookie("sid", sid);
+    setCookie("username", username);
+    winsow.location.href = "/logsuccess.html";
+</script>
