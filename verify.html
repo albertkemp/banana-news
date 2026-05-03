@@ -14,6 +14,6 @@ layout: "beta.njk"
         document.getElementById("message").innerHTML = "Success";
     }else{
         document.getElementById("message").innerHTML = "Email verrification failed. ";
-        document.getElementById("reason").innerHTML = res.text();
+        document.getElementById("reason").innerHTML = await res.text();
     }
 </script>
