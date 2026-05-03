@@ -6,11 +6,9 @@ layout: "beta.njk"
 <script type="module">
     const params = new URLSearchParams(window.location.search);
     const code = params.get("code");
-    const res = await fetch(`https://unthirsty-brent-subsibilantly.ngrok-free.dev/verify?code=${code}`, {
-        method: "GET",
-        headers: {
-            "ngrok-skip-browser-warning": ""
-        }
+    const res = await fetch(`https://unthirsty-brent-subsibilantly.ngrok-free.dev/verify`, {
+        method: "POST", 
+        body: `code=${code}`
     });
     if(res.status == 200){
         document.getElementById("message").innerHTML = "Success";
