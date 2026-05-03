@@ -1,0 +1,21 @@
+---
+layout: "beta.njk"
+---
+<p id="message"></p>
+<p id="reason"></p>
+<script type="module">
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const res = await fetch(`https://unthirsty-brent-subsibilantly.ngrok-free.dev/verify?code=${code}`, {
+        method: "GET",
+        headers: {
+            "ngrok-skip-browser-warning": ""
+        }
+    });
+    if(res.status == 200){
+        document.getElementById("message").innerHTML = "Success";
+    }else{
+        document.getElementById("message").innerHTML = "Email verrification failed. ";
+        document.getElementById("reason").innerHTML = res.text();
+    }
+</script>

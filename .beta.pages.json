@@ -54,5 +54,11 @@
         "encoding": "utf-8"
       }
     }
+  }, 
+  {
+    "page": "verify.html",
+    "title": "email verrification",
+    "logo": "/images/logosvg.svg",
+    "template": "none"
   }
 ]
