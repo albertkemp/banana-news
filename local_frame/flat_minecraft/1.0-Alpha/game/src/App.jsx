@@ -390,7 +390,7 @@ function Blocks(){
             break;
         }
         return (
-          <Block key={`${block.x}${block.y}`} promise={src_} x={block.x} y={block.y}/>
+          <Block key={`${block.x}:${block.y}`} promise={src_} x={block.x} y={block.y}/>
         )
       })}
     </>
