@@ -1,26 +1,24 @@
 ---
 layout: "base.njk"
 title: "Login"
-withNewServer: "True"
 ---
 
 
 
-<form id="loginForm" class="submit">
+<form action="https://unthirsty-brent-subsibilantly.ngrok-free.dev/login" method="post" class="submit">
   <h2 style="text-align:left;">Login</h2>
   <label for="username">Username:</label>
-  <input type="username" id="username" placeholder="username" required><br>
+  <input type="username" id="username" name="username" placeholder="username" required><br>
   <label for="password">Password:</label>
-  <input type="password" id="password" placeholder="Enter your password" required><br>
+  <input type="password" id="password" name="password" placeholder="Enter your password" required><br>
   <button type="submit">Login</button><br>
-  <p id="message"></p>
 </form>
 
 
 
 <p>Don't have an account? <a href="/signup">Sign Up</a></p>
 <script>
-  loginForm.addEventListener('submit', (e) => {
+  /*loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value
     const password = document.getElementById("password").value
@@ -42,7 +40,7 @@ withNewServer: "True"
           document.getElementById("message").innerHTML="Invalid server response"
         }
       }
-    }
+    }*/
     /*setInterval(function(){
       if(GetRes(1)!=undefined){
         if(GetRes(1)?.content?.status==200){
@@ -63,7 +61,7 @@ withNewServer: "True"
         }
       }
     }, 5)*/
-  })
+  /*})*/
 </script>
 <script type="module">/*
   // Import the necessary Firebase functions

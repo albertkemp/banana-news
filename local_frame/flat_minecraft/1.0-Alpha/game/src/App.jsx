@@ -992,6 +992,9 @@ function Pause({ getWorld }){
           >
             <h2>How to invite:</h2>
             <p>Click Create Offer it will generate an "Offer" send this to the person you want to invite. Then they will create an "Answer" they will need to send that to you. Then click Connect and they should connect. </p>
+            <p style={{
+              color: 'red'
+            }}>Note: Adding more than 2 players causes weird behavior. </p>
             <button
               className='btn'
               onClick={()=>{
