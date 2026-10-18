@@ -6,6 +6,13 @@
     "title": "",
     "url": ""
   },
+  "BananaJump2": {
+    "header": "Banana Jump 2",
+    "text": "jump over obstacles, modified",
+    "img": "/images/bananajump2.png",
+    "title": "/bananajump2",
+    "url": "/bananajump2"
+  },
   "OlympicGarden": {
     "header": "Olympic Garden",
     "text": "Beat the minigame to win the whole game",
